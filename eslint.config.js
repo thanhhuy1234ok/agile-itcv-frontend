@@ -1,84 +1,33 @@
-import js from "@eslint/js"
-import vitestPlugin from "@vitest/eslint-plugin"
-import prettierConfig from "eslint-config-prettier/flat"
-import reactPlugin from "eslint-plugin-react"
-import reactHooksPlugin from "eslint-plugin-react-hooks"
-import globals from "globals"
-import { config, configs } from "typescript-eslint"
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
 
-const eslintConfig = config(
+export default [
+  { ignores: ['dist'] },
   {
-    name: "global-ignores",
-    ignores: [
-      "**/*.snap",
-      "**/dist/",
-      "**/.yalc/",
-      "**/build/",
-      "**/temp/",
-      "**/.temp/",
-      "**/.tmp/",
-      "**/.yarn/",
-      "**/coverage/",
-    ],
-  },
-  {
-    name: `${js.meta.name}/recommended`,
-    ...js.configs.recommended,
-  },
-  configs.strictTypeChecked,
-  configs.stylisticTypeChecked,
-  vitestPlugin.configs.recommended,
-  {
-    name: "eslint-plugin-react/jsx-runtime",
-    ...reactPlugin.configs.flat["jsx-runtime"],
-  },
-  reactHooksPlugin.configs["recommended-latest"],
-  {
-    name: "main",
-    linterOptions: {
-      reportUnusedDisableDirectives: 2,
-    },
+    files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
       parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
       },
     },
-    settings: {
-      vitest: {
-        typecheck: true,
-      },
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
     },
     rules: {
-      "no-undef": [0],
-      "@typescript-eslint/consistent-type-definitions": [2, "type"],
-      "@typescript-eslint/consistent-type-imports": [
-        2,
-        {
-          prefer: "type-imports",
-          fixStyle: "separate-type-imports",
-          disallowTypeAnnotations: true,
-        },
-      ],
-      "no-restricted-imports": [
-        2,
-        {
-          paths: [
-            {
-              name: "react-redux",
-              importNames: ["useSelector", "useStore", "useDispatch"],
-              message:
-                "Please use pre-typed versions from `src/app/hooks.ts` instead.",
-            },
-          ],
-        },
+      ...js.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
       ],
     },
   },
-
-  prettierConfig,
-)
-
-export default eslintConfig
+]
