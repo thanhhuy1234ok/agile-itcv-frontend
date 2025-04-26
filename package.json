@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/icons": "5.5.1",
     "@ant-design/pro-components": "2.8.1",
+    "agile-itcv-frontend": "file:",
     "antd": "5.24.7",
     "axios": "1.8.4",
     "dayjs": "1.11.13",
