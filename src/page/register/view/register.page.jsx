@@ -3,7 +3,7 @@ import { Card, Typography, Input } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
 import CustomForm from '../../../components/foundation/CustomForm';
 import useRegisterModal from '../viewmodal/RegisterModal';
-import '../../../styles/AuthStyle.sass';
+import '../../../styles/AuthStyle.scss';
 
 const { Title } = Typography;
 

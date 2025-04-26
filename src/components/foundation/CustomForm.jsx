@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-import '../../styles/CustomFormStyle.sass'
+import '../../styles/CustomFormStyle.scss'
 
 const CustomForm = ({ fields, onFinish, initialValues, buttonText = 'Gửi' }) => {
   return (
