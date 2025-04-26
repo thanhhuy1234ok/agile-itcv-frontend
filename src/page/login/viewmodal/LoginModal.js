@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../../services/api';
+import { login } from '@/services/api';
 import { notification } from 'antd';
 import { useDispatch } from 'react-redux';
-import { onLogin } from '../../../redux/authSlice';
+import { onLogin } from '@/redux/authSlice';
 
 export const useLoginModal = () => {
     const navigate = useNavigate();

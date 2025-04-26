@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, Typography, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import CustomForm from '../../../components/foundation/CustomForm';
-import { useLoginModal } from '../viewmodal/LoginModal';
-import '../../../styles/AuthStyle.scss';
+import CustomForm from '@/components/foundation/CustomForm';
+import { useLoginModal } from '@/page/login/viewmodal/LoginModal';
+import '@/styles/AuthStyle.scss';
 
 const { Title } = Typography;
 

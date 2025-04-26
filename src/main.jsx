@@ -5,8 +5,8 @@ import viVN from 'antd/locale/vi_VN';
 import { router } from '@/routers/router.jsx'; 
 import { ConfigProvider } from 'antd';
 import { Provider } from 'react-redux';
-import store from './redux/store'; 
-import './styles/style.scss'; // Import your global styles here
+import store from '@/redux/store'; 
+import '@/styles/style.scss'; // Import your global styles here
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
