@@ -1,0 +1,272 @@
+@import "../view/CloneSite.style.scss";
+
+.job-list-container {
+  .section-title {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 32px;
+    color: $text-color;
+    position: relative;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      background-color: $primary-color;
+      margin: 16px auto 0;
+      border-radius: 2px;
+    }
+  }
+
+  .job-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .job-count {
+      font-size: 16px;
+      color: $text-light;
+
+      .highlight {
+        color: $text-color;
+        font-weight: 600;
+      }
+    }
+
+    .job-filters {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      @media (max-width: 576px) {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .filter-toggle-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 8px;
+        font-weight: 500;
+
+        &.active {
+          background-color: $primary-light;
+          color: $primary-color;
+          border-color: $primary-color;
+        }
+      }
+
+      .sort-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .sort-label {
+          font-size: 14px;
+          color: $text-light;
+          white-space: nowrap;
+        }
+
+        .sort-select {
+          min-width: 140px;
+        }
+      }
+    }
+  }
+
+  .filter-panel {
+    background-color: $white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    animation: slideDown 0.3s ease;
+    border: 1px solid $border-color;
+
+    .filter-section {
+      margin-bottom: 20px;
+
+      .filter-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: $text-color;
+      }
+
+      .filter-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .filter-tag {
+          cursor: pointer;
+          padding: 6px 14px;
+          border-radius: 8px;
+          font-size: 14px;
+          background-color: #f1f5f9;
+          color: $text-color;
+          border: none;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background-color: $primary-light;
+            color: $primary-color;
+          }
+
+          &.selected {
+            background-color: $primary-color;
+            color: $white;
+          }
+        }
+      }
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 30px;
+
+      .ant-btn {
+        border-radius: 8px;
+        height: 40px;
+        padding: 0 20px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .job-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 40px;
+
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      padding: 80px 0;
+    }
+
+    .job-card {
+      border: 1px solid $border-color;
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s ease;
+      background-color: $white;
+
+      &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border-color: $primary-color;
+      }
+
+      .job-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px;
+
+        .job-title-container {
+          flex: 1;
+
+          .job-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+
+            a {
+              color: $primary-color;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+
+        .company-logo {
+          flex: 0 0 40px;
+          margin-left: 16px;
+        }
+      }
+
+      .company-name {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 16px;
+
+        a {
+          color: $text-color;
+
+          &:hover {
+            color: $primary-color;
+          }
+        }
+      }
+
+      .job-location,
+      .job-salary {
+        font-size: 14px;
+        color: $text-light;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .salary-icon {
+          color: $error-color;
+        }
+      }
+
+      .job-skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+
+        .ant-tag {
+          margin-right: 0;
+          font-size: 12px;
+          border-radius: 6px;
+          background-color: #f1f5f9;
+          color: $text-color;
+          border: none;
+          padding: 4px 10px;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background-color: $primary-light;
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

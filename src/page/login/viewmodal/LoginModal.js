@@ -1,41 +1,60 @@
-import { useNavigate } from 'react-router-dom';
-import { login } from '@/services/api';
-import { notification } from 'antd';
-import { useDispatch } from 'react-redux';
-import { onLogin } from '@/redux/authSlice';
+"use client";
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { login } from "@/services/api";
+import { notification } from "antd";
+import { useDispatch } from "react-redux";
+import { onLogin } from "@/redux/authSlice";
+import { getRedirectPath } from "@/utils/auth.utils";
 
 export const useLoginModal = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-    const handleLogin = async (values) => {
-        try {
-            const response = await login({ email: values.email, password: values.password }); 
-            if (response.code === 1) {
-                dispatch(onLogin({response})) 
-                notification.success({
-                    message: 'Đăng nhập thành công',
-                    description: `Chào mừng bạn trở lại, ${response.data?.name || 'người dùng'}!`,
-                    duration: 2,
-                });
-                navigate('/'); 
-            } else {
-                notification.error({
-                    message: 'Đăng nhập thất bại',
-                    description: response.message || 'Không nhận được dữ liệu từ máy chủ.',
-                    duration: 2,
-                });
-            }
-        } catch (error) {
-            notification.error({
-                message: 'Đăng nhập thất bại',
-                description: error?.response?.data?.message || error.message || 'Đã xảy ra lỗi.',
-                duration: 2,
-            });
-        }
-    };
+  const handleLogin = async (values) => {
+    setLoading(true);
+    try {
+      const response = await login({
+        email: values.email,
+        password: values.password,
+      });
+      if (response.code === 1) {
+        dispatch(onLogin({ response }));
+        notification.success({
+          message: "Đăng nhập thành công",
+          description: `Chào mừng bạn trở lại, ${
+            response.data?.name || "người dùng"
+          }!`,
+          duration: 2,
+        });
 
-    return {
-        handleLogin,
-    };
+        // Redirect based on user role
+        const redirectPath = getRedirectPath();
+        navigate(redirectPath);
+      } else {
+        notification.error({
+          message: "Đăng nhập thất bại",
+          description:
+            response.message || "Không nhận được dữ liệu từ máy chủ.",
+          duration: 2,
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: "Đăng nhập thất bại",
+        description:
+          error?.response?.data?.message || error.message || "Đã xảy ra lỗi.",
+        duration: 2,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    handleLogin,
+    loading,
+  };
 };
