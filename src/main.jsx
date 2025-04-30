@@ -7,7 +7,7 @@ import { ConfigProvider } from "antd";
 import { Provider } from "react-redux";
 import { AuthProvider } from "@/global/AuthenticationContext";
 import store from "@/redux/store";
-import "@/styles/style.scss"; // Import your global styles here
+import "@/styles/style.scss"; 
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

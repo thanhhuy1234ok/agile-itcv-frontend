@@ -54,14 +54,14 @@ export const isAdminRole = () => {
  */
 export const getRedirectPath = () => {
   if (!isAuthenticated()) {
-    return "/admin/clone-site"; // Default for unauthenticated users
+    return "/login"; // Default for unauthenticated users
   }
 
   if (isDevRole()) {
     return "/"; // Home page for developers
   } else if (isAdminRole()) {
-    return "/admin/admin-panel"; // Admin panel for admins
+    return "/admin/home"; // Admin panel for admins
   } else {
-    return "/admin/clone-site"; // Clone site for regular users
+    return "/user/clone-site"; // Clone site for regular users
   }
 };

@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import LayoutAdmin from "@/components/layout/layout.admin";
+import LayoutUser from "@/components/layout/layout.user";
 import HomePage from "@/page/home/Home.page";
 import LoginPage from "@/page/login/view/Login.page";
 import RegisterPage from "@/page/register/view/register.page";
@@ -29,16 +30,30 @@ export const router = createBrowserRouter([
         element: <DefaultRoute />,
       },
       {
-        path: "clone-site",
-        element: <CloneSitePage />,
-      },
-      {
-        path: "admin-panel",
+        path: "home",
         element: (
           <ProtectedRoute requiredRole="admin">
             <AdminPanelPage />
           </ProtectedRoute>
         ),
+      },
+    ],
+  },
+  {
+    path: "/user",  // Route dành cho user
+    element: (
+      <ProtectedRoute requiredRole="user">
+        <LayoutUser />  {/* Sử dụng LayoutUser cho các trang người dùng */}
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <CloneSitePage />,  // Trang chủ của người dùng là CloneSitePage
+      },
+      {
+        path: "clone-site",
+        element: <CloneSitePage />,  // Trang clone-site khác cho người dùng
       },
     ],
   },

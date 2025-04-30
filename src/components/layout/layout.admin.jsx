@@ -1,20 +1,7 @@
-"use client";
-
-import { Outlet } from "react-router-dom";
-import {
-  Layout,
-  Menu,
-  Button,
-  Dropdown,
-  Avatar,
-  Breadcrumb,
-  Badge,
-} from "antd";
+import { Layout, Menu, Button, Dropdown, Avatar, Breadcrumb, Badge } from "antd";
 import {
   UserOutlined,
   HomeOutlined,
-  CopyOutlined,
-  DatabaseOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -24,6 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/global/AuthenticationContext";
+import { Outlet } from "react-router-dom";  // Import Outlet
 import "./layout.admin.style.scss";
 
 const { Header, Sider, Content } = Layout;
@@ -38,27 +26,19 @@ const LayoutAdmin = () => {
   const [breadcrumbItems, setBreadcrumbItems] = useState([]);
 
   useEffect(() => {
-    // Cập nhật breadcrumb dựa trên đường dẫn hiện tại
     const pathSnippets = location.pathname.split("/").filter((i) => i);
-    const breadcrumbArray = [];
+    const breadcrumbArray = [
+      {
+        title: "Trang chủ",
+        path: "/",
+      },
+    ];
 
-    // Luôn thêm trang chủ
-    breadcrumbArray.push({
-      title: "Trang chủ",
-      path: "/",
-    });
-
-    // Thêm các mục khác dựa trên đường dẫn
     if (pathSnippets.length > 0) {
       if (pathSnippets.includes("clone-site")) {
         breadcrumbArray.push({
           title: "Clone Site",
           path: "/admin/clone-site",
-        });
-      } else if (pathSnippets.includes("admin-panel")) {
-        breadcrumbArray.push({
-          title: "Admin Panel",
-          path: "/admin/admin-panel",
         });
       }
     }
@@ -119,17 +99,21 @@ const LayoutAdmin = () => {
         collapsed={collapsed}
         className="admin-sider"
         width={260}
-        theme="light">
+        theme="light"
+      >
         <div
           className="logo"
           onClick={() => navigate("/")}
-          style={{ cursor: "pointer" }}>
+          style={{ cursor: "pointer" }}
+        >
           {!collapsed ? (
             <span className="logo-text">Agile System</span>
           ) : (
             <span className="logo-icon">A</span>
           )}
         </div>
+
+        {/* ✅ Menu đã được cập nhật để bỏ Clone Site */}
         <Menu
           mode="inline"
           selectedKeys={[location.pathname]}
@@ -137,23 +121,13 @@ const LayoutAdmin = () => {
           className="admin-menu"
           items={[
             {
-              key: "/",
+              key: "/admin/home",
               icon: <HomeOutlined />,
               label: "Trang chủ",
-              onClick: () => navigate("/"),
-            },
-            {
-              key: "/admin/clone-site",
-              icon: <CopyOutlined />,
-              label: "Clone Site",
-            },
-            {
-              key: "/admin/admin-panel",
-              icon: <DatabaseOutlined />,
-              label: "Admin Panel",
             },
           ]}
         />
+
         <div className="sider-footer">
           {!collapsed && (
             <div className="sider-footer-content">
@@ -163,6 +137,7 @@ const LayoutAdmin = () => {
           )}
         </div>
       </Sider>
+
       <Layout className="site-layout">
         <Header className="admin-header">
           <div className="header-left">
@@ -184,11 +159,13 @@ const LayoutAdmin = () => {
               ))}
             </Breadcrumb>
           </div>
+
           <div className="header-right">
             <Dropdown
               menu={{ items: notificationItems }}
               placement="bottomRight"
-              trigger={["click"]}>
+              trigger={["click"]}
+            >
               <Badge count={3} className="notification-badge">
                 <Button
                   type="text"
@@ -201,7 +178,8 @@ const LayoutAdmin = () => {
             <Dropdown
               menu={{ items: userMenuItems }}
               placement="bottomRight"
-              trigger={["click"]}>
+              trigger={["click"]}
+            >
               <div className="user-info">
                 <Avatar icon={<UserOutlined />} className="user-avatar" />
                 {!collapsed && (
@@ -213,6 +191,7 @@ const LayoutAdmin = () => {
             </Dropdown>
           </div>
         </Header>
+
         <Content className="admin-content">
           <Outlet />
         </Content>

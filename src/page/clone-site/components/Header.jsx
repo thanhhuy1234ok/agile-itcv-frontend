@@ -61,6 +61,11 @@ const Header = () => {
     setActiveSubmenu(submenuId);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("access_token"); 
+    localStorage.removeItem("user");
+  };
+
   const handleSearch = () => {
     // Implement search functionality
     console.log("Searching for:", { searchKeyword, searchLocation });
@@ -173,14 +178,14 @@ const Header = () => {
               Nhà Tuyển Dụng
             </a>
             <div className="divider"></div>
-            <a href="#" className="login-link">
-              Đăng Nhập/Đăng Ký
-            </a>
             <div className="language-selector">
               <span className="active-lang">VI</span>
               <span className="language-divider">|</span>
               <span>EN</span>
             </div>
+            <Button type="link" className="logout-btn" onClick={handleLogout}>
+              Đăng Xuất
+            </Button>
           </div>
         </div>
       </header>
