@@ -1,21 +1,31 @@
-import App from '@/App'
-import LayoutAdmin from '@/components/layout/layout.admin'
-import HomePage from '@/page/home/Home.page'
-import { createBrowserRouter } from 'react-router-dom'
+import LayoutAdmin from '@/components/layout/layout.admin';
+import HomePage from '@/page/home/Home.page';
+import LoginPage from '@/page/login/view/Login.page';
+import RegisterPage from '@/page/register/view/register.page';
+import { createBrowserRouter } from 'react-router-dom';
+import Profile from '@/page/profile/Profile';
 
 export const router = createBrowserRouter([
-    {
+  {
     path: '/',
     element: <LayoutAdmin />,
-    children:[
+    children: [
       {
         index: true,
-        element: <App />
+        element: <HomePage />
       },
-      {
-        path:"home",
-        element:<HomePage/>
-      }
     ]
   },
-])
+  {
+    path: '/login',
+    element: <LoginPage />
+  },
+  {
+    path: '/register',
+    element: <RegisterPage />
+  },
+  {
+    path: '/profile',
+    element: <Profile />,
+  }
+]);

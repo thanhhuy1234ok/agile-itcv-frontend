@@ -1,0 +1,15 @@
+.custom-form {
+  margin: 0 auto;
+  .ant-input {
+    width: 100%;
+    height: 40px;
+    .ant-btn {
+      width: 100%;
+      height: 40px;
+      padding: 10px;
+    }
+    .ant-form-item:last-child {
+      margin-bottom: 0px;
+    }
+  }
+}
