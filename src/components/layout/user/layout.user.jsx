@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
-const LayoutAdmin = () =>{
+const LayoutUser = () =>{
     return (
         <>
             <Outlet/>
@@ -9,4 +9,4 @@ const LayoutAdmin = () =>{
     )
 }
 
-export default LayoutAdmin;
+export default LayoutUser;

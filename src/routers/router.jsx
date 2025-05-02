@@ -1,19 +1,12 @@
-import LayoutAdmin from '@/components/layout/layout.admin';
-import HomePage from '@/page/home/Home.page';
+import { createBrowserRouter } from 'react-router-dom';
+import LayoutSelector from '@/components/layout/LayoutSelector';
 import LoginPage from '@/page/login/view/Login.page';
 import RegisterPage from '@/page/register/view/register.page';
-import { createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <LayoutAdmin />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />
-      },
-    ]
+    element: <LayoutSelector />
   },
   {
     path: '/login',
@@ -22,5 +15,5 @@ export const router = createBrowserRouter([
   {
     path: '/register',
     element: <RegisterPage />
-  },
+  }
 ]);

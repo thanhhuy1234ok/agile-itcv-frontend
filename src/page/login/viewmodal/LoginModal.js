@@ -1,21 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import { login } from '@/services/api';
 import { notification } from 'antd';
-import { useDispatch } from 'react-redux';
-import { onLogin } from '@/redux/authSlice';
+import { useAuth } from '@/global/AuthenticationContext';
 
 export const useLoginModal = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const {onLogin} = useAuth();
 
     const handleLogin = async (values) => {
         try {
             const response = await login({ email: values.email, password: values.password }); 
             if (response.code === 1) {
-                dispatch(onLogin({response})) 
+                onLogin(response.data)
                 notification.success({
                     message: 'Đăng nhập thành công',
-                    description: `Chào mừng bạn trở lại, ${response.data?.name || 'người dùng'}!`,
+                    description: `Chào mừng bạn trở lại, ${response.data?.user?.name || 'người dùng'}!`,
                     duration: 2,
                 });
                 navigate('/'); 
