@@ -1,0 +1,179 @@
+@use "sass:color";
+@use "../view/Style.User.Homepage.scss" as *;
+
+// Header styles
+.itviec-header {
+  background-color: $white;
+  color: $text-color;
+  padding: 0;
+  box-shadow: $box_shadow;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: all 0.3s ease;
+
+  &.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+    .header-container {
+      height: 60px;
+    }
+  }
+
+  .nav-item-wrapper {
+    position: relative;
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .dropdown-icon {
+        font-size: 12px;
+        transition: transform 0.3s ease;
+      }
+
+      &.active .dropdown-icon {
+        transform: rotate(180deg);
+      }
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 280px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 12px 0;
+      z-index: 1000;
+      animation: fadeIn 0.2s ease;
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        color: $text-color;
+        transition: all 0.2s ease;
+
+        &:hover,
+        &.active {
+          background-color: $primary-light;
+          color: $primary-color;
+        }
+
+        .submenu-icon {
+          font-size: 12px;
+          opacity: 0.7;
+        }
+      }
+
+      .submenu-panel {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 700px;
+        min-height: 100%;
+        background-color: white;
+        border-radius: 0 12px 12px 0;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        z-index: 1001;
+        animation: fadeIn 0.2s ease;
+
+        .submenu-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 16px;
+          padding-bottom: 12px;
+          border-bottom: 1px solid $border-color;
+
+          h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: $text-color;
+            margin: 0;
+          }
+
+          .view-all {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: $primary-color;
+            font-size: 14px;
+            font-weight: 500;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+
+        .submenu-content {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+
+          .submenu-item {
+            padding: 8px 12px;
+            color: $text-color;
+            font-size: 14px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+
+            &:hover {
+              background-color: $primary-light;
+              color: $primary-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .language-selector {
+    .active-lang {
+      font-weight: 600;
+      color: $primary-color;
+    }
+  }
+
+  // Logout Button styles
+  .logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: $primary-color;
+    background-color: transparent;
+    border: 1px solid $primary-color;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $primary-color;
+      color: $white;
+    }
+
+    .logout-icon {
+      font-size: 16px;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

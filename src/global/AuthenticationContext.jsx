@@ -4,30 +4,34 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(undefined);
+    const [isLoading, setIsLoading] = useState(true); 
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
+        } else {
+            setUser(null);
         }
+        setIsLoading(false); 
     }, []);
 
     const onLogin = (response) => {
-        const userWithToken = { ...response.data, accessToken: response.access_Token };
+        const userWithToken = { ...response.user, accessToken: response.access_Token };
         setUser(userWithToken);
         
-        localStorage.setItem('user', JSON.stringify(response.data));
+        localStorage.setItem('user', JSON.stringify(response.user));
         localStorage.setItem('access_token', response.access_Token);
     };
 
     const onLogout = () => {
         setUser(null);
         localStorage.removeItem('user');
-        localStorage.removeItem('access_token');  
+        localStorage.removeItem('access_token');
     };
 
     return (
-        <AuthContext.Provider value={{ user, onLogin, onLogout, isAuthenticated: !!user }}>
+        <AuthContext.Provider value={{ user, onLogin, onLogout, isAuthenticated: !!user, isLoading }}>
             {children}
         </AuthContext.Provider>
     );
