@@ -12,3 +12,9 @@ export const register = (props) => {
     return axios.post(urlBackend, props);
 };
 
+export const getAllUsers = (queryParams) => {
+    const urlBackend = "/api/v1/users/allUsers";
+    return axios.get(urlBackend, { params: queryParams });
+};
+
+

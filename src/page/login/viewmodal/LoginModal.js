@@ -17,7 +17,11 @@ export const useLoginModal = () => {
                     description: `Chào mừng bạn trở lại, ${response.data?.user?.name || 'người dùng'}!`,
                     duration: 2,
                 });
-                navigate('/'); 
+                if (response.data.user.role.name === 'ADMIN') {
+                    navigate('/admin');
+                  } else {
+                    navigate('/');
+                  }
             } else {
                 notification.error({
                     message: 'Đăng nhập thất bại',
