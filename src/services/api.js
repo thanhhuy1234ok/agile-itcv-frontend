@@ -17,4 +17,9 @@ export const getAllUsers = (queryParams) => {
     return axios.get(urlBackend, { params: queryParams });
 };
 
+export const getAllRoles = (queryParams) => {
+    const urlBackend = "/api/v1/roles";
+    return axios.get(urlBackend, { params: queryParams });
+};
+
 

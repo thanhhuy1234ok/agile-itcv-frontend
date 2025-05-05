@@ -5,6 +5,7 @@ import "@/styles/CustomTableStyle.scss";
 
 const CustomTable = ({
   title,
+  total,
   pageSize,
   currentPage,
   columns,
@@ -50,9 +51,10 @@ const CustomTable = ({
         dataSource={data}
         rowKey={rowKey}
         pagination={{
+          total: total,
           current: currentPage,
           pageSize: currentPageSize,
-          onChange: (page, size) => onPageChange(page, size),
+          onChange: (page, size) => {onPageChange(page, size);console.log(size)},
           showSizeChanger: true,
           onShowSizeChange: (current, size) => setCurrentPageSize(size),
           showTotal: (total) => `Tổng ${total}`,

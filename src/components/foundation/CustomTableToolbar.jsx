@@ -39,14 +39,16 @@ const TableToolbar = ({
           allowClear
         />
 
+       
+      </div>
+      <div className="toolbar-right">
         {buttons.map((btn, index) => (
           <React.Fragment key={index}>{btn}</React.Fragment>
         ))}
+        <Button icon={<ReloadOutlined />} onClick={onRefresh} type="primary">
+          Làm mới
+        </Button>
       </div>
-
-      <Button icon={<ReloadOutlined />} onClick={onRefresh} type="primary">
-        Làm mới
-      </Button>
     </div>
   );
 };
