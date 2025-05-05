@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Spin } from "antd";
+import CustomSort from "./CustomSort";
 import "@/styles/CustomTableStyle.scss";
 
 const CustomTable = ({
@@ -11,22 +12,35 @@ const CustomTable = ({
   loading,
   rowKey = "_id",
   onPageChange,
+  enableSort = true,
+  sortFields = {},
+  onSortChange
 }) => {
   const [currentPageSize, setCurrentPageSize] = useState(pageSize);
 
   useEffect(() => {
-    setCurrentPageSize(pageSize); 
+    setCurrentPageSize(pageSize);
   }, [pageSize]);
 
   return (
     <Spin spinning={loading}>
       <div className="table-header">
         <div className="table-title">{title}</div>
+        <div className="table-sort-controls">
+        {enableSort && (  
+          <div className="table-sort-controls">
+            <CustomSort
+              sortFields={sortFields}
+              onSortChange={onSortChange}
+            />
+          </div>
+        )}
+        </div>
       </div>
 
       <Table
         rowSelection={{
-          type: 'checkbox',
+          type: "checkbox",
           onChange: (selectedRowKeys, selectedRows) => {
             console.log("Selected Row Keys:", selectedRowKeys);
             console.log("Selected Rows:", selectedRows);
@@ -36,12 +50,12 @@ const CustomTable = ({
         dataSource={data}
         rowKey={rowKey}
         pagination={{
-          current: currentPage,                
-          pageSize: currentPageSize,          
-          onChange: (page, size) => onPageChange(page, size), 
-          showSizeChanger: true,               
-          onShowSizeChange: (current, size) => {setCurrentPageSize(size); console.log(size)}, 
-          showTotal: (total) => `Tổng ${total}`,  
+          current: currentPage,
+          pageSize: currentPageSize,
+          onChange: (page, size) => onPageChange(page, size),
+          showSizeChanger: true,
+          onShowSizeChange: (current, size) => setCurrentPageSize(size),
+          showTotal: (total) => `Tổng ${total}`,
         }}
         className="data-table"
       />

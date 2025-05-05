@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import CustomTable from "@/components/foundation/CustomTable";
 import CustomTableToolbar from "@/components/foundation/CustomTableToolbar";
 import { Card, Button, Tag } from "antd";
+import { EditOutlined } from "@ant-design/icons";
 import useManageUser from "../viewmodal/AdminManageUserModal";
 
 const ManageUser = () => {
@@ -12,7 +13,9 @@ const ManageUser = () => {
     fetchUsers, 
     currentPage, 
     pageSize, 
-    onPageChange } = useManageUser();
+    handleEditUser,
+    onPageChange,
+    handleSortChange } = useManageUser();
 
   const columns = [
     {
@@ -48,6 +51,17 @@ const ManageUser = () => {
         }
       },
     },
+    {
+      title: "Thao tác",
+      key: "action",
+      render: (_, record) => (
+        <Button 
+          type="text" 
+          icon={<EditOutlined />} 
+          onClick={() => handleEditUser(record)} 
+        />
+      ),
+    }
   ];
 
   return (
@@ -58,7 +72,7 @@ const ManageUser = () => {
           onRefresh={() => { 
             fetchUsers();
           }}
-          fields={['name', 'email', 'role']}
+          fields={['name', 'email', 'role', 'phone']}
           buttons={[
             <Button type="primary" key="add">Thêm người dùng</Button>,
           ]}
@@ -70,7 +84,9 @@ const ManageUser = () => {
           loading={loading}
           pageSize={pageSize}                   
           currentPage={currentPage}             
-          onPageChange={onPageChange}           
+          onPageChange={onPageChange} 
+          sortFields={{name: "Tên", email: 'Email', createdAt: 'Ngày tạo' }}
+          onSortChange={handleSortChange}     
         />
       </Card>
     </div>

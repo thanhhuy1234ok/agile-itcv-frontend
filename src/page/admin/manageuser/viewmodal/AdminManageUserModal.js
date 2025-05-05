@@ -35,6 +35,18 @@ const useManageUser = () => {
     fetchUsers({ [field]: value });
   };
 
+  const handleEditUser = (user) => {
+    console.log("Chỉnh sửa người dùng:", user);
+  };
+
+  const handleSortChange = (value) => {
+    const [field, order] = value.split("_");
+    const sortParam = order === "asc" ? field : `-${field}`;
+    console.log(`Sắp xếp theo: ${sortParam}`);
+    fetchUsers({ sort: sortParam });
+  };
+  
+
   return {
     users,
     loading,
@@ -42,7 +54,9 @@ const useManageUser = () => {
     fetchUsers,
     currentPage,
     pageSize,
-    onPageChange
+    onPageChange,
+    handleEditUser,
+    handleSortChange
   };
 };
 
