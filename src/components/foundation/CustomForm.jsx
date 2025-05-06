@@ -5,11 +5,13 @@ const CustomForm = ({
   fields,
   onFinish,
   initialValues,
-  buttonText = "Gửi",
+  form,
+  buttonText,
   loading = false,
 }) => {
   return (
     <Form
+      form={form}
       layout="vertical"
       onFinish={onFinish}
       initialValues={initialValues}
@@ -27,15 +29,17 @@ const CustomForm = ({
         </Form.Item>
       ))}
 
-      <Form.Item className="form-submit-item">
-        <Button
-          type="primary"
-          htmlType="submit"
-          loading={loading}
-          className="submit-button">
-          {buttonText}
-        </Button>
-      </Form.Item>
+      {buttonText && (
+        <Form.Item className="form-submit-item">
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loading}
+            className="submit-button">
+            {buttonText}
+          </Button>
+        </Form.Item>
+      )}
     </Form>
   );
 };

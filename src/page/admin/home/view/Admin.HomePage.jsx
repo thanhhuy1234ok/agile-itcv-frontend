@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect } from "react";
 import {
   Card,
@@ -30,7 +28,6 @@ import { useAdminHomepageModal } from "../viewmodal/AdminHomepageModal";
 import "./style.AdminHomepage.scss";
 
 const { Title, Paragraph } = Typography;
-const { TabPane } = Tabs;
 
 const AdminHomepage = () => {
   const {
@@ -173,6 +170,65 @@ const AdminHomepage = () => {
     },
   ];
 
+  const tabItems = [
+    {
+      key: "users",
+      label: (
+        <span className="tab-label">
+          <UserOutlined />
+          Người dùng
+        </span>
+      ),
+      children: (
+        <Spin spinning={loading.users}>
+          <div className="table-header">
+            <div className="table-title">Danh sách người dùng</div>
+            <Button type="primary">Thêm người dùng</Button>
+          </div>
+          <Table
+            columns={userColumns}
+            dataSource={users}
+            rowKey="id"
+            pagination={{
+              pageSize: 10,
+              showSizeChanger: true,
+              showTotal: (total) => `Tổng ${total} người dùng`,
+            }}
+            className="data-table"
+          />
+        </Spin>
+      ),
+    },
+    {
+      key: "settings",
+      label: (
+        <span className="tab-label">
+          <SettingOutlined />
+          Cài đặt hệ thống
+        </span>
+      ),
+      children: (
+        <Spin spinning={loading.settings}>
+          <div className="table-header">
+            <div className="table-title">Cài đặt hệ thống</div>
+            <Button type="primary">Thêm cài đặt</Button>
+          </div>
+          <Table
+            columns={settingColumns}
+            dataSource={settings}
+            rowKey="id"
+            pagination={{
+              pageSize: 10,
+              showSizeChanger: true,
+              showTotal: (total) => `Tổng ${total} cài đặt`,
+            }}
+            className="data-table"
+          />
+        </Spin>
+      ),
+    },
+  ];
+
   return (
     <div className="admin-panel-container">
       <Card className="admin-panel-header">
@@ -231,60 +287,7 @@ const AdminHomepage = () => {
       </Spin>
 
       <Card className="admin-panel-content">
-        <Tabs defaultActiveKey="users" type="card">
-          <TabPane
-            tab={
-              <span className="tab-label">
-                <UserOutlined />
-                Người dùng
-              </span>
-            }
-            key="users">
-            <Spin spinning={loading.users}>
-              <div className="table-header">
-                <div className="table-title">Danh sách người dùng</div>
-                <Button type="primary">Thêm người dùng</Button>
-              </div>
-              <Table
-                columns={userColumns}
-                dataSource={users}
-                rowKey="id"
-                pagination={{
-                  pageSize: 10,
-                  showSizeChanger: true,
-                  showTotal: (total) => `Tổng ${total} người dùng`,
-                }}
-                className="data-table"
-              />
-            </Spin>
-          </TabPane>
-          <TabPane
-            tab={
-              <span className="tab-label">
-                <SettingOutlined />
-                Cài đặt hệ thống
-              </span>
-            }
-            key="settings">
-            <Spin spinning={loading.settings}>
-              <div className="table-header">
-                <div className="table-title">Cài đặt hệ thống</div>
-                <Button type="primary">Thêm cài đặt</Button>
-              </div>
-              <Table
-                columns={settingColumns}
-                dataSource={settings}
-                rowKey="id"
-                pagination={{
-                  pageSize: 10,
-                  showSizeChanger: true,
-                  showTotal: (total) => `Tổng ${total} cài đặt`,
-                }}
-                className="data-table"
-              />
-            </Spin>
-          </TabPane>
-        </Tabs>
+        <Tabs defaultActiveKey="users" items={tabItems} />
       </Card>
     </div>
   );
