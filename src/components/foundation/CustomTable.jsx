@@ -17,12 +17,6 @@ const CustomTable = ({
   sortFields = {},
   onSortChange
 }) => {
-  const [currentPageSize, setCurrentPageSize] = useState(pageSize);
-
-  useEffect(() => {
-    setCurrentPageSize(pageSize);
-  }, [pageSize]);
-
   return (
     <Spin spinning={loading}>
       <div className="table-header">
@@ -53,10 +47,9 @@ const CustomTable = ({
         pagination={{
           total: total,
           current: currentPage,
-          pageSize: currentPageSize,
+          pageSize: pageSize,
           onChange: (page, size) => {onPageChange(page, size);console.log(size)},
           showSizeChanger: true,
-          onShowSizeChange: (current, size) => setCurrentPageSize(size),
           showTotal: (total) => `Tổng ${total}`,
         }}
         className="data-table"

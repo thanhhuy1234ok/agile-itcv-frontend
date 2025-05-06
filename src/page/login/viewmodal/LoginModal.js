@@ -17,7 +17,7 @@ export const useLoginModal = () => {
                     description: `Chào mừng bạn trở lại, ${response.data?.user?.name || 'người dùng'}!`,
                     duration: 2,
                 });
-                if (response.data.user.role.name === 'ADMIN') {
+                if (response.data.user.role.name === 'Admin') {
                     navigate('/admin');
                   } else {
                     navigate('/');

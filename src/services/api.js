@@ -22,4 +22,15 @@ export const getAllRoles = (queryParams) => {
     return axios.get(urlBackend, { params: queryParams });
 };
 
+export const createUser = (props)=>{
+    const urlBackend = "/api/v1/users";
+    return axios.post(urlBackend, props);
+}
+
+export const updateUser = (id, props) => {
+    const urlBackend = `/api/v1/users/updateUser/${id}`;
+    return axios.put(urlBackend, props);
+};
+
+
 
