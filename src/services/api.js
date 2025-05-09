@@ -32,5 +32,15 @@ export const updateUser = (id, props) => {
     return axios.put(urlBackend, props);
 };
 
+export const getAllCompanies = (queryParams) => {
+    const urlBackend = `/api/v1/companies`;
+    return axios.get(urlBackend, { params: queryParams });
+};
+
+export const getAllJobs = (queryParams) => {
+    const urlBackend = `/api/v1/jobs`;
+    return axios.get(urlBackend, { params: queryParams });
+};
+
 
 
