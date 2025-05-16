@@ -1,70 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card } from "antd";
 import CustomTableToolbar from "@/components/foundation/CustomTableToolbar";
 import CustomTable from "@/components/foundation/CustomTable";
+import useManageUser from "../viewmodal/AdminManageCompany"; 
+import getColumns from "../data/ManageCompanyData";
 
 const ManageCompany = () => {
-  const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Công ty TNHH ABC",
-      email: "abc@company.com",
-      phone: "0901234567",
-      createdAt: "2023-01-01",
-    },
-    {
-      id: 2,
-      name: "Công ty CP XYZ",
-      email: "xyz@company.com",
-      phone: "0909876543",
-      createdAt: "2023-03-15",
-    },
-  ]);
-  const [total, setTotal] = useState(2);
-  const [pageSize, setPageSize] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    company,
+    loading,
+    total,
+    pageSize,
+    currentPage,
+    handleSearch,
+    handleRefresh,
+    onPageChange,
+    handleSortChange,
+  } = useManageUser();
 
-  const handleSearch = (value) => {
-    console.log("Searching with:", value);
-  };
-
-  const handleRefresh = () => {
-    console.log("Refreshing data...");
-  };
-
-  const onPageChange = (page, pageSize) => {
-    console.log("Page changed:", page, pageSize);
-    setCurrentPage(page);
-    setPageSize(pageSize);
-  };
-
-  const handleSortChange = (field, order) => {
-    console.log("Sorting by:", field, order);
-  };
-
-  const columns = [
-    {
-      title: "Tên công ty",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "Số điện thoại",
-      dataIndex: "phone",
-      key: "phone",
-    },
-    {
-      title: "Ngày tạo",
-      dataIndex: "createdAt",
-      key: "createdAt",
-    },
-  ];
+  const columns = getColumns(currentPage, pageSize);
 
   return (
     <div>
@@ -72,18 +26,18 @@ const ManageCompany = () => {
         <CustomTableToolbar
           onSearch={handleSearch}
           onRefresh={handleRefresh}
-          fields={["name", "email", "phone"]}
+          fields={["name", "address"]}
         />
         <CustomTable
           title="Danh sách công ty"
           columns={columns}
-          data={users}
+          data={company}
           loading={loading}
           total={total}
           pageSize={pageSize}
           currentPage={currentPage}
           onPageChange={onPageChange}
-          sortFields={{ name: "Tên", email: "Email", createdAt: "Ngày tạo" }}
+          sortFields={{ name: "Tên", createdAt: "Ngày tạo" }}
           onSortChange={handleSortChange}
         />
       </Card>
