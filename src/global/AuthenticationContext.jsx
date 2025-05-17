@@ -11,46 +11,50 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // useEffect chỉ chạy một lần khi component mount
   useEffect(() => {
-    try {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    } catch (error) {
-      console.error("Error loading user from localStorage:", error);
+    const storedUser = localStorage.getItem("user");
+    const storedAccessToken = localStorage.getItem("access_token");
+
+    if (storedUser && storedAccessToken) {
+      const user = JSON.parse(storedUser);
+      setUser({ ...user, accessToken: storedAccessToken });
+    } else {
+      setUser(null);
     }
+
+    setIsLoading(false);
   }, []);
 
   const onLogin = (response) => {
-    try {
-      const userWithToken = {
-        ...response.data,
-        accessToken: response.access_Token,
-      };
-      setUser(userWithToken);
+    const userWithToken = {
+      ...response.user,
+      accessToken: response.access_Token,
+    };
+    setUser(userWithToken);
 
-      localStorage.setItem("user", JSON.stringify(response.data));
-      localStorage.setItem("access_token", response.access_Token);
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+    // Lưu vào localStorage cả user và token
+    localStorage.setItem("user", JSON.stringify(response.user));
+    localStorage.setItem("access_token", response.access_Token);
   };
 
   const onLogout = () => {
     setUser(null);
-    try {
-      localStorage.removeItem("user");
-      localStorage.removeItem("access_token");
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
+    localStorage.removeItem("user");
+    localStorage.removeItem("access_token");
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, onLogin, onLogout, isAuthenticated: !!user }}>
+      value={{
+        user,
+        onLogin,
+        onLogout,
+        isAuthenticated: !!user,
+        isLoading,
+      }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,0 +1,200 @@
+.admin-panel-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  
+    .admin-panel-header {
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  
+      .admin-panel-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+  
+        h2 {
+          margin-bottom: 8px;
+          font-weight: 600;
+        }
+  
+        .ant-typography {
+          margin-bottom: 0;
+        }
+  
+        .ant-btn {
+          border-radius: 8px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+    }
+  
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+  
+      @media (max-width: 1200px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+  
+      @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+      }
+  
+      .stat-card {
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+  
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+  
+        .stat-content {
+          .ant-statistic-title {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 12px;
+          }
+  
+          .ant-statistic-content {
+            display: flex;
+            align-items: center;
+  
+            .ant-statistic-content-prefix {
+              margin-right: 12px;
+              font-size: 24px;
+              color: #2563eb;
+            }
+  
+            .ant-statistic-content-value {
+              font-size: 28px;
+              font-weight: 600;
+              color: #0f172a;
+            }
+          }
+        }
+      }
+    }
+  
+    .admin-panel-content {
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  
+      .ant-tabs-nav {
+        margin-bottom: 24px;
+  
+        .ant-tabs-tab {
+          padding: 12px 20px;
+          transition: all 0.3s ease;
+  
+          &.ant-tabs-tab-active {
+            background-color: #eff6ff;
+            border-radius: 8px;
+  
+            .ant-tabs-tab-btn {
+              color: #2563eb;
+              font-weight: 500;
+            }
+          }
+  
+          .tab-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+        }
+      }
+  
+      .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+  
+        .table-title {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: #0f172a;
+        }
+  
+        .ant-btn {
+          border-radius: 8px;
+          height: 40px;
+        }
+      }
+  
+      .data-table {
+        .ant-table {
+          border-radius: 8px;
+          overflow: hidden;
+        }
+  
+        .ant-table-thead > tr > th {
+          background-color: #f8fafc;
+          font-weight: 600;
+          color: #64748b;
+        }
+  
+        .user-info-cell {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+  
+          .admin-avatar {
+            background-color: #2563eb;
+          }
+  
+          .user-details {
+            display: flex;
+            flex-direction: column;
+  
+            .user-name {
+              font-weight: 500;
+              color: #0f172a;
+            }
+  
+            .user-email {
+              font-size: 0.75rem;
+              color: #64748b;
+            }
+          }
+        }
+  
+        .setting-value {
+          font-family: monospace;
+          background-color: #f1f5f9;
+          padding: 2px 6px;
+          border-radius: 4px;
+          display: inline-block;
+        }
+  
+        .action-buttons {
+          display: flex;
+          gap: 8px;
+  
+          .action-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+  
+            &:hover {
+              background-color: #eff6ff;
+              color: #2563eb;
+  
+              &.delete {
+                background-color: #fee2e2;
+                color: #ef4444;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

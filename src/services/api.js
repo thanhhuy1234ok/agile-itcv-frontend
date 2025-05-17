@@ -112,129 +112,40 @@ export const getUsers = async () => {
   };
 };
 
-export const getSettings = async () => {
-  // Mock implementation for development
-  return {
-    code: 1,
-    data: [
-      {
-        id: 1,
-        name: "Site Name",
-        value: "Agile System",
-        description: "The name of the application",
-      },
-      {
-        id: 2,
-        name: "Maintenance Mode",
-        value: "false",
-        description: "Enable/disable maintenance mode",
-      },
-      {
-        id: 3,
-        name: "Default Language",
-        value: "vi",
-        description: "Default language for the application",
-      },
-    ],
-  };
+export const register = (props) => {
+    const urlBackend = "/api/v1/auth/register";
+    return axios.post(urlBackend, props);
 };
 
-export const updateSystemSetting = async (id, value) => {
-  // Mock implementation for development
-  return {
-    code: 1,
-    message: "Setting updated successfully",
-    data: { id, value },
-  };
+export const getAllUsers = (queryParams) => {
+    const urlBackend = "/api/v1/users/allUsers";
+    return axios.get(urlBackend, { params: queryParams });
 };
 
-export const login = async (credentials) => {
-  // Mock implementation for role-based authentication
-  if (
-    credentials.email === "admin@example.com" &&
-    credentials.password === "admin123"
-  ) {
-    return {
-      code: 1,
-      data: {
-        id: 1,
-        name: "Admin User",
-        email: "admin@example.com",
-        role: "admin", // Admin role
-      },
-      access_Token: "mock-jwt-token-admin-" + Date.now(),
-      message: "Login successful",
-    };
-  } else if (
-    credentials.email === "dev@example.com" &&
-    credentials.password === "dev123"
-  ) {
-    return {
-      code: 1,
-      data: {
-        id: 2,
-        name: "Developer User",
-        email: "dev@example.com",
-        role: "dev", // Developer role
-      },
-      access_Token: "mock-jwt-token-dev-" + Date.now(),
-      message: "Login successful",
-    };
-  } else if (
-    credentials.email === "user@example.com" &&
-    credentials.password === "user123"
-  ) {
-    return {
-      code: 1,
-      data: {
-        id: 3,
-        name: "Regular User",
-        email: "user@example.com",
-        role: "user", // Regular user role
-      },
-      access_Token: "mock-jwt-token-user-" + Date.now(),
-      message: "Login successful",
-    };
-  }
-
-  return {
-    code: 0,
-    message: "Invalid email or password",
-  };
+export const getAllRoles = (queryParams) => {
+    const urlBackend = "/api/v1/roles";
+    return axios.get(urlBackend, { params: queryParams });
 };
 
-export const register = async (userData) => {
-  // Mock implementation for development
-  return {
-    code: 1,
-    message: "Registration successful",
-    data: {
-      id: 3,
-      name: userData.name,
-      email: userData.email,
-      role: "user", // Default role for newly registered users
-    },
-    access_Token: "mock-jwt-token-" + Date.now(),
-  };
+export const createUser = (props)=>{
+    const urlBackend = "/api/v1/users";
+    return axios.post(urlBackend, props);
+}
+
+export const updateUser = (id, props) => {
+    const urlBackend = `/api/v1/users/updateUser/${id}`;
+    return axios.put(urlBackend, props);
 };
 
-// Auth API
-export const authAPI = {
-  register: (userData) => register(userData),
-  login: (credentials) => login(credentials),
-  refreshToken: () => API.get("/auth/refresh-token"),
+export const getAllCompanies = (queryParams) => {
+    const urlBackend = `/api/v1/companies`;
+    return axios.get(urlBackend, { params: queryParams });
 };
 
-// User API
-export const userAPI = {
-  getAllUsers: () => API.get("/users"),
-  getUserById: (id) => API.get(`/users/${id}`),
-  updateUser: (id, userData) => API.put(`/users/${id}`, userData),
-  deleteUser: (id) => API.delete(`/users/${id}`),
+export const getAllJobs = (queryParams) => {
+    const urlBackend = `/api/v1/jobs`;
+    return axios.get(urlBackend, { params: queryParams });
 };
 
-// Export all APIs
-export default {
-  auth: authAPI,
-  users: userAPI,
-};
+
+
