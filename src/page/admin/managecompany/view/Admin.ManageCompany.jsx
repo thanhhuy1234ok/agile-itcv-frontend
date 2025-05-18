@@ -5,7 +5,7 @@ import CustomTable from "@/components/foundation/CustomTable";
 import CustomModal from '@/components/foundation/CustomModal'
 import CustomForm from "@/components/foundation/CustomForm";
 import useManageUser from "../viewmodal/AdminManageCompany"; 
-import { getCompanyFormFields, getColumns } from "../data/ManageCompanyData";
+import { getCompanyFormFields, getEditStatusCompanyFormFields, getColumns } from "../data/ManageCompanyData";
 
 const ManageCompany = () => {
   const {
@@ -25,7 +25,7 @@ const ManageCompany = () => {
 
   const [form] = Form.useForm();
   const [selectedCompany, setSelectedCompany] = useState(null);
-  const columns = getColumns(currentPage, pageSize, setVisible, setSelectedCompany);
+  const columns = getColumns(currentPage, pageSize, setVisible, setSelectedCompany, form);
 
   return (
     <div>
@@ -69,10 +69,16 @@ const ManageCompany = () => {
         >
           <CustomForm
             form={form}
-            fields={getCompanyFormFields()}
+            fields={selectedCompany ? getEditStatusCompanyFormFields() : getCompanyFormFields()}
             onFinish={(values) => {
-              handleAddCompany(values);   
+              if (selectedCompany) {
+                console.log("Edit status:", values); 
+              } else {
+                handleAddCompany(values); 
+              }
+
               form.resetFields();
+              setSelectedCompany(null);
               setVisible(false);
             }}
           />

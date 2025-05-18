@@ -2,7 +2,7 @@ import React from "react";
 import { HomeOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import UploadLogo from "@/components/foundation/CustomUpload"; 
 import dayjs from "dayjs";
-import { Avatar, Tag, Tooltip, Input } from "antd";
+import { Avatar, Tag, Tooltip, Input, Select } from "antd";
 import { FORMATE_DATE_VN, FORMATE_DATE_TIME_VN } from "@/utils/format.time";
 
 export const getCompanyFormFields = () => [
@@ -34,7 +34,21 @@ export const getCompanyFormFields = () => [
   },
 ];
 
-export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany) => [
+export const getEditStatusCompanyFormFields = () => [
+  {
+    name: 'isActive',
+    label: 'Trạng thái',
+    rules: [{ required: true }],
+    render: () => (
+      <Select placeholder="Chọn trạng thái">
+        <Select.Option value={true}>Hoạt động</Select.Option>
+        <Select.Option value={false}>Tạm khóa</Select.Option>
+      </Select>
+    ),
+  },
+];
+
+export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany, form) => [
   {
     title: "ID",
     key: "id",
@@ -81,6 +95,7 @@ export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany
         onClick={() => {
           setSelectedCompany(record);
           setVisible(true);
+          form.setFieldsValue({ isActive: record.isActive });
           console.log(record);           
         }}
       >
