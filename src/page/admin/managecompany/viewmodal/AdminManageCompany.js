@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { getAllCompanies } from "@/services/api"; 
+import { createCompany, getAllCompanies } from "@/services/api"; 
 import { notification } from "antd";
 
 const useManageCompany = () => {
   const [company, setCompany] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false)
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);  
   const [pageSize, setPageSize] = useState(10); 
@@ -55,16 +56,45 @@ const useManageCompany = () => {
     fetchCompanies({ sort: sortParam });
   };
 
+  const handleAddCompany = async (values) => {
+  const { logo, ...rest } = values;
+  const logoUrl = logo?.[0]?.url || ""; 
+
+  const payload = {
+    ...rest,
+    logo: logoUrl, 
+  };
+  try {
+    await createCompany(payload); 
+    notification.success({
+      message: "Thành công",
+      description: "Thêm công ty thành công!",
+    });
+    fetchCompanies(); 
+    setVisible(false); 
+  } catch (error) {
+    console.error("Lỗi khi thêm công ty:", error);
+    notification.error({
+      message: "Thất bại",
+      description: "Không thể thêm công ty. Vui lòng thử lại!",
+    });
+  }
+};
+
+
   return {
     company,
     loading,
     total,
     currentPage,
     pageSize,
+    visible,
+    setVisible,
     handleSearch,
     handleRefresh,
     onPageChange,
     handleSortChange,
+    handleAddCompany
   };
 };
 
