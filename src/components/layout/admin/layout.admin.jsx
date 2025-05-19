@@ -118,6 +118,7 @@ const LayoutAdmin = () => {
           items={[
             { key: "/admin", icon: <HomeOutlined />, label: "Trang chủ" },
             { key: "/admin/manage-user", icon: <TeamOutlined />, label: "Quản lý người dùng" },
+            { key: "/admin/manage-job", icon: <TeamOutlined />, label: "Quản lý công việc" },
           ]}
         />
 
