@@ -1,27 +1,37 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
-import LoginPage from '@/page/login/view/Login.page';
-import RegisterPage from '@/page/register/view/register.page';
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import LoginPage from "@/page/login/view/Login.page";
+import RegisterPage from "@/page/register/view/register.page";
 
-import LayoutAdmin from '@/components/layout/admin/layout.admin';
-import AdminHomepage from '@/page/admin/home/view/Admin.HomePage';
-import ManageUser from '@/page/admin/manageuser/view/Admin.ManageUser';
+import LayoutAdmin from "@/components/layout/admin/layout.admin";
+import AdminHomepage from "@/page/admin/home/view/Admin.HomePage";
+import ManageUser from "@/page/admin/manageuser/view/Admin.ManageUser";
 
-import LayoutUser from '@/components/layout/user/layout.user';
-import UserHomepage from '@/page/user/home/view/User.HomePage';
+import LayoutUser from "@/components/layout/user/layout.user";
+import UserHomepage from "@/page/user/home/view/User.HomePage";
 
-import ProtectedRoute from './ProtectedRoute';
+import ProfilePage from "@/page/profile-page/view/ProfilePage";
+
+import ProtectedRoute from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
-    path: '/login',
+    path: "/login",
     element: <LoginPage />,
   },
   {
-    path: '/register',
+    path: "/register",
     element: <RegisterPage />,
   },
   {
-    path: '/admin',
+    path: "/profile",
+    element: (
+      <ProtectedRoute>
+        <ProfilePage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/admin",
     element: (
       <ProtectedRoute role="Admin">
         <LayoutAdmin />
@@ -29,18 +39,18 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <AdminHomepage /> },
-      { path: 'manage-user', element: <ManageUser /> },
+      { path: "manage-user", element: <ManageUser /> },
+      { path: "profile", element: <ProfilePage /> },
     ],
   },
   {
-    path: '/',  
+    path: "/",
     element: (
-      <ProtectedRoute role="User">
+      <ProtectedRoute role="NORMAL USER">
         <LayoutUser />
       </ProtectedRoute>
     ),
-    children: [
-      { index: true, element: <UserHomepage /> },
-    ],
+    children: [{ index: true, element: <UserHomepage /> }],
   },
 ]);
+

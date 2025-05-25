@@ -1,19 +1,21 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Button } from "antd";
+import { Button, Avatar } from "antd";
 import {
   SearchOutlined,
   EnvironmentOutlined,
   CaretDownOutlined,
   RightOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { useAuth } from "@/global/AuthenticationContext";
 import { jobNavigationMenu } from "@/data/job-categories";
+import { useNavigate } from "react-router-dom";
 import "./Style.Header.scss";
 
 const Header = () => {
-const {onLogout} = useAuth()
+  const { user, onLogout } = useAuth();
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -21,8 +23,8 @@ const {onLogout} = useAuth()
   const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef(null);
   const submenuRef = useRef(null);
+  const navigate = useNavigate();
 
-  // Handle scroll effect for header
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -34,7 +36,6 @@ const {onLogout} = useAuth()
     };
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -64,13 +65,10 @@ const {onLogout} = useAuth()
   };
 
   const handleLogout = () => {
-    // localStorage.removeItem("access_token"); 
-    // localStorage.removeItem("user");
-    onLogout()
+    onLogout();
   };
 
   const handleSearch = () => {
-    // Implement search functionality
     console.log("Searching for:", { searchKeyword, searchLocation });
   };
 
@@ -99,6 +97,28 @@ const {onLogout} = useAuth()
             </a>
           ))}
         </div>
+      </div>
+    );
+  };
+
+  const renderProfileHeader = () => {
+    if (!user) return null;
+
+    return (
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <Avatar
+          src={user.img_url}
+          icon={<UserOutlined />}
+          style={{ cursor: "pointer", background: "#f56a00" }}
+          onClick={() => navigate("/profile")}
+          title="Thông tin cá nhân"
+        />
+        <span style={{ fontWeight: 500 }}>{user.name}</span>
+        {user.role?.name === "Admin" && (
+          <span style={{ marginLeft: 8, color: "#555", fontSize: 13 }}>
+            <b>({user.role.name})</b> - {user.email}
+          </span>
+        )}
       </div>
     );
   };
@@ -186,6 +206,7 @@ const {onLogout} = useAuth()
               <span className="language-divider">|</span>
               <span>EN</span>
             </div>
+            {renderProfileHeader()}
             <Button type="link" className="logout-btn" onClick={handleLogout}>
               Đăng Xuất
             </Button>

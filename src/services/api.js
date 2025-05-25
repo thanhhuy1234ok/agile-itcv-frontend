@@ -42,5 +42,9 @@ export const getAllJobs = (queryParams) => {
     return axios.get(urlBackend, { params: queryParams });
 };
 
+export const getUserDetail = (id) => {
+  const urlBackend = `/api/v1/users/userDetail/${id}`;
+  return axios.get(urlBackend);
+};
 
 
