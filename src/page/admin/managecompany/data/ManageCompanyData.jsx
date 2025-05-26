@@ -1,9 +1,14 @@
 import React from "react";
-import { HomeOutlined, EnvironmentOutlined } from "@ant-design/icons";
+import { HomeOutlined, EnvironmentOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import UploadLogo from "@/components/foundation/CustomUpload"; 
 import dayjs from "dayjs";
+import MdEditor from 'react-markdown-editor-lite';
+import 'react-markdown-editor-lite/lib/index.css';
+import ReactMarkdown from 'react-markdown';
 import { Avatar, Tag, Tooltip, Input, Select } from "antd";
 import { FORMATE_DATE_VN, FORMATE_DATE_TIME_VN } from "@/utils/format.time";
+
+const renderMarkdown = (text) => <ReactMarkdown>{text}</ReactMarkdown>;
 
 export const getCompanyFormFields = () => [
   {
@@ -30,8 +35,24 @@ export const getCompanyFormFields = () => [
     name: "description",
     label: "Mô tả",
     rules: [{ required: false }],
-    render: () => <Input.TextArea placeholder="Nhập mô tả công ty" autoSize={{ minRows: 3, maxRows: 6 }} />,
-  },
+    render: (formInstance) => (
+      <MdEditor
+        className="no-fullscreen"
+        renderHTML={renderMarkdown}
+        config={{
+          view: {
+            menu: true,
+            md: true,
+            html: false, 
+          },
+        }}
+        value={formInstance.getFieldValue("description") || ""}
+        onChange={({ text }) => {
+          formInstance.setFieldsValue({ description: text });
+        }}
+      />
+    ),
+  }
 ];
 
 export const getEditStatusCompanyFormFields = () => [
@@ -48,7 +69,7 @@ export const getEditStatusCompanyFormFields = () => [
   },
 ];
 
-export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany, form) => [
+export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany, form, setModalType) => [
   {
     title: "ID",
     key: "id",
@@ -94,6 +115,7 @@ export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany
         style={{ cursor: "pointer" }}
         onClick={() => {
           setSelectedCompany(record);
+          setModalType('changestatus'); 
           setVisible(true);
           form.setFieldsValue({ isActive: record.isActive });
           console.log(record);           
@@ -101,6 +123,48 @@ export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany
       >
         {isActive ? "Hoạt động" : "Tạm khóa"}
       </Tag>
+    ),
+  },
+  {
+    title: "Thao tác",
+    key: "action",
+    render: (_, record) => (
+      <>
+        <EyeOutlined
+          style={{ cursor: "pointer", fontSize: 18, marginRight: 16 }}
+          onClick={() => {
+            setSelectedCompany(record);
+            setModalType("viewdetail");
+            setVisible(true);
+          }}
+        />
+        <EditOutlined
+          style={{ cursor: "pointer", fontSize: 18 }}
+          onClick={() => {
+            console.log("Record khi bấm Edit:", record);
+
+            const fileList = record.logo
+              ? [
+                  {
+                    uid: "-1",
+                    name: "logo.jpg",
+                    status: "done",
+                    url: record.logo,
+                  },
+                ]
+              : [];
+
+            setSelectedCompany(record);
+            setModalType("updatecompany");
+            setVisible(true);
+
+            form.setFieldsValue({
+              ...record,
+              logo: fileList, 
+            });
+          }}
+        />
+      </>
     ),
   },
 ];

@@ -47,6 +47,16 @@ export const createCompany = (props) => {
     return axios.post(urlBackend, props);
 };
 
+export const updateCompany = (id, props) => {
+    const urlBackend = `/api/v1/companies/${id}`;
+    return axios.put(urlBackend, props);
+};
+
+export const getJobsByCompanyId = (queryParams)=>{
+    const urlBackend = `/api/v1/jobs`;
+    return axios.get(urlBackend, { params: queryParams });
+}
+
 export const uploadImage = (file) => {
   const urlBackend = "/api/v1/files/upload";
   const formData = new FormData();

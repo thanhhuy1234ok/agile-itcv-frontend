@@ -1,13 +1,16 @@
-import React, {useState} from "react";
-import { Card, Form, Button } from "antd";
+import React from "react";
+import { Card, Button } from "antd";
+import CompanyDetail from "../modal/CompanyDetailModal";
 import CustomTableToolbar from "@/components/foundation/CustomTableToolbar";
 import CustomTable from "@/components/foundation/CustomTable";
-import CustomModal from '@/components/foundation/CustomModal'
+import CustomModal from "@/components/foundation/CustomModal";
 import CustomForm from "@/components/foundation/CustomForm";
-import useManageUser from "../viewmodal/AdminManageCompany"; 
-import { getCompanyFormFields, getEditStatusCompanyFormFields, getColumns } from "../data/ManageCompanyData";
+import useManageUser from "../viewmodal/AdminManageCompany";
+import ListJob from "../modal/ListJob";
+import "./style.AdminManageCompany.scss";
 
 const ManageCompany = () => {
+
   const {
     company,
     loading,
@@ -15,17 +18,35 @@ const ManageCompany = () => {
     pageSize,
     currentPage,
     visible,
+    modalType,
+    form,
+    selectedCompany,
+    jobModalVisible,
+    jobs,
+    jobsLoading,
+    fetchJobsByCompany,
+    setJobModalVisible,
+    setModalType,
+    setSelectedCompany,
     setVisible,
     handleSearch,
     handleRefresh,
     onPageChange,
     handleSortChange,
-    handleAddCompany
+    getFormFields,
+    handleModalClose,
+    handleSubmit,
+    getColumns,
   } = useManageUser();
 
-  const [form] = Form.useForm();
-  const [selectedCompany, setSelectedCompany] = useState(null);
-  const columns = getColumns(currentPage, pageSize, setVisible, setSelectedCompany, form);
+  const columns = getColumns(
+    currentPage,
+    pageSize,
+    setVisible,
+    setSelectedCompany,
+    form,
+    setModalType
+  );
 
   return (
     <div>
@@ -35,17 +56,20 @@ const ManageCompany = () => {
           onRefresh={handleRefresh}
           fields={["name", "address"]}
           buttons={[
-            <Button 
-              type="primary" 
-              key="add" 
+            <Button
+              type="primary"
+              key="add"
               onClick={() => {
-                setSelectedCompany(null);       
-                form.resetFields();      
-                setVisible(true);        
+                setModalType("add");
+                form.resetFields();
+                setVisible(true);
               }}
-            >Thêm công ty</Button>,
+            >
+              Thêm công ty
+            </Button>,
           ]}
         />
+
         <CustomTable
           title="Danh sách công ty"
           columns={columns}
@@ -61,28 +85,51 @@ const ManageCompany = () => {
 
         <CustomModal
           visible={visible}
-          title={ selectedCompany ? "Chỉnh sửa công ty" : "Thêm người dùng"} 
-          onCancel={() => setVisible(false)}
-          onOk={() => form.submit()}
-          okText={ selectedCompany ? "Cập nhật" : "Xác nhận"} 
-          footer={null}
+          title={
+            modalType === "updatecompany"
+              ? "Chỉnh sửa công ty"
+              : modalType === "changestatus"
+              ? "Chỉnh sửa trạng thái"
+              : modalType === "viewdetail"
+              ? "Chi tiết công ty"
+              : "Thêm công ty"
+          }
+          onCancel={handleModalClose}
+          onOk={() => {
+            if (modalType !== "viewdetail") form.submit();
+          }}
+          okText={modalType === "changestatus" ? "Cập nhật" : "Xác nhận"}
+          footer={
+            modalType === "viewdetail" ? (
+              <Button
+                type="primary"
+                onClick={fetchJobsByCompany}
+              >
+                Xem các công việc
+              </Button>
+            ) : undefined
+          }
         >
-          <CustomForm
-            form={form}
-            fields={selectedCompany ? getEditStatusCompanyFormFields() : getCompanyFormFields()}
-            onFinish={(values) => {
-              if (selectedCompany) {
-                console.log("Edit status:", values); 
-              } else {
-                handleAddCompany(values); 
-              }
-
-              form.resetFields();
-              setSelectedCompany(null);
-              setVisible(false);
-            }}
-          />
+          {modalType === "viewdetail" ? (
+            <CompanyDetail data={selectedCompany} />
+          ) : (
+            <CustomForm
+              form={form}
+              fields={getFormFields()}
+              onFinish={handleSubmit}
+            />
+          )}
         </CustomModal>
+
+        <CustomModal
+        visible={jobModalVisible}
+        title="Danh sách công việc"
+        onCancel={() => setJobModalVisible(false)}
+        footer={null}
+      >
+        <ListJob jobs={jobs} jobsLoading={jobsLoading} />
+      </CustomModal>
+
       </Card>
     </div>
   );
