@@ -5,6 +5,7 @@ import RegisterPage from '@/page/register/view/register.page';
 import LayoutAdmin from '@/components/layout/admin/layout.admin';
 import AdminHomepage from '@/page/admin/home/view/Admin.HomePage';
 import ManageUser from '@/page/admin/manageuser/view/Admin.ManageUser';
+import ManageCompany from '@/page/admin/managecompany/view/Admin.ManageCompany';
 
 import LayoutUser from '@/components/layout/user/layout.user';
 import UserHomepage from '@/page/user/home/view/User.HomePage';
@@ -30,12 +31,13 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminHomepage /> },
       { path: 'manage-user', element: <ManageUser /> },
+      { path: 'manage-company', element: <ManageCompany /> },
     ],
   },
   {
     path: '/',  
     element: (
-      <ProtectedRoute role="User">
+      <ProtectedRoute role="NORMAL USER">
         <LayoutUser />
       </ProtectedRoute>
     ),
