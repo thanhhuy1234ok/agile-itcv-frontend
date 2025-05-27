@@ -42,6 +42,16 @@ export const getAllJobs = (queryParams) => {
     return axios.get(urlBackend, { params: queryParams });
 };
 
+export const createJob = (props) => {
+    const urlBackend = `/api/v1/jobs`;
+    return axios.post(urlBackend, props);
+};
+
+export const updateJob = (id, props) => {
+    const urlBackend = `/api/v1/jobs/${id}`;
+    return axios.put(urlBackend, props);
+}
+
 export const createCompany = (props) => {
     const urlBackend = `/api/v1/companies`;
     return axios.post(urlBackend, props);

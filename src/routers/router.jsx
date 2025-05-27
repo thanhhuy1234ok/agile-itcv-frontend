@@ -11,6 +11,7 @@ import LayoutUser from '@/components/layout/user/layout.user';
 import UserHomepage from '@/page/user/home/view/User.HomePage';
 
 import ProtectedRoute from './ProtectedRoute';
+import ManageJobPage from '@/page/admin/managerjob/view/Admin.ManageJob';
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminHomepage /> },
       { path: 'manage-user', element: <ManageUser /> },
+      {path:'manage-job', element: <ManageJobPage />},
       { path: 'manage-company', element: <ManageCompany /> },
     ],
   },
