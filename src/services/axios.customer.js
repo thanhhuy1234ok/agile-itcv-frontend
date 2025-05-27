@@ -3,34 +3,49 @@ import axios from "axios";
 const createInstanceAxios = (baseURL) => {
     const instance = axios.create({
         baseURL: baseURL,
-        withCredentials: true
+        withCredentials: true 
     });
 
-    // Add a request interceptor
-    instance.interceptors.request.use(function (config) {
+    instance.interceptors.request.use(config => {
         const token = localStorage.getItem("access_token");
-        const auth = token ? `Bearer ${token}` : '';
-        config.headers["Authorization"] = auth;
-
+        if (token) {
+            config.headers["Authorization"] = `Bearer ${token}`;
+        }
         return config;
-    }, function (error) {
-        return Promise.reject(error);
-    });
+    }, error => Promise.reject(error));
 
-    // Add a response interceptor
-    instance.interceptors.response.use(function (response) {
-        if (response && response.data) {
-            return response.data;
+    instance.interceptors.response.use(
+        response => response?.data || response,
+        async error => {
+            const originalRequest = error.config;
+
+            if (error.response?.status === 401 && !originalRequest._retry) {
+                originalRequest._retry = true;
+
+                try {
+                    const res = await axios.get(
+                        "http://localhost:8080/api/v1/auth/refresh-token",
+                        { withCredentials: true }
+                    );
+
+                    const newAccessToken = res.data?.data?.access_Token;
+                    if (newAccessToken) {
+                        localStorage.setItem("access_token", newAccessToken);
+                        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+                        return instance(originalRequest); 
+                    }
+                } catch (refreshError) {
+                    console.error("Refresh token thất bại:", refreshError);
+                    localStorage.removeItem("access_token");
+                    window.location.href = "/login"; 
+                }
+            }
+
+            return error.response?.data || Promise.reject(error);
         }
-        return response;
-    }, function (error) {
-        if (error && error.response && error.response.data) {
-            return error.response.data;
-        }
-        return Promise.reject(error);
-    });
+    );
 
     return instance;
-}
+};
 
 export default createInstanceAxios;

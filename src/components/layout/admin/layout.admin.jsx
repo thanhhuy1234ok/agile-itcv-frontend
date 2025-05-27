@@ -9,14 +9,13 @@ import {
 } from "antd";
 import {
   UserOutlined,
-  HomeOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   BellOutlined,
   SettingOutlined,
-  TeamOutlined,
 } from "@ant-design/icons";
+import { adminMenuItems } from "./adminConfig";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/global/AuthenticationContext";
@@ -35,15 +34,18 @@ const LayoutAdmin = () => {
   const toggleCollapsed = () => setCollapsed(!collapsed);
 
   useEffect(() => {
-    const pathSnippets = location.pathname.split("/").filter(Boolean);
-    const breadcrumbArray = [{ title: "Trang chủ", path: "/admin" }];
+  const matchingItems = adminMenuItems.filter(item =>
+    location.pathname.startsWith(item.key)
+  );
 
-    if (pathSnippets.includes("manage-user")) {
-      breadcrumbArray.push({ title: "Quản lý người dùng", path: "/admin/manage-user" });
-    }
+  const breadcrumbs = matchingItems.map(item => ({
+    title: item.breadcrumb,
+    path: item.key,
+  }));
 
-    setBreadcrumbItems(breadcrumbArray);
-  }, [location]);
+  setBreadcrumbItems(breadcrumbs.length > 0 ? breadcrumbs : [{ title: "Trang chủ", path: "/admin" }]);
+}, [location]);
+
 
   const handleMenuClick = ({ key }) => {
     if (key === "logout") {
@@ -115,11 +117,7 @@ const LayoutAdmin = () => {
           mode="inline"
           selectedKeys={[location.pathname]}
           onClick={handleMenuClick}
-          items={[
-            { key: "/admin", icon: <HomeOutlined />, label: "Trang chủ" },
-            { key: "/admin/manage-user", icon: <TeamOutlined />, label: "Quản lý người dùng" },
-            { key: "/admin/manage-job", icon: <TeamOutlined />, label: "Quản lý công việc" },
-          ]}
+          items={adminMenuItems}
         />
 
         <div className="sider-footer">
