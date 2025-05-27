@@ -67,6 +67,11 @@ export const getJobsByCompanyId = (queryParams)=>{
     return axios.get(urlBackend, { params: queryParams });
 }
 
+export const getAllResumes = (queryParams) => {
+    const urlBackend = `/api/v1/resumes`;
+    return axios.get(urlBackend, { params: queryParams });
+};
+
 export const uploadImage = (file) => {
   const urlBackend = "/api/v1/files/upload";
   const formData = new FormData();
