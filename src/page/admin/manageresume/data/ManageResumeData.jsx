@@ -1,7 +1,16 @@
 import dayjs from "dayjs";
 import { FORMATE_DATE_TIME_VN } from "@/utils/format.time";
+import { Tag } from "antd";
+import { EyeOutlined } from '@ant-design/icons';
 
-export const getColumns = (currentPage, pageSize, companyFilters, jobFilters) => [
+const statusColorMap = {
+  PENDING: "default",
+  REVIEWING: "processing",
+  APPROVED: "success",
+  REJECTED: "error",
+};
+
+export const getColumns = (currentPage, pageSize, companyFilters, jobFilters, handleViewDetail) => [
     {
         title: "STT",
         key: "stt",
@@ -35,6 +44,14 @@ export const getColumns = (currentPage, pageSize, companyFilters, jobFilters) =>
         render: (createdAt) => dayjs(createdAt).format(FORMATE_DATE_TIME_VN),
     },
     {
+        title: "Trạng thái",
+        dataIndex: "status",
+        key: "status",
+        render: (status) => (
+            <Tag color={statusColorMap[status] || "default"}>{status}</Tag>
+        ),
+    },
+    {
         title: "CV",
         dataIndex: "cvPath",
         key: "cvPath",
@@ -46,6 +63,16 @@ export const getColumns = (currentPage, pageSize, companyFilters, jobFilters) =>
             >
                 Xem CV
             </a>
+        ),
+    },
+    {
+        title: "Thao tác",
+        key: "action",
+        render: (_, record) => (
+        <EyeOutlined 
+            style={{ cursor: 'pointer', fontSize: '18px' }} 
+            onClick={()=>handleViewDetail(record)} 
+        />
         ),
     }
   ];

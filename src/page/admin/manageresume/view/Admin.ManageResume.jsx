@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import CustomTable from "@/components/foundation/CustomTable";
 import { getAllResumes } from "@/services/api"; 
 import { getColumns } from "../data/ManageResumeData"
+import CustomTableToolbar from "@/components/foundation/CustomTableToolbar"
+import { Card, Drawer } from "antd";
 
 const ManageResume = () => {
   const [dataSource, setDataSource] = useState([]);
@@ -11,6 +13,8 @@ const ManageResume = () => {
   const [pageSize, setPageSize] = useState(10); 
   const [companyFilters, setCompanyFilters] = useState([]);
   const [jobFilters, setJobFilters] = useState([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState(null);
 
 
   const fetchResumes = async (queryParams = {}) => {
@@ -20,6 +24,7 @@ const ManageResume = () => {
       current: currentPage,
       pageSize: pageSize,
       populate: 'companyId,jobId',
+      sort: '-score',
       ...queryParams,
     };
     const res = await getAllResumes(params);
@@ -53,7 +58,22 @@ const ManageResume = () => {
   }
 };
 
+const handleViewDetail = (record) => {
+    setDrawerOpen(true);
+    setSelectedRecord(record)
+  };
 
+const handleSearch = (value, field) => {
+    fetchResumes({ [field]: value });
+  };
+
+  const handleRefresh = () => {
+    if (currentPage === 1) {
+      fetchResumes();
+    } else {
+      setCurrentPage(1);
+    }
+  };
 
   const handleSortChange = (value) => {
     const [field, order] = value.split("_");
@@ -70,11 +90,19 @@ const ManageResume = () => {
     fetchResumes();
   }, [currentPage, pageSize]);
 
-  const columns = getColumns(currentPage, pageSize, companyFilters, jobFilters)
+  const columns = getColumns(currentPage, pageSize, companyFilters, jobFilters, handleViewDetail)
 
   return (
+    <Card>
+
+    <CustomTableToolbar
+      onSearch={handleSearch}
+      onRefresh={handleRefresh}
+      fields={["email", "status"]}
+    />
+
     <CustomTable
-        title="Danh sách người dùng"
+        title="Danh sách hồ sơ"
         columns={columns}
         data={dataSource}
         loading={loading}
@@ -85,6 +113,23 @@ const ManageResume = () => {
         sortFields={{ email: 'Email', createdAt: 'Ngày tạo' }}
         onSortChange={handleSortChange}  
     />
+    <Drawer
+        title="Chi tiết ứng viên"
+        placement="right"
+        onClose={() => setDrawerOpen(false)}
+        open={drawerOpen}
+      >
+        {selectedRecord && (
+          <div>
+            <p><b>Email:</b> {selectedRecord.email}</p>
+            <p><b>Company:</b> {selectedRecord.companyId?.name}</p>
+            <p><b>Job:</b> {selectedRecord.jobId?.name}</p>
+            <p><b>Trạng thái:</b> {selectedRecord.status}</p>
+            {/* thêm thông tin khác tùy ý */}
+          </div>
+        )}
+      </Drawer>
+    </Card>
   );
 };
 
