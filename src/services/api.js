@@ -72,6 +72,11 @@ export const getAllResumes = (queryParams) => {
     return axios.get(urlBackend, { params: queryParams });
 };
 
+export const updateStatusResume = (id, props) => {
+    const urlBackend = `/api/v1/resumes/${id}`;
+    return axios.put(urlBackend, props);
+};
+
 export const uploadImage = (file) => {
   const urlBackend = "/api/v1/files/upload";
   const formData = new FormData();

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { FORMATE_DATE_TIME_VN } from "@/utils/format.time";
-import { Tag } from "antd";
+import { Tag, Select } from "antd";
 import { EyeOutlined } from '@ant-design/icons';
 
 const statusColorMap = {
@@ -10,7 +10,23 @@ const statusColorMap = {
   REJECTED: "error",
 };
 
-export const getColumns = (currentPage, pageSize, companyFilters, jobFilters, handleViewDetail) => [
+export const statusFields = [
+  {
+    name: "status",
+    label: "Trạng thái",
+    rules: [{ required: true, message: "Vui lòng chọn trạng thái" }],
+    render: () => (
+      <Select>
+        <Select.Option value="PENDING">PENDING</Select.Option>
+        <Select.Option value="REVIEWING">REVIEWING</Select.Option>
+        <Select.Option value="APPROVED">APPROVED</Select.Option>
+        <Select.Option value="REJECTED">REJECTED</Select.Option>
+      </Select>
+    ),
+  },
+];
+
+export const getColumns = (currentPage, pageSize, companyFilters, jobFilters, handleViewDetail, setStatusRecord, setStatusModalOpen, form) => [
     {
         title: "STT",
         key: "stt",
@@ -47,8 +63,21 @@ export const getColumns = (currentPage, pageSize, companyFilters, jobFilters, ha
         title: "Trạng thái",
         dataIndex: "status",
         key: "status",
-        render: (status) => (
-            <Tag color={statusColorMap[status] || "default"}>{status}</Tag>
+        render: (status, record) => (
+        <Tag
+            color={statusColorMap[status] || "default"}
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+                setStatusRecord(record)
+                setStatusModalOpen(true)
+                form.setFieldsValue({
+                    
+                    status: record.status,
+                });
+            }}
+        >
+            {status}
+        </Tag>
         ),
     },
     {
