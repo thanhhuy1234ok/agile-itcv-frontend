@@ -26,7 +26,7 @@ const { Header, Sider, Content } = Layout;
 
 const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { user, onLogout } = useAuth();
+  const { user, onLogout, detailUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [breadcrumbItems, setBreadcrumbItems] = useState([]);
@@ -168,7 +168,10 @@ const LayoutAdmin = () => {
               trigger={["click"]}
             >
               <div className="user-info">
-                <Avatar icon={<UserOutlined />} className="user-avatar" />
+                <Avatar src={detailUser?.img_url || ""}
+                  icon={<UserOutlined />}
+                  fallback={<UserOutlined />}
+                  className="user-avatar" />
                 {!collapsed && (
                   <span className="user-name">
                     {user?.name || "Người dùng"}

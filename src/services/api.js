@@ -51,6 +51,11 @@ export const createJob = (props) => {
     const urlBackend = `/api/v1/jobs`;
     return axios.post(urlBackend, props);
 };
+export const getCompanyDetail = (id) => {
+    const urlBackend = `/api/v1/companies/${id}`;
+    return axios.get(urlBackend);
+}
+
 
 export const updateJob = (id, props) => {
     const urlBackend = `/api/v1/jobs/${id}`;
@@ -86,6 +91,11 @@ export const updateStatusResume = (id, props) => {
     const urlBackend = `/api/v1/resumes/${id}`;
     return axios.put(urlBackend, props);
 };
+
+export const getResumeByUser = () => {
+    const urlBackend = `/api/v1/resumes/by-user`;
+    return axios.get(urlBackend);
+}
 
 export const createResume = (props) => {
     const urlBackend = `/api/v1/resumes`;
