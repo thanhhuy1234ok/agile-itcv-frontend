@@ -15,6 +15,7 @@ import ProtectedRoute from './ProtectedRoute';
 import ManageJobPage from '@/page/admin/managerjob/view/Admin.ManageJob';
 import JobsDetail from '@/page/user/home/components/JobsDetail';
 import JobList from '@/page/user/home/components/JobsList';
+import Profile from '@/page/user/home/components/Profile';
 
 export const router = createBrowserRouter([
   {
@@ -48,7 +49,8 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <UserHomepage /> },
       { path: 'it-jobs', element: <JobList />},
-      { path: 'it-jobs/:id', element: <JobsDetail />}
+      { path: 'it-jobs/:id', element: <JobsDetail />},
+      { path: 'profile', element: <Profile/> },
     ],
   },
 ]);
