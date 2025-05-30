@@ -9,13 +9,13 @@ const ProtectedRoute = ({ children, role }) => {
     return <div>Loading...</div>;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
+  // if (!isAuthenticated) {
+  //   return <Navigate to="/login" />;
+  // }
 
-  if (role && user?.role?.name !== role) {
-    return <Navigate to="/login" />;
-  }
+  // if (role && user?.role?.name !== role) {
+  //   return <Navigate to="/login" />;
+  // }
 
   return children;
 };

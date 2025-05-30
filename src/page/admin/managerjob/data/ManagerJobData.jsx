@@ -4,8 +4,10 @@ import { EditOutlined } from "@ant-design/icons";
 import TextArea from 'antd/es/input/TextArea';
 import { ProFormSelect } from '@ant-design/pro-components';
 import dayjs from 'dayjs';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-export const getJobFormFields = (companies, isEdit = false) => [
+export const getJobFormFields = (companies, isEdit = false, description, setDescription) => [
     {
         name: "name",
         label: "Tên công việc",
@@ -138,9 +140,13 @@ export const getJobFormFields = (companies, isEdit = false) => [
         rules: [{ required: true, message: "Vui lòng nhập mô tả" }],
         render: () => (
             <>
-                <TextArea rows={4} style={{
-                    height: 150,
-                }} />
+                <ReactQuill
+                    theme="snow"
+                    value={description}
+                    onChange={setDescription}
+                    style={{ height: "200px", paddingBottom: "20px" }}
+                    placeholder="Nhập mô tả công việc"
+                />
             </>
         ),
     },
@@ -187,6 +193,7 @@ export const getColumns = (currentPage, pageSize, setEditJob, setVisible, form) 
                     setVisible(true);
                     form.setFieldsValue({
                         ...record,
+                        _id: record._id,
                         companyId: record.companyId?._id,
                         startDate: dayjs(record.startDate),
                         endDate: dayjs(record.endDate),

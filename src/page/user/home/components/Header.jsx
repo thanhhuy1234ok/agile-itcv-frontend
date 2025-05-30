@@ -1,40 +1,34 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Button } from "antd";
+import { useState, useRef, useEffect, use } from "react";
+import { Avatar, Button, Dropdown } from "antd";
 import {
   SearchOutlined,
   EnvironmentOutlined,
   CaretDownOutlined,
   RightOutlined,
+  UserOutlined,
+  SettingOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { useAuth } from "@/global/AuthenticationContext";
 import { jobNavigationMenu } from "@/data/job-categories";
-import "./Style.Header.scss";
+// import "./Style.Header.scss";
+import '@/styles/Header.scss'
+
 
 const Header = () => {
-const {onLogout} = useAuth()
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { user, onLogout, detailUser } = useAuth();
   const dropdownRef = useRef(null);
   const submenuRef = useRef(null);
 
   // Handle scroll effect for header
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -63,25 +57,46 @@ const {onLogout} = useAuth()
     setActiveSubmenu(submenuId);
   };
 
-  const handleLogout = () => {
-    // localStorage.removeItem("access_token"); 
-    // localStorage.removeItem("user");
-    onLogout()
-  };
-
   const handleSearch = () => {
     // Implement search functionality
     console.log("Searching for:", { searchKeyword, searchLocation });
   };
+  const handleMenuClick = ({ key }) => {
+    if (key === "logout") {
+      onLogout();
+    } else {
+      navigate(key);
+    }
+  };
+
+  const userMenuItems = [
+    {
+      key: "profile",
+      icon: <UserOutlined />,
+      label: "Thông tin cá nhân",
+    },
+    {
+      key: "settings",
+      icon: <SettingOutlined />,
+      label: "Cài đặt tài khoản",
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "logout",
+      icon: <LogoutOutlined />,
+      label: "Đăng xuất",
+    },
+  ];
 
   const renderSubmenu = (submenu) => {
     if (!submenu) return null;
 
     return (
       <div
-        className={`submenu-panel ${
-          activeSubmenu === submenu.id ? "active" : ""
-        }`}
+        className={`submenu-panel ${activeSubmenu === submenu.id ? "active" : ""
+          }`}
         ref={submenuRef}>
         <div className="submenu-header">
           <h3>{submenu.title}</h3>
@@ -106,9 +121,9 @@ const {onLogout} = useAuth()
   return (
     <>
       {/* Header */}
-      <header className={`itviec-header ${isScrolled ? "scrolled" : ""}`}>
+      <header className={`itviec-header`}>
         <div className="header-container">
-          <div className="logo">
+          <div className="logo" style={{ cursor: "pointer" }} onClick={() => window.location.href = "/"}>
             <span className="logo-text">
               IT<span className="logo-highlight">Viec</span>
             </span>
@@ -117,9 +132,8 @@ const {onLogout} = useAuth()
             <div className="nav-item-wrapper" ref={dropdownRef}>
               <a
                 href="#"
-                className={`nav-item ${
-                  activeDropdown === "jobs" ? "active" : ""
-                }`}
+                className={`nav-item ${activeDropdown === "jobs" ? "active" : ""
+                  }`}
                 onClick={(e) => {
                   e.preventDefault();
                   handleDropdownToggle("jobs");
@@ -133,9 +147,8 @@ const {onLogout} = useAuth()
                     <a
                       key={menu.id}
                       href={menu.path}
-                      className={`dropdown-item ${
-                        activeSubmenu === menu.id ? "active" : ""
-                      }`}
+                      className={`dropdown-item ${activeSubmenu === menu.id ? "active" : ""
+                        }`}
                       onMouseEnter={() => handleSubmenuToggle(menu.id)}>
                       {menu.title} <RightOutlined className="submenu-icon" />
                     </a>
@@ -151,9 +164,8 @@ const {onLogout} = useAuth()
             <div className="nav-item-wrapper">
               <a
                 href="#"
-                className={`nav-item ${
-                  activeDropdown === "companies" ? "active" : ""
-                }`}
+                className={`nav-item ${activeDropdown === "companies" ? "active" : ""
+                  }`}
                 onClick={(e) => {
                   e.preventDefault();
                   handleDropdownToggle("companies");
@@ -165,9 +177,8 @@ const {onLogout} = useAuth()
             <div className="nav-item-wrapper">
               <a
                 href="#"
-                className={`nav-item ${
-                  activeDropdown === "blog" ? "active" : ""
-                }`}
+                className={`nav-item ${activeDropdown === "blog" ? "active" : ""
+                  }`}
                 onClick={(e) => {
                   e.preventDefault();
                   handleDropdownToggle("blog");
@@ -176,19 +187,34 @@ const {onLogout} = useAuth()
               </a>
             </div>
           </nav>
-          <div className="header-actions">
-            <a href="#" className="login-link">
-              Nhà Tuyển Dụng
-            </a>
-            <div className="divider"></div>
-            <div className="language-selector">
-              <span className="active-lang">VI</span>
-              <span className="language-divider">|</span>
-              <span>EN</span>
-            </div>
-            <Button type="link" className="logout-btn" onClick={handleLogout}>
-              Đăng Xuất
-            </Button>
+          <div className="header-right">
+            {
+              user ? (
+                <>
+                  <Dropdown
+                    menu={{ items: userMenuItems, onClick: handleMenuClick }}
+                    placement="bottomRight"
+                    trigger={["click"]}
+                  >
+                    <div className="user-info" style={{ cursor: "pointer" }}>
+                      <Avatar src={detailUser?.img_url || ""}
+                        icon={<UserOutlined />}
+                        fallback={<UserOutlined />}
+                        className="user-avatar" />
+                      <span className="user-name">
+                        {user?.name || "Người dùng"}
+                      </span>
+                    </div>
+                  </Dropdown>
+                </>
+              ) : (
+                <div className="header-actions">
+                  <Button type="link" className="logout-btn"  onClick={() => window.location.href = "/login"}>
+                    Đăng nhập
+                  </Button>
+                </div>
+              )
+            }
           </div>
         </div>
       </header>

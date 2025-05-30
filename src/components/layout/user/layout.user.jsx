@@ -1,11 +1,16 @@
+import ScrollToTop from '@/components/foundation/ScrollToTop';
+import Footer from '@/page/user/home/components/Footer';
+import Header from '@/page/user/home/components/Header';
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
-
+import { Outlet } from 'react-router-dom';
 const LayoutUser = () =>{
     return (
-        <>
+        <div className="itviec-clone">
+            <ScrollToTop/>
+            <Header/>
             <Outlet/>
-        </>
+            <Footer />
+        </div>
     )
 }
 

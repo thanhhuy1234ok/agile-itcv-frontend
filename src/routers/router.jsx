@@ -13,6 +13,8 @@ import UserHomepage from '@/page/user/home/view/User.HomePage';
 
 import ProtectedRoute from './ProtectedRoute';
 import ManageJobPage from '@/page/admin/managerjob/view/Admin.ManageJob';
+import JobsDetail from '@/page/user/home/components/JobsDetail';
+import JobList from '@/page/user/home/components/JobsList';
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +49,8 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <UserHomepage /> },
+      { path: 'it-jobs', element: <JobList />},
+      { path: 'it-jobs/:id', element: <JobsDetail />}
     ],
   },
 ]);
