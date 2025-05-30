@@ -1,3 +1,4 @@
+import { getUserDetail } from '@/services/api';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
@@ -5,7 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);  
     const [isLoading, setIsLoading] = useState(true);
-
+    const [detailUser, setDetailUser] = useState(null);
     // useEffect chỉ chạy một lần khi component mount
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -20,6 +21,23 @@ export const AuthProvider = ({ children }) => {
         
         setIsLoading(false);  
     }, []);
+
+    const fetchDetailUser = async () => {
+        try {
+          const response = await getUserDetail(user?._id);
+          const data = response.data.result;
+          setDetailUser(data);
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      };
+      console.log("user detail", detailUser);
+    
+      useEffect(() => {
+        if (user?._id) {
+          fetchDetailUser();
+        }
+      }, [user?._id]);
 
     const onLogin = (response) => {
         const userWithToken = { ...response.user, accessToken: response.access_Token };
@@ -42,7 +60,8 @@ export const AuthProvider = ({ children }) => {
             onLogin,
             onLogout,
             isAuthenticated: !!user, 
-            isLoading
+            isLoading,
+            detailUser,
         }}>
             {children}
         </AuthContext.Provider>

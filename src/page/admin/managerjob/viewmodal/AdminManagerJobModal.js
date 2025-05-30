@@ -12,14 +12,15 @@ const useManageJob = () => {
     const [visible, setVisible] = useState(false)
     const [editJob, setEditJob] = useState(null);
     const [companies, setCompanies] = useState([]);
+    const [description, setDescription] = useState ("");
 
     const fetchJob = async (queryParams = {}) => {
         setLoading(true);
         try {
             const params = { current: currentPage, pageSize: pageSize, ...queryParams }
             const response = await getAllJobs(params);
+  
             const jobData = response.data.result.data;
-            console.log(jobData);
             setJob(jobData);
             setTotal(response.data.result.meta.total);
         } catch (error) {
@@ -67,9 +68,10 @@ const useManageJob = () => {
         fetchJob({ sort: sortParam });
     };
 
-    const handleEditJob = async (values) => {
+    const handleEditJob = async (values,id) => {
         try {
-            await updateJob(editUser._id, values);
+
+            await updateJob(id, values);
             notification.success({
                 message: "Thành công",
                 description: "Chỉnh sửa công việc thành công!",
@@ -113,6 +115,8 @@ const useManageJob = () => {
         visible,
         editJob,
         companies,
+        description,
+        setDescription,
         setVisible,
         setJob,
         fetchJob,

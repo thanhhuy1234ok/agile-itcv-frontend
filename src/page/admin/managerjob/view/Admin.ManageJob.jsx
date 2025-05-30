@@ -16,17 +16,16 @@ const ManageJobPage = () => {
         visible,
         editJob,
         companies,
+        description,
+        setDescription,
         setVisible,
-        setJob,
-        fetchJob,
         handleSortChange,
         handleRefresh,
         handleSearch,
         handleAddJob,
         onPageChange,
         setEditJob,
-        fetchCompany,
-        setCompanies,
+        handleEditJob
     } = useManageJob();
     const [form] = Form.useForm();
     const columns = getColumns(currentPage, pageSize, setEditJob, setVisible, form);
@@ -72,17 +71,19 @@ const ManageJobPage = () => {
                 >
                     <CustomForm
                         form={form}
-                        fields={getJobFormFields(companies, !!editJob)}
+                        fields={getJobFormFields(companies, !!editJob, description, setDescription)}
                         onFinish={(values) => {
                             if (editJob) {
-                                handleAddJob(values);
+                                handleEditJob(values, editJob._id);
                             } else {
                                 handleAddJob(values);
                             }
                             form.resetFields();
                         }}
+                        buttonText={editJob ? "Cập nhật" : "Thêm công việc"}
                     />
                 </CustomModal>
+            
             </Card>
         </>
     );

@@ -22,6 +22,11 @@ export const getAllRoles = (queryParams) => {
     return axios.get(urlBackend, { params: queryParams });
 };
 
+export const getUserDetail = (id) => {
+    const urlBackend = `/api/v1/users/userDetail/${id}`;
+    return axios.get(urlBackend);
+};
+
 export const createUser = (props)=>{
     const urlBackend = "/api/v1/users";
     return axios.post(urlBackend, props);
@@ -51,6 +56,11 @@ export const updateJob = (id, props) => {
     const urlBackend = `/api/v1/jobs/${id}`;
     return axios.put(urlBackend, props);
 }
+
+export const getJobsDetail = (id) => {
+    const urlBackend = `/api/v1/jobs/${id}`;
+    return axios.get(urlBackend);
+};
 
 export const createCompany = (props) => {
     const urlBackend = `/api/v1/companies`;
