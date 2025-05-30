@@ -15,6 +15,7 @@ import { useAuth } from "@/global/AuthenticationContext";
 import { jobNavigationMenu } from "@/data/job-categories";
 // import "./Style.Header.scss";
 import '@/styles/Header.scss'
+import { useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
@@ -25,9 +26,7 @@ const Header = () => {
   const { user, onLogout, detailUser } = useAuth();
   const dropdownRef = useRef(null);
   const submenuRef = useRef(null);
-
-  // Handle scroll effect for header
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -58,8 +57,25 @@ const Header = () => {
   };
 
   const handleSearch = () => {
-    // Implement search functionality
-    console.log("Searching for:", { searchKeyword, searchLocation });
+    console.log(`${searchKeyword}`);
+    if (searchKeyword.trim()) {
+      navigate(`/it-jobs?page=1&keyword=${encodeURIComponent(searchKeyword.trim())}`);
+    }
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      const keyword = searchKeyword.trim();
+      const location = searchLocation.trim();
+      const skill = searchSkill.trim(); // giả sử bạn có ô nhập hoặc tag set giá trị này
+
+      const params = new URLSearchParams();
+      params.set('page', 1);
+      if (keyword) params.set('name', keyword);
+      if (location) params.set('location', location);
+      if (skill) params.set('skill', skill);
+
+      navigate(`/it-jobs?${params.toString()}`);
+    }
   };
   const handleMenuClick = ({ key }) => {
     if (key === "logout") {
@@ -232,6 +248,7 @@ const Header = () => {
                   placeholder="VP kỹ sư, React..."
                   value={searchKeyword}
                   onChange={(e) => setSearchKeyword(e.target.value)}
+                  onKeyDown={handleKeyDown}
                 />
               </div>
               <div className="search-input location">
@@ -241,6 +258,7 @@ const Header = () => {
                   placeholder="Thành phố hoặc địa điểm, VD: Hà Nội, quận 2..."
                   value={searchLocation}
                   onChange={(e) => setSearchLocation(e.target.value)}
+                  onKeyDown={handleKeyDown}
                 />
               </div>
             </div>
@@ -253,18 +271,18 @@ const Header = () => {
           </div>
           <div className="search-tags">
             <span className="tag-label">Gợi ý cho bạn:</span>
-            <a href="#" className="search-tag">
-              React/JS
-            </a>
-            <a href="#" className="search-tag">
-              Java
-            </a>
-            <a href="#" className="search-tag">
-              Python
-            </a>
-            <a href="#" className="search-tag">
-              .NET
-            </a>
+            {['React/JS', 'Java', 'Python', '.NET','NodeJs'].map((skill) => (
+              <a
+                key={skill}
+                className="search-tag"
+                onClick={() =>
+                  navigate(`/it-jobs?page=1&skill=${encodeURIComponent(skill)}`)
+                }
+                style={{ cursor: 'pointer' }}
+              >
+                {skill}
+              </a>
+            ))}
           </div>
         </div>
       </section>
