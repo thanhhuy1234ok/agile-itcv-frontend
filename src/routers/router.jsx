@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import LoginPage from '@/page/login/view/Login.page';
 import RegisterPage from '@/page/register/view/register.page';
 
@@ -43,9 +43,7 @@ export const router = createBrowserRouter([
   {
     path: '/',  
     element: (
-      <ProtectedRoute role="NORMAL USER">
-        <LayoutUser />
-      </ProtectedRoute>
+      <LayoutUser />
     ),
     children: [
       { index: true, element: <UserHomepage /> },
