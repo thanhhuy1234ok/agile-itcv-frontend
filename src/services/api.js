@@ -87,6 +87,11 @@ export const updateStatusResume = (id, props) => {
     return axios.put(urlBackend, props);
 };
 
+export const createResume = (props) => {
+    const urlBackend = `/api/v1/resumes`;
+    return axios.post(urlBackend, props);
+};
+
 export const uploadImage = (file) => {
   const urlBackend = "/api/v1/files/upload";
   const formData = new FormData();
@@ -96,6 +101,19 @@ export const uploadImage = (file) => {
     headers: {
       'Content-Type': 'multipart/form-data',
       'x-file-type': 'image',
+    },
+  });
+};
+
+export const uploadPdfFile = (file, companyId) => {
+  const urlBackend = "/api/v1/files/upload";
+  const formData = new FormData();
+  formData.append('companyId', companyId); 
+  formData.append('file', file);
+  return axios.post(urlBackend, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'x-file-type': 'pdf', 
     },
   });
 };

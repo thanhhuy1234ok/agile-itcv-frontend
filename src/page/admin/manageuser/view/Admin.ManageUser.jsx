@@ -66,7 +66,7 @@ const ManageUser = () => {
           onCancel={() => setVisible(false)}
           onOk={() => form.submit()}
           okText={editUser ? "Cập nhật" : "Xác nhận"} 
-          footer={null}
+          // footer={null}
         >
           <CustomForm
             form={form}
