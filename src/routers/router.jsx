@@ -9,7 +9,7 @@ import ManageCompany from '@/page/admin/managecompany/view/Admin.ManageCompany';
 import ManageResume from '@/page/admin/manageresume/view/Admin.ManageResume';
 
 import LayoutUser from '@/components/layout/user/layout.user';
-import UserHomepage from '@/page/user/home/view/User.HomePage';
+import UserHomepage from '@/page/user/home/view/UserHomepage';
 
 import ProtectedRoute from './ProtectedRoute';
 import ManageJobPage from '@/page/admin/managerjob/view/Admin.ManageJob';

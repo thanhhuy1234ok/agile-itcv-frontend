@@ -4,30 +4,32 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SearchJob = () => {
-   const [searchKeyword, setSearchKeyword] = useState("");
-    const [searchLocation, setSearchLocation] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchLocation, setSearchLocation] = useState('');
   const navigate = useNavigate();
-  const handleSearch = () => {
-    console.log(`${searchKeyword}`);
-    if (searchKeyword.trim()) {
-      navigate(`/it-jobs?page=1&keyword=${encodeURIComponent(searchKeyword.trim())}`);
-    }
+
+  const buildSearchParams = () => {
+    const params = new URLSearchParams();
+    params.set('page', 1);
+
+    if (searchKeyword.trim()) params.set('name', searchKeyword.trim());
+    if (searchLocation.trim()) params.set('location', searchLocation.trim());
+
+    return params.toString();
   };
+
+  const handleSearch = () => {
+    const query = buildSearchParams();
+    navigate(`/it-jobs?${query}`);
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      const keyword = searchKeyword.trim();
-      const location = searchLocation.trim();
-      const skill = searchSkill.trim(); // giả sử bạn có ô nhập hoặc tag set giá trị này
-
-      const params = new URLSearchParams();
-      params.set('page', 1);
-      if (keyword) params.set('name', keyword);
-      if (location) params.set('location', location);
-      if (skill) params.set('skill', skill);
-
-      navigate(`/it-jobs?${params.toString()}`);
+      const query = buildSearchParams();
+      navigate(`/it-jobs?${query}`);
     }
   };
+
   return (
     <section className="hero-section">
       <div className="hero-container">
@@ -55,10 +57,7 @@ const SearchJob = () => {
               />
             </div>
           </div>
-          <Button
-            type="primary"
-            className="search-button"
-            onClick={handleSearch}>
+          <Button type="primary" className="search-button" onClick={handleSearch}>
             Tìm kiếm
           </Button>
         </div>
@@ -80,5 +79,6 @@ const SearchJob = () => {
       </div>
     </section>
   );
-}
+};
+
 export default SearchJob;
