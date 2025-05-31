@@ -99,16 +99,17 @@ const ManageCompany = () => {
             if (modalType !== "viewdetail") form.submit();
           }}
           okText={modalType === "changestatus" ? "Cập nhật" : "Xác nhận"}
-          footer={
-            modalType === "viewdetail" ? (
-              <Button
-                type="primary"
-                onClick={fetchJobsByCompany}
-              >
-                Xem các công việc
-              </Button>
-            ) : undefined
-          }
+          // footer={
+          //   modalType === "viewdetail" ? (
+          //     <Button
+          //       type="primary"
+          //       onClick={fetchJobsByCompany}
+          //     >
+          //       Xem các công việc
+          //     </Button>
+          //   ) : undefined
+          // }
+          footer={null}
         >
           {modalType === "viewdetail" ? (
             <CompanyDetail data={selectedCompany} />
@@ -117,6 +118,7 @@ const ManageCompany = () => {
               form={form}
               fields={getFormFields()}
               onFinish={handleSubmit}
+              buttonText={"Thêm công ty"}
             />
           )}
         </CustomModal>

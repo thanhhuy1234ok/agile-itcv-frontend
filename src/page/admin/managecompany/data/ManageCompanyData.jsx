@@ -59,7 +59,7 @@ export const getCompanyFormFields = () => [
         onChange={(value) => {
           formInstance.setFieldsValue({ description: value });
         }}
-        style={{ height: 100 }}
+        style={{ height: 100 , marginBottom: 40 }}
       />
     ),
   },
