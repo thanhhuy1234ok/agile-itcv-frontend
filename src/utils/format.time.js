@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 
 export const FORMATE_DATE_DEFAULT = "YYYY-MM-DD";
 export const FORMATE_DATE_VN = "DD-MM-YYYY";
+export const FORMATE_DATE_TIME_VN = "DD-MM-YYYY HH:mm:ss";
 export const MAX_UPLOAD_IMAGE_SIZE = 2; 
 
 export const dateRangeValidate = (dateRange) => {

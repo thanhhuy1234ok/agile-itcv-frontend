@@ -25,7 +25,7 @@ const CustomForm = ({
           rules={field.rules}
           tooltip={field.tooltip}
           className={field.className}>
-          {field.render ? field.render() : <Input />}
+          {field.render ? field.render(form) : <Input />}
         </Form.Item>
       ))}
 

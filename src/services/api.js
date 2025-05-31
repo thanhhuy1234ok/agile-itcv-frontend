@@ -22,6 +22,11 @@ export const getAllRoles = (queryParams) => {
     return axios.get(urlBackend, { params: queryParams });
 };
 
+export const getUserDetail = (id) => {
+    const urlBackend = `/api/v1/users/userDetail/${id}`;
+    return axios.get(urlBackend);
+};
+
 export const createUser = (props)=>{
     const urlBackend = "/api/v1/users";
     return axios.post(urlBackend, props);
@@ -42,9 +47,90 @@ export const getAllJobs = (queryParams) => {
     return axios.get(urlBackend, { params: queryParams });
 };
 
-export const getUserDetail = (id) => {
-  const urlBackend = `/api/v1/users/userDetail/${id}`;
-  return axios.get(urlBackend);
+export const createJob = (props) => {
+    const urlBackend = `/api/v1/jobs`;
+    return axios.post(urlBackend, props);
 };
+export const getCompanyDetail = (id) => {
+    const urlBackend = `/api/v1/companies/${id}`;
+    return axios.get(urlBackend);
+}
+
+
+export const updateJob = (id, props) => {
+    const urlBackend = `/api/v1/jobs/${id}`;
+    return axios.put(urlBackend, props);
+}
+
+export const getJobsDetail = (id) => {
+    const urlBackend = `/api/v1/jobs/${id}`;
+    return axios.get(urlBackend);
+};
+
+export const createCompany = (props) => {
+    const urlBackend = `/api/v1/companies`;
+    return axios.post(urlBackend, props);
+};
+
+export const updateCompany = (id, props) => {
+    const urlBackend = `/api/v1/companies/${id}`;
+    return axios.put(urlBackend, props);
+};
+
+export const getJobsByCompanyId = (queryParams)=>{
+    const urlBackend = `/api/v1/jobs`;
+    return axios.get(urlBackend, { params: queryParams });
+}
+
+export const getAllResumes = (queryParams) => {
+    const urlBackend = `/api/v1/resumes`;
+    return axios.get(urlBackend, { params: queryParams });
+};
+
+export const updateStatusResume = (id, props) => {
+    const urlBackend = `/api/v1/resumes/${id}`;
+    return axios.put(urlBackend, props);
+};
+
+export const getResumeByUser = () => {
+    const urlBackend = `/api/v1/resumes/by-user`;
+    return axios.get(urlBackend);
+}
+
+export const createResume = (props) => {
+    const urlBackend = `/api/v1/resumes`;
+    return axios.post(urlBackend, props);
+};
+
+export const uploadImage = (file) => {
+  const urlBackend = "/api/v1/files/upload";
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return axios.post(urlBackend, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'x-file-type': 'image',
+    },
+  });
+};
+
+export const uploadPdfFile = (file, companyId) => {
+  const urlBackend = "/api/v1/files/upload";
+  const formData = new FormData();
+  formData.append('companyId', companyId); 
+  formData.append('file', file);
+  return axios.post(urlBackend, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'x-file-type': 'pdf', 
+    },
+  });
+};
+
+
+
+
+
 
 

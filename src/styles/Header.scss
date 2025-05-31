@@ -1,5 +1,5 @@
 @use "sass:color";
-@use "../view/Style.User.Homepage.scss" as *;
+@use "User.Homepage.scss" as *;
 
 // Header styles
 .itviec-header {
@@ -163,6 +163,61 @@
 
     .logout-icon {
       font-size: 16px;
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    .header-action-btn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 1.25rem;
+      
+      &:hover {
+        color: #2563eb;
+        background-color: #eff6ff;
+      }
+    }
+    
+    .notification-badge {
+      .ant-badge-count {
+        box-shadow: none;
+        padding: 0 4px;
+        height: 16px;
+        min-width: 16px;
+        line-height: 16px;
+        font-size: 10px;
+      }
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background-color: #eff6ff;
+      }
+      
+      .user-avatar {
+        background-color: #2563eb;
+      }
+      
+      .user-name {
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
     }
   }
 }

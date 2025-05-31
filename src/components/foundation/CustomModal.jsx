@@ -10,6 +10,7 @@ const ReusableModal = ({
   onCancel,
   okText = 'OK',
   cancelText = 'Hủy',
+  footer = undefined,
 }) => {
   return (
     <Modal
@@ -21,6 +22,7 @@ const ReusableModal = ({
       cancelText={cancelText}
       centered
       className="reusable-modal"
+      footer={footer}
     >
       <div className="modal-content">{children}</div>
     </Modal>

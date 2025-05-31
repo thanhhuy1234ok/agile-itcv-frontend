@@ -7,7 +7,7 @@ const useManageUser = () => {
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0)
   const [currentPage, setCurrentPage] = useState(1);  
-  const [pageSize, setPageSize] = useState(10); 
+  const [pageSize, setPageSize] = useState(3); 
   const [visible, setVisible] = useState(false)
   const [roles, setRoles] = useState([]);
   const [editUser, setEditUser] = useState(null);

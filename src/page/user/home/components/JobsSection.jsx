@@ -6,8 +6,10 @@ import {
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { FORMATE_DATE_VN } from '@/utils/format.time';
+import { useNavigate } from 'react-router-dom';
 
 const JobsSection = ({ jobs }) => {
+  const navigate = useNavigate();
   return (
     <section className="jobs-section">
       <div className="jobs-container">
@@ -15,7 +17,7 @@ const JobsSection = ({ jobs }) => {
 
         <div className="jobs-grid">
           {jobs.map((job) => (
-            <div key={job._id} className="job-card">
+            <div key={job._id} className="job-card" style={{ cursor: 'pointer' }} onClick={() => navigate(`/it-jobs/${job._id}`)} >
               <div className="job-header">
                 <div className="job-title-container">
                   <h3 className="job-title">{job.name}</h3>
@@ -47,7 +49,7 @@ const JobsSection = ({ jobs }) => {
         </div>
 
         <div className="view-more-container">
-          <Button className="view-more-button">
+          <Button className="view-more-button" onClick={() => navigate('/it-jobs')}>
             Xem thêm các công việc khác <RightOutlined />
           </Button>
         </div>

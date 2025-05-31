@@ -1,40 +1,30 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Button, Avatar } from "antd";
+import { useState, useRef, useEffect, use } from "react";
+import { Avatar, Button, Dropdown } from "antd";
 import {
   SearchOutlined,
   EnvironmentOutlined,
   CaretDownOutlined,
   RightOutlined,
   UserOutlined,
+  SettingOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { useAuth } from "@/global/AuthenticationContext";
 import { jobNavigationMenu } from "@/data/job-categories";
-import { useNavigate } from "react-router-dom";
-import "./Style.Header.scss";
+// import "./Style.Header.scss";
+import '@/styles/Header.scss'
+import { useNavigate } from 'react-router-dom';
+
 
 const Header = () => {
-  const { user, onLogout } = useAuth();
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchLocation, setSearchLocation] = useState("");
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { user, onLogout, detailUser } = useAuth();
   const dropdownRef = useRef(null);
   const submenuRef = useRef(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -64,22 +54,38 @@ const Header = () => {
     setActiveSubmenu(submenuId);
   };
 
-  const handleLogout = () => {
-    onLogout();
+  const handleMenuClick = ({ key }) => {
+    if (key === "logout") {
+      onLogout();
+      navigate("/")
+    } else {
+      navigate(key);
+    }
   };
 
-  const handleSearch = () => {
-    console.log("Searching for:", { searchKeyword, searchLocation });
-  };
+  const userMenuItems = [
+    {
+      key: "profile",
+      icon: <UserOutlined />,
+      label: "Thông tin cá nhân",
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "logout",
+      icon: <LogoutOutlined />,
+      label: "Đăng xuất",
+    },
+  ];
 
   const renderSubmenu = (submenu) => {
     if (!submenu) return null;
 
     return (
       <div
-        className={`submenu-panel ${
-          activeSubmenu === submenu.id ? "active" : ""
-        }`}
+        className={`submenu-panel ${activeSubmenu === submenu.id ? "active" : ""
+          }`}
         ref={submenuRef}>
         <div className="submenu-header">
           <h3>{submenu.title}</h3>
@@ -126,9 +132,9 @@ const Header = () => {
   return (
     <>
       {/* Header */}
-      <header className={`itviec-header ${isScrolled ? "scrolled" : ""}`}>
+      <header className={`itviec-header`}>
         <div className="header-container">
-          <div className="logo">
+          <div className="logo" style={{ cursor: "pointer" }} onClick={() => window.location.href = "/"}>
             <span className="logo-text">
               IT<span className="logo-highlight">Viec</span>
             </span>
@@ -137,9 +143,8 @@ const Header = () => {
             <div className="nav-item-wrapper" ref={dropdownRef}>
               <a
                 href="#"
-                className={`nav-item ${
-                  activeDropdown === "jobs" ? "active" : ""
-                }`}
+                className={`nav-item ${activeDropdown === "jobs" ? "active" : ""
+                  }`}
                 onClick={(e) => {
                   e.preventDefault();
                   handleDropdownToggle("jobs");
@@ -153,9 +158,8 @@ const Header = () => {
                     <a
                       key={menu.id}
                       href={menu.path}
-                      className={`dropdown-item ${
-                        activeSubmenu === menu.id ? "active" : ""
-                      }`}
+                      className={`dropdown-item ${activeSubmenu === menu.id ? "active" : ""
+                        }`}
                       onMouseEnter={() => handleSubmenuToggle(menu.id)}>
                       {menu.title} <RightOutlined className="submenu-icon" />
                     </a>
@@ -171,9 +175,8 @@ const Header = () => {
             <div className="nav-item-wrapper">
               <a
                 href="#"
-                className={`nav-item ${
-                  activeDropdown === "companies" ? "active" : ""
-                }`}
+                className={`nav-item ${activeDropdown === "companies" ? "active" : ""
+                  }`}
                 onClick={(e) => {
                   e.preventDefault();
                   handleDropdownToggle("companies");
@@ -185,9 +188,8 @@ const Header = () => {
             <div className="nav-item-wrapper">
               <a
                 href="#"
-                className={`nav-item ${
-                  activeDropdown === "blog" ? "active" : ""
-                }`}
+                className={`nav-item ${activeDropdown === "blog" ? "active" : ""
+                  }`}
                 onClick={(e) => {
                   e.preventDefault();
                   handleDropdownToggle("blog");
@@ -196,73 +198,37 @@ const Header = () => {
               </a>
             </div>
           </nav>
-          <div className="header-actions">
-            <a href="#" className="login-link">
-              Nhà Tuyển Dụng
-            </a>
-            <div className="divider"></div>
-            <div className="language-selector">
-              <span className="active-lang">VI</span>
-              <span className="language-divider">|</span>
-              <span>EN</span>
-            </div>
-            {renderProfileHeader()}
-            <Button type="link" className="logout-btn" onClick={handleLogout}>
-              Đăng Xuất
-            </Button>
+          <div className="header-right">
+            {
+              user ? (
+                <>
+                  <Dropdown
+                    menu={{ items: userMenuItems, onClick: handleMenuClick }}
+                    placement="bottomRight"
+                    trigger={["click"]}
+                  >
+                    <div className="user-info" style={{ cursor: "pointer" }}>
+                      <Avatar src={detailUser?.img_url || ""}
+                        icon={<UserOutlined />}
+                        fallback={<UserOutlined />}
+                        className="user-avatar" />
+                      <span className="user-name">
+                        {user?.name || "Người dùng"}
+                      </span>
+                    </div>
+                  </Dropdown>
+                </>
+              ) : (
+                <div className="header-actions">
+                  <Button type="link" className="logout-btn"  onClick={() => window.location.href = "/login"}>
+                    Đăng nhập
+                  </Button>
+                </div>
+              )
+            }
           </div>
         </div>
       </header>
-
-      {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-container">
-          <h1 className="hero-title">977 Việc làm IT cho Developer "Chất"</h1>
-          <div className="search-container">
-            <div className="search-input-group">
-              <div className="search-input keyword">
-                <SearchOutlined className="search-icon" />
-                <input
-                  type="text"
-                  placeholder="VP kỹ sư, React..."
-                  value={searchKeyword}
-                  onChange={(e) => setSearchKeyword(e.target.value)}
-                />
-              </div>
-              <div className="search-input location">
-                <EnvironmentOutlined className="search-icon" />
-                <input
-                  type="text"
-                  placeholder="Thành phố hoặc địa điểm, VD: Hà Nội, quận 2..."
-                  value={searchLocation}
-                  onChange={(e) => setSearchLocation(e.target.value)}
-                />
-              </div>
-            </div>
-            <Button
-              type="primary"
-              className="search-button"
-              onClick={handleSearch}>
-              Tìm kiếm
-            </Button>
-          </div>
-          <div className="search-tags">
-            <span className="tag-label">Gợi ý cho bạn:</span>
-            <a href="#" className="search-tag">
-              React/JS
-            </a>
-            <a href="#" className="search-tag">
-              Java
-            </a>
-            <a href="#" className="search-tag">
-              Python
-            </a>
-            <a href="#" className="search-tag">
-              .NET
-            </a>
-          </div>
-        </div>
-      </section>
     </>
   );
 };
