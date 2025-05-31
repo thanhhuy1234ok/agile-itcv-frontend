@@ -1,14 +1,19 @@
 import React from "react";
-import { HomeOutlined, EnvironmentOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import UploadLogo from "@/components/foundation/CustomUpload"; 
+import {
+  HomeOutlined,
+  EnvironmentOutlined,
+  EditOutlined,
+  EyeOutlined,
+} from "@ant-design/icons";
+import UploadLogo from "@/components/foundation/CustomUpload";
 import dayjs from "dayjs";
-import MdEditor from 'react-markdown-editor-lite';
-import 'react-markdown-editor-lite/lib/index.css';
-import ReactMarkdown from 'react-markdown';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { Avatar, Tag, Tooltip, Input, Select } from "antd";
-import { FORMATE_DATE_VN, FORMATE_DATE_TIME_VN } from "@/utils/format.time";
-
-const renderMarkdown = (text) => <ReactMarkdown>{text}</ReactMarkdown>;
+import {
+  FORMATE_DATE_VN,
+  FORMATE_DATE_TIME_VN,
+} from "@/utils/format.time";
 
 export const getCompanyFormFields = () => [
   {
@@ -23,42 +28,47 @@ export const getCompanyFormFields = () => [
     name: "name",
     label: "Tên công ty",
     rules: [{ required: true, message: "Vui lòng nhập tên công ty" }],
-    render: () => <Input prefix={<HomeOutlined />} placeholder="Nhập tên công ty" size="large" />,
+    render: () => (
+      <Input
+        prefix={<HomeOutlined />}
+        placeholder="Nhập tên công ty"
+        size="large"
+      />
+    ),
   },
   {
     name: "address",
     label: "Địa chỉ",
     rules: [{ required: true, message: "Vui lòng nhập địa chỉ công ty" }],
-    render: () => <Input prefix={<EnvironmentOutlined />} placeholder="Nhập địa chỉ công ty" size="large" />,
+    render: () => (
+      <Input
+        prefix={<EnvironmentOutlined />}
+        placeholder="Nhập địa chỉ công ty"
+        size="large"
+      />
+    ),
   },
   {
     name: "description",
     label: "Mô tả",
     rules: [{ required: false }],
     render: (formInstance) => (
-      <MdEditor
-        className="no-fullscreen"
-        renderHTML={renderMarkdown}
-        config={{
-          view: {
-            menu: true,
-            md: true,
-            html: false, 
-          },
-        }}
+      <ReactQuill
+        theme="snow"
         value={formInstance.getFieldValue("description") || ""}
-        onChange={({ text }) => {
-          formInstance.setFieldsValue({ description: text });
+        onChange={(value) => {
+          formInstance.setFieldsValue({ description: value });
         }}
+        style={{ height: 100 }}
       />
     ),
-  }
+  },
 ];
 
 export const getEditStatusCompanyFormFields = () => [
   {
-    name: 'isActive',
-    label: 'Trạng thái',
+    name: "isActive",
+    label: "Trạng thái",
     rules: [{ required: true }],
     render: () => (
       <Select placeholder="Chọn trạng thái">
@@ -69,7 +79,14 @@ export const getEditStatusCompanyFormFields = () => [
   },
 ];
 
-export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany, form, setModalType) => [
+export const getColumns = (
+  currentPage,
+  pageSize,
+  setVisible,
+  setSelectedCompany,
+  form,
+  setModalType
+) => [
   {
     title: "ID",
     key: "id",
@@ -115,10 +132,9 @@ export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany
         style={{ cursor: "pointer" }}
         onClick={() => {
           setSelectedCompany(record);
-          setModalType('changestatus'); 
+          setModalType("changestatus");
           setVisible(true);
           form.setFieldsValue({ isActive: record.isActive });
-          console.log(record);           
         }}
       >
         {isActive ? "Hoạt động" : "Tạm khóa"}
@@ -141,8 +157,6 @@ export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany
         <EditOutlined
           style={{ cursor: "pointer", fontSize: 18 }}
           onClick={() => {
-            console.log("Record khi bấm Edit:", record);
-
             const fileList = record.logo
               ? [
                   {
@@ -160,7 +174,7 @@ export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany
 
             form.setFieldsValue({
               ...record,
-              logo: fileList, 
+              logo: fileList,
             });
           }}
         />
@@ -168,4 +182,3 @@ export const getColumns = (currentPage, pageSize, setVisible, setSelectedCompany
     ),
   },
 ];
-
