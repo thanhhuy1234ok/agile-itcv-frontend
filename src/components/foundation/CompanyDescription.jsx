@@ -15,7 +15,7 @@ const CompanyDescription = ({ html }) => {
     return (
         <div>
             <div
-                className={`markdown-preview ${expanded ? 'expanded' : ''}`}
+                className={`markdown-preview1 ${expanded ? 'expanded' : ''}`}
                 dangerouslySetInnerHTML={{ __html: html }}
                 ref={contentRef}
             />
