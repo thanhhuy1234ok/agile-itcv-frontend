@@ -19,6 +19,7 @@ const createInstanceAxios = (baseURL) => {
         async error => {
             const originalRequest = error.config;
 
+            // Nếu token hết hạn và chưa retry
             if (error.response?.status === 401 && !originalRequest._retry) {
                 originalRequest._retry = true;
 
@@ -32,18 +33,19 @@ const createInstanceAxios = (baseURL) => {
                     if (newAccessToken) {
                         localStorage.setItem("access_token", newAccessToken);
                         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-                        return instance(originalRequest); 
+                        return instance(originalRequest); // Gửi lại request cũ
                     }
                 } catch (refreshError) {
                     console.error("Refresh token thất bại:", refreshError);
                     localStorage.removeItem("access_token");
-                    window.location.href = "/"; 
                 }
             }
 
-            return error.response?.data || Promise.reject(error);
+            // Trả về lỗi để .catch ở phía gọi xử lý
+            return Promise.reject(error.response?.data || error);
         }
     );
+    
 
     return instance;
 };
