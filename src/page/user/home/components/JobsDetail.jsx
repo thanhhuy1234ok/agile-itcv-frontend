@@ -70,7 +70,8 @@ const JobsDetail = () => {
     
     const uploadRes = await uploadPdfFile(pdfFile, data.companyId._id);
 
-    const filePath = uploadRes.data.filePath; 
+    const filePath = uploadRes.data.url; 
+    console.log('File uploaded successfully:', uploadRes);
     if (!filePath) {
       message.error('Không nhận được đường dẫn file từ server.');
       return;
