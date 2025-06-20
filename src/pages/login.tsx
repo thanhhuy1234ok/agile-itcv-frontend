@@ -2,21 +2,22 @@ import React from 'react';
 import { Card, message } from 'antd';
 import CustomForm from '@/components/share/customForm';
 import type { FieldConfig } from '@/components/share/customForm'
-// import type { FormProps } from 'antd';
 
 interface LoginValues {
   username: string;
   password: string;
+  remember: boolean;
 }
 
 const LoginPage: React.FC = () => {
   const fields: FieldConfig[] = [
     { name: 'username', label: 'Tên đăng nhập', type: 'text' },
     { name: 'password', label: 'Mật khẩu', type: 'password' },
+    { name: 'remember', label: 'Ghi nhớ đăng nhập', type: 'checkbox' }
   ];
 
   const handleLogin = (values: LoginValues) => {
-    console.log('Đăng nhập:', values.username);
+    console.log('Đăng nhập:', values);
     message.success('Đăng nhập thành công');
     };
 

@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { Form, Input, Button, Typography } from 'antd';
+import { Form, Input, Button, Typography, Checkbox } from 'antd';
 import type { FormProps } from 'antd';
 import type { InputRef } from 'antd';
 
 const { Title } = Typography;
 
-type InputType = 'text' | 'password' | 'email';
+type InputType = 'text' | 'password' | 'email' | 'checkbox';
 
 export interface FieldConfig {
   name: string;
@@ -27,22 +27,40 @@ function CustomForm<T>({
   onFinish,
   ...rest
 }: CustomFormProps<T>) {
-    const inputRef = useRef<InputRef>(null)
-    useEffect(() => {
-        inputRef.current?.focus();
-    }, []);
+  const inputRef = useRef<InputRef>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   return (
     <>
-      <Title level={3} style={{ textAlign: 'center' }}>{title}</Title>
+      {title && (
+        <Title level={3} style={{ textAlign: 'center' }}>
+          {title}
+        </Title>
+      )}
       <Form<T> layout="vertical" onFinish={onFinish} {...rest}>
         {fields.map((field, index) => (
           <Form.Item
             key={field.name}
-            name={field.name}
-            label={field.label}
-            rules={field.rules || [{ required: true, message: `Vui lòng nhập ${field.label}` }]}
+            name={field.name as any}
+            label={field.type === 'checkbox' ? undefined : field.label}
+            valuePropName={field.type === 'checkbox' ? 'checked' : undefined}
+            rules={
+              field.rules ??
+              (field.type === 'checkbox'
+                ? undefined
+                : [{ required: true, message: `Vui lòng nhập ${field.label}` }])
+            }
           >
-            {field.type === 'password' ? <Input.Password /> : <Input ref={index === 0 ? inputRef : undefined}/>}
+            {field.type === 'password' ? (
+              <Input.Password />
+            ) : field.type === 'checkbox' ? (
+              <Checkbox>{field.label}</Checkbox>
+            ) : (
+              <Input ref={index === 0 ? inputRef : undefined} />
+            )}
           </Form.Item>
         ))}
         <Form.Item>
