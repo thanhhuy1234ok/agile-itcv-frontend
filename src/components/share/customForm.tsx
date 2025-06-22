@@ -18,6 +18,7 @@ interface CustomFormProps<T> extends FormProps<T> {
   fields: FieldConfig[];
   title?: string;
   submitText?: string;
+  buttonClassName?: string;
 }
 
 function CustomForm<T>({
@@ -25,6 +26,7 @@ function CustomForm<T>({
   title,
   submitText,
   onFinish,
+  buttonClassName,
   ...rest
 }: CustomFormProps<T>) {
   const inputRef = useRef<InputRef>(null);
@@ -64,9 +66,14 @@ function CustomForm<T>({
           </Form.Item>
         ))}
         <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            {submitText}
-          </Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            className={buttonClassName}
+          >
+          {submitText}
+        </Button>
         </Form.Item>
       </Form>
     </>

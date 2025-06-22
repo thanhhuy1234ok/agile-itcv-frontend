@@ -1,14 +1,30 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Button } from 'antd';
 import type { FC } from 'react';
 
 const UserLayout: FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isLoginPage = location.pathname === '/login'
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <header style={{ background: '#1890ff', padding: '10px', color: 'white' }}>
-        <h1>🌐 User Header</h1>
+      <header style={{ 
+        background: 'grey', 
+        padding: '10px', 
+        color: 'white', 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center' }}>
+          <div style={{cursor: 'pointer'}} onClick={()=>navigate('/')}>
+            <h1 style={{margin: 0}}>🌐 User Header</h1>
+          </div>
+          {!isLoginPage && (<Button type='primary' onClick={()=>navigate('/login')}>Login</Button>)}
+          
       </header>
 
-      <main style={{ flex: 1, padding: '20px' }}>
+      <main style={{ flex: 1 }}>
         <Outlet /> 
       </main>
 
