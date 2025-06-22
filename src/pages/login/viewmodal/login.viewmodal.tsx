@@ -1,10 +1,13 @@
 import { message } from 'antd';
+import { useCurrentApp } from '@/context/app.context'
+import { useNavigate } from 'react-router-dom';
 import { login } from '@/services/api';
 import type { LoginValues } from '@/pages/login/dto/login.dto';
 
 export const LoginModal = () => {
+  const navigate = useNavigate();
+  const { onLogin } = useCurrentApp()
   const handleLogin = async (values: LoginValues) => {
-    console.log("user", values.remember)
     try {
       const res = await login({
         email: values.username,
@@ -12,6 +15,8 @@ export const LoginModal = () => {
       });
       if (res.code === 1) {
         message.success(res.message);
+        onLogin(res.data.user)
+        navigate('/')
       } else {
         message.error(res.message);
       }

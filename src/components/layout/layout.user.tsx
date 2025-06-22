@@ -1,10 +1,12 @@
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from 'antd';
+import { useCurrentApp } from '@/context/app.context';
 import type { FC } from 'react';
 
 const UserLayout: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAuthenticated, user } = useCurrentApp();
 
   const isLoginPage = location.pathname === '/login'
 
@@ -20,7 +22,13 @@ const UserLayout: FC = () => {
           <div style={{cursor: 'pointer'}} onClick={()=>navigate('/')}>
             <h1 style={{margin: 0}}>🌐 User Header</h1>
           </div>
-          {!isLoginPage && (<Button type='primary' onClick={()=>navigate('/login')}>Login</Button>)}
+          {!isLoginPage && (
+            isAuthenticated && user ? (
+              <div>👤 {user.name}</div>
+            ) : (
+              <Button type="primary" onClick={() => navigate('/login')}>Login</Button>
+            )
+          )}
           
       </header>
 
