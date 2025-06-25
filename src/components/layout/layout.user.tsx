@@ -6,7 +6,7 @@ import type { FC } from 'react';
 const UserLayout: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated, user } = useCurrentApp();
+  const { isAuthenticated, user, onLogout } = useCurrentApp();
 
   const isLoginPage = location.pathname === '/login'
 
@@ -24,12 +24,14 @@ const UserLayout: FC = () => {
           </div>
           {!isLoginPage && (
             isAuthenticated && user ? (
-              <div>👤 {user.name}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                👤 {user.name}
+                <Button danger onClick={onLogout}>Logout</Button>
+              </div>
             ) : (
               <Button type="primary" onClick={() => navigate('/login')}>Login</Button>
             )
           )}
-          
       </header>
 
       <main style={{ flex: 1 }}>

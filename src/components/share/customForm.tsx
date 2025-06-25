@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Form, Input, Button, Typography, Checkbox } from 'antd';
 import type { FormProps } from 'antd';
 import type { InputRef } from 'antd';
+import '@/styles/style.scss'
 
 const { Title } = Typography;
 
@@ -49,12 +50,7 @@ function CustomForm<T>({
             name={field.name as any}
             label={field.type === 'checkbox' ? undefined : field.label}
             valuePropName={field.type === 'checkbox' ? 'checked' : undefined}
-            rules={
-              field.rules ??
-              (field.type === 'checkbox'
-                ? undefined
-                : [{ required: true, message: `Vui lòng nhập ${field.label}` }])
-            }
+            rules={field.rules}
           >
             {field.type === 'password' ? (
               <Input.Password />
@@ -67,10 +63,9 @@ function CustomForm<T>({
         ))}
         <Form.Item>
           <Button
-            type="primary"
             htmlType="submit"
             block
-            className={buttonClassName}
+            className={buttonClassName ?? 'custom-button'}
           >
           {submitText}
         </Button>

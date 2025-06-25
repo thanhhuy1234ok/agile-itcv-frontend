@@ -10,6 +10,7 @@ interface IAppContext {
     isAppLoading: boolean;
     setIsAppLoading: (v: boolean) => void;
     onLogin: (userData: IUser) => void;
+    onLogout: () => void
 }
 
 const CurrentAppContext = createContext<IAppContext | null>(null);
@@ -41,6 +42,12 @@ export const AppProvider = ({ children }: TProps) => {
         localStorage.setItem("user", JSON.stringify(userData));
     };
 
+    const onLogout = () => {
+        setUser(null);
+        setIsAuthenticated(false);
+        localStorage.removeItem("user");
+    };
+
     return (
         <>
             {!isAppLoading ? (
@@ -53,6 +60,7 @@ export const AppProvider = ({ children }: TProps) => {
                         isAppLoading,
                         setIsAppLoading,
                         onLogin,
+                        onLogout,
                     }}
                 >
                     {children}

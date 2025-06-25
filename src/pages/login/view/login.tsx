@@ -5,13 +5,12 @@ import {fields} from '@/pages/login/data/login.data'
 import type { LoginValues } from '@/pages/login/dto/login.dto';
 import { LoginModal } from '@/pages/login/viewmodal/login.viewmodal';
 import '@/pages/login/style/login.style.scss'
-import '@/styles/style.scss'
 
 const LoginPage: React.FC = () => {
   const { Title, Text, Link } = Typography;
   const { handleLogin } = LoginModal();
   return (
-    <div className='container'>
+    <div style={{display: 'flex'}}>
       <div style={{
           flex: 1,
           display: 'flex',
@@ -27,7 +26,6 @@ const LoginPage: React.FC = () => {
               submitText="Đăng nhập"
               fields={fields}
               onFinish={handleLogin}
-              buttonClassName="custom-button"
               initialValues={{remember: false} as LoginValues}
             />
             <div style={{textAlign: 'center'}}>
