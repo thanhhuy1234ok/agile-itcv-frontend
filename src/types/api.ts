@@ -26,3 +26,29 @@ export interface IBackendRes<T> {
   message: string;
   data: T;
 }
+
+///////////////////////////////////////
+
+export interface IRegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+  phone: string
+}
+
+export interface IUserWithExtraFields extends IUser {
+  phone: string;
+  img_url: string;
+  refresh_Token: string | null;
+  isDeleted: boolean;
+  deletedAt: string | null;
+  deletedBy: {
+    _id: string | null;
+    email: string | null;
+  };
+  __v: number;
+}
+
+export interface IRegisterResponseData {
+  user: IUserWithExtraFields;
+}
