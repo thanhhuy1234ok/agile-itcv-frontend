@@ -19,7 +19,6 @@ interface CustomFormProps<T> extends FormProps<T> {
   fields: FieldConfig[];
   title?: string;
   submitText?: string;
-  buttonClassName?: string;
 }
 
 function CustomForm<T>({
@@ -27,7 +26,6 @@ function CustomForm<T>({
   title,
   submitText,
   onFinish,
-  buttonClassName,
   ...rest
 }: CustomFormProps<T>) {
   const inputRef = useRef<InputRef>(null);
@@ -39,7 +37,7 @@ function CustomForm<T>({
   return (
     <>
       {title && (
-        <Title level={3} style={{ textAlign: 'center' }}>
+        <Title level={3} className="custom-form-title">
           {title}
         </Title>
       )}
@@ -65,7 +63,7 @@ function CustomForm<T>({
           <Button
             htmlType="submit"
             block
-            className={buttonClassName ?? 'custom-button'}
+            className="custom-button"
           >
           {submitText}
         </Button>

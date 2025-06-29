@@ -1,5 +1,38 @@
-.custom-list {
-  li {
-    margin-bottom: 1rem;
+.login-page {
+  display: flex;
+
+  .login-left, .login-right {
+    flex: 1;
+    display: flex;
+  }
+
+  .login-left-inner, .login-right-inner {
+    padding: 80px;
+  }
+
+  .login-title {
+    text-align: left;
+  }
+
+  .login-description {
+    font-size: 15px;
+  }
+
+  .login-card {
+    width: 400px;
+    margin-top: 16px;
+  }
+
+  .login-register-link {
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  .custom-list {
+    margin-top: 16px;
+
+    li {
+      margin-bottom: 8px;
+    }
   }
 }
