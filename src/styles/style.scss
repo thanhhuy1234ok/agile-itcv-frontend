@@ -4,6 +4,110 @@
   border-color: #ed1b2f !important;
 }
 
-.custom-form-title{
-  text-align: center
+.custom-form-title {
+  text-align: center;
+}
+
+.ant-dropdown-trigger {
+  font-size: 16px;
+
+  .ant-space {
+    transition: color 0.3s ease;
+  }
+
+  &.ant-dropdown-open .ant-space {
+    color: white !important;
+  }
+}
+
+/* MENU CHÍNH */
+.custom-dropdown-menu {
+  .ant-dropdown-menu {
+    background-color: #000 !important;
+  }
+
+  /* Item có submenu (cha) */
+  .ant-dropdown-menu-submenu-title {
+    color: #a6a6a6 !important;
+    font-size: 15px !important;
+    line-height: 40px !important;
+
+    &:hover {
+      background-color: #a6a6a6 !important;
+      color: white !important;
+
+      .ant-dropdown-menu-submenu-expand-icon svg {
+        fill: white !important;
+      }
+    }
+
+    .ant-dropdown-menu-submenu-expand-icon svg {
+      transition: fill 0.3s ease;
+    }
+  }
+
+  /* Item thường (không có submenu) */
+  .ant-dropdown-menu-item {
+    color: #a6a6a6 !important;
+    font-size: 15px !important;
+    line-height: 40px !important;
+
+    &:hover {
+      background-color: #a6a6a6 !important;
+      color: white !important;
+    }
+  }
+}
+
+/* SUBMENU CON */
+.ant-dropdown-menu-sub {
+  background-color: #000 !important;
+
+  .ant-dropdown-menu-item {
+    color: #a6a6a6 !important;
+    font-size: 15px !important;
+    line-height: 40px !important;
+
+    &:hover {
+      background-color: #a6a6a6 !important;
+      color: white !important;
+    }
+  }
+}
+
+.cv-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  color: #a6a6a6;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: white;
+  }
+
+  .badge-hot {
+    padding: 2px 6px;
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    background-color: #ed1b2f;
+    border-radius: 6px;
+    box-shadow: 0 0 6px #ed1b2f;
+    animation: pulse-border 1.2s infinite ease-in-out;
+  }
+}
+
+@keyframes pulse-border {
+  0% {
+    box-shadow: 0 0 4px #ed1b2f;
+  }
+  50% {
+    box-shadow: 0 0 12px #ff4d4f;
+  }
+  100% {
+    box-shadow: 0 0 4px #ed1b2f;
+  }
 }
