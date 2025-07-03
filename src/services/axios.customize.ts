@@ -1,42 +1,68 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import type { AxiosInstance, AxiosRequestConfig } from "axios";
 
-const createInstanceAxios = (baseURL: string) => {
+
+const createInstanceAxios = (baseURL: string): AxiosInstance => {
   const instance = axios.create({
-    baseURL: baseURL,
+    baseURL,
     withCredentials: true,
   });
 
-  // Add a request interceptor
   instance.interceptors.request.use(
-    function (config) {
-      // Do something before request is sent
+    (config) => {
       const token = localStorage.getItem("access_token");
-      const auth = token ? `Bearer ${token}` : "";
-      config.headers["Authorization"] = auth;
-
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
       return config;
     },
-    function (error) {
-      // Do something with request error
-      return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
   );
-  // Add a response interceptor
+
+  
   instance.interceptors.response.use(
-    function (response) {
-      // Any status code that lie within the range of 2xx cause this function to trigger
-      // Do something with response data
-      if (response && response.data) {
-        return response.data;
-      }
+    (response) => {
       return response;
     },
-    function (error) {
-      // Any status codes that falls outside the range of 2xx cause this function to trigger
-      // Do something with response error
-      if (error && error.response && error.response.data) {
-        return error.response.data;
+    async (error: AxiosError) => {
+      const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
+
+      
+      if (
+        error.response?.status === 401 &&
+        !originalRequest._retry &&
+        !originalRequest.url?.includes("/auth/refresh-token")
+      ) {
+        originalRequest._retry = true;
+
+        try {
+          const refreshToken = localStorage.getItem("refresh_token");
+          if (!refreshToken) throw new Error("Missing refresh token");
+
+          const res = await axios.post("http://localhost:8081/api/v1/auth/refresh-token", {
+            refreshToken,
+          });
+
+          const newAccessToken = res.data.data.access_Token;
+          localStorage.setItem("access_token", newAccessToken);
+
+          
+          originalRequest.headers = {
+            ...originalRequest.headers,
+            Authorization: `Bearer ${newAccessToken}`,
+          };
+
+          return instance(originalRequest);
+        } catch (err) {
+          
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          window.location.href = "/login";
+          return Promise.reject(err);
+        }
       }
+
+      // Nếu lỗi khác hoặc đã retry → reject
       return Promise.reject(error);
     }
   );

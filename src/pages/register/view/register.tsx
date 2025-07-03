@@ -1,9 +1,9 @@
 import React from 'react';
 import CustomForm from '@/components/share/customForm';
-import type { RegisterFormValues } from '@/pages/register/dto/register.dto'
+import type { RegisterFormValues } from '@/types/form'
 import { fields } from '../data/register.data';
 import { RegisterModal } from '../viewmodal/register.viewmodal';
-import '@/pages/register/style/register.style.scss'
+import '@/styles/register.style.scss'
 
 const RegisterPage: React.FC = () => { 
   const { handleSubmit } = RegisterModal()

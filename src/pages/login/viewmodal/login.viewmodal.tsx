@@ -2,23 +2,28 @@ import { message } from 'antd';
 import { useCurrentApp } from '@/context/app.context'
 import { useNavigate } from 'react-router-dom';
 import { login } from '@/services/api';
-import type { LoginValues } from '@/pages/login/dto/login.dto';
+import type { LoginFormValues } from '@/types/form';
 
 export const LoginModal = () => {
   const navigate = useNavigate();
   const { onLogin } = useCurrentApp()
-  const handleLogin = async (values: LoginValues) => {
+  const handleLogin = async (values: LoginFormValues) => {
     try {
       const res = await login({
         email: values.username,
         password: values.password,
       });
-      if (res.code === 1) {
-        message.success(res.message);
-        onLogin(res.data.user)
-        navigate('/')
+      if (res.data.code === 1) {
+        message.success(res.data.message);
+        console.log("user", res.data.data.user)
+        onLogin(res.data.data.user)
+        if (res.data.data.user.role.name === 'Admin') {
+          navigate('/admin');
+        } else {
+          navigate('/');
+        }
       } else {
-        message.error(res.message);
+        message.error(res.data.message);
       }
     } catch (err: any) {
       console.error('Login failed:', err.response?.data?.message);

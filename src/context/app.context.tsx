@@ -1,4 +1,4 @@
-import type { IUser } from "@/types/api";
+import type { IUser } from "@/types/user";
 import { createContext, useContext, useEffect, useState } from "react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 
@@ -37,6 +37,7 @@ export const AppProvider = ({ children }: TProps) => {
 
     // Hàm login
     const onLogin = (userData: IUser) => {
+        console.log("he", userData)
         setUser(userData);
         setIsAuthenticated(true);
         localStorage.setItem("user", JSON.stringify(userData));

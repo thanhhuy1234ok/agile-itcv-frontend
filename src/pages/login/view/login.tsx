@@ -2,9 +2,9 @@ import React from 'react';
 import { Card, Typography } from 'antd';
 import CustomForm from '@/components/share/customForm';
 import { fields } from '@/pages/login/data/login.data';
-import type { LoginValues } from '@/pages/login/dto/login.dto';
+import type { LoginFormValues } from '@/types/form';
 import { LoginModal } from '@/pages/login/viewmodal/login.viewmodal';
-import '@/pages/login/style/login.style.scss';
+import '@/styles/login.style.scss';
 
 const LoginPage: React.FC = () => {
   const { Title, Text, Link } = Typography;
@@ -19,12 +19,12 @@ const LoginPage: React.FC = () => {
             By signing in, you agree to ITviec’s Terms & Conditions and Privacy Policy in relation to your privacy information.
           </Text>
           <Card className="login-card">
-            <CustomForm<LoginValues>
+            <CustomForm<LoginFormValues>
               title=""
               submitText="Đăng nhập"
               fields={fields}
               onFinish={handleLogin}
-              initialValues={{ remember: false } as LoginValues}
+              initialValues={{ remember: false } as LoginFormValues}
             />
             <div className="login-register-link">
               Do not have an account? <Link href="/register">Sign up now!</Link>

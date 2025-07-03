@@ -1,4 +1,4 @@
-import type { RegisterFormValues } from '@/pages/register/dto/register.dto';
+import type { RegisterFormValues } from '@/types/form';
 import { message } from 'antd';
 import { register } from '@/services/api';
 import { useNavigate } from 'react-router-dom'; 
@@ -17,11 +17,11 @@ export const RegisterModal = () => {
 
     try {
       const res = await register(userData);
-      if (res.code === 1) {
-        message.success(res.message || 'Đăng ký thành công!');
+      if (res.data.code === 1) {
+        message.success(res.data.message || 'Đăng ký thành công!');
         navigate('/login'); 
       } else {
-        message.error(res.message || 'Đăng ký thất bại!');
+        message.error(res.data.message || 'Đăng ký thất bại!');
       }
     } catch (error: any) {
       message.error(error?.response?.data?.message || 'Đã có lỗi xảy ra!');

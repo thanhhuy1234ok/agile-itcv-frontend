@@ -6,3 +6,9 @@ export interface RegisterFormValues {
   phone: string;
   agree: boolean;
 }
+
+export interface LoginFormValues {
+  username: string;
+  password: string;
+  remember: boolean;
+}
