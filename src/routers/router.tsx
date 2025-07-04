@@ -6,7 +6,7 @@ import HomePage from '@/pages/home';
 import LoginPage from '@/pages/login/view/login';
 import RegisterPage from '@/pages/register/view/register';
 import Dashboard from '@/pages/admin/dashboard/view/Dashboard';
-import { ProtectedAdminRoute } from '@/routers/ProtectedAdminRoute';
+import { ProtectedAdminRoute } from '@/routers/protectedAdminRoute';
 
 const router = createBrowserRouter([
   {

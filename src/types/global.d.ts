@@ -1,7 +1,10 @@
 export {};
 
 declare global {
-  interface IFetchAccount {
-    user: import('@/types/user').IUser;
-  }
+  interface IBackendRes<T> {
+  code: number;
+  message: string;
+  data: T;
+}
+  
 }

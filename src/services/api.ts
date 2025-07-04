@@ -1,6 +1,5 @@
 import createInstanceAxios from "@/services/axios.customize";
 import type { ILoginResponseData, ILoginRequest, IRegisterRequest, IRegisterResponseData } from "@/types/auth";
-import type { IBackendRes } from "@/types/common";
 
 const axios = createInstanceAxios(import.meta.env.VITE_BACKEND_URL);
 

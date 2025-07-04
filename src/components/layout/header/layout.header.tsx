@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, message } from 'antd';
 import { useCurrentApp } from '@/context/app.context';
@@ -11,6 +12,8 @@ const Header = () => {
   const { isAuthenticated, user, onLogout } = useCurrentApp();
 
   const isLoginPage = location.pathname === '/login';
+
+  const [language, setLanguage] = useState<'EN' | 'VI'>('VI');
 
   const onClick: MenuProps['onClick'] = ({key}) =>{
     message.info(`Clicked on item ${key}`);
@@ -117,16 +120,38 @@ const Header = () => {
           <span className="badge-hot">HOT</span>
         </a>
       </div>
-      {!isLoginPage && (
-        isAuthenticated && user ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            👤 {user.name}
-            <Button danger onClick={onLogout}>Logout</Button>
-          </div>
-        ) : (
-          <Button type="primary" onClick={() => navigate('/login')}>Login</Button>
-        )
-      )}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
+        {!isLoginPage && (
+          isAuthenticated && user ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              👤 {user.name}
+              <Button danger onClick={onLogout}>Logout</Button>
+            </div>
+          ) : (
+            <>
+              <a className="login-link" href='/login'>Đăng nhập/Đăng ký</a>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+                <Button
+                  type="link"
+                  style={{ color: language === 'EN' ? '#fff' : '#a6a6a6', fontSize: 16, margin: 0, padding: 0 }}
+                  onClick={() => setLanguage('EN')}
+                >
+                  EN
+                </Button>
+                <span style={{ color: '#fff', margin: '0 5px' }}>|</span>
+                <Button
+                  type="link"
+                  style={{ color: language === 'VI' ? '#fff' : '#a6a6a6', fontSize: 16, margin: 0, padding: 0 }}
+                  onClick={() => setLanguage('VI')}
+                >
+                  VI
+                </Button>
+              </div>
+            </>
+          )
+        )}
+      </div>
+      
     </div>
   );
 };
