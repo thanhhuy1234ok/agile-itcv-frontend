@@ -1,0 +1,27 @@
+.custom-search-select {
+  height: 50px !important;
+  width: 800px !important;
+
+  .ant-select-selector {
+    height: 50px !important;
+    width: 800px !important;
+    padding: 16px 24px !important;
+    font-size: 20px !important;
+    border-radius: 8px !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .ant-select-selection-placeholder{
+    font-size: 20px !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .ant-select-selection-search-input {
+    padding-left: 15px !important;
+    font-size: 20px !important;
+    display: flex;
+    align-items: center;
+  }
+}

@@ -96,8 +96,6 @@ const Header = () => {
     { label: 'Kỹ thuật lập trình', key: '/blog/code' },
   ];
 
-
-
   return (
     <div style={{
       background: 'linear-gradient(to right, #000000, #a32020)',
@@ -105,7 +103,8 @@ const Header = () => {
       color: 'white',
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
+      borderBottom: '0.5px solid #a6a6a6'
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
         <div style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
