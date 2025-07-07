@@ -3,6 +3,7 @@ import { Typography, Input, Button, Image, Row, Col } from "antd";
 import { SearchOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { DebounceSelect } from "@/components/share/debouce.select"; 
 import InfoCard from "@/components/share/surveyCard";
+import TopEmployerCard from "@/components/share/topEmployerCard";
 import "@/styles/home.style.scss";
 
 const { Title, Paragraph } = Typography;
@@ -110,7 +111,7 @@ const HomePage: React.FC = () => {
         </div>
 
         
-        <div style={{ padding: "24px 0" }}>
+        <div style={{ paddingTop: 30 }}>
           <Row gutter={32} justify="center">
             <Col xs={24} sm={8}>
               <InfoCard
@@ -146,6 +147,60 @@ const HomePage: React.FC = () => {
           </Row>
         </div>
       </div>
+
+      <div style={{ paddingTop: 30 }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <Title level={2}>Nhà tuyển dụng hàng đầu</Title>
+          <Paragraph style={{ fontSize: 16 }}>
+            Khám phá những công ty công nghệ hàng đầu đang tuyển dụng tại Việt Nam
+          </Paragraph>
+        </div>
+
+        <Row gutter={[24, 24]} justify="center">
+          {[
+            {
+              name: "VNG Corporation",
+              logo: "https://upload.wikimedia.org/wikipedia/vi/thumb/3/34/VNG_logo.svg/1200px-VNG_logo.svg.png",
+              skills: ["React", "Node.js", "Kubernetes"],
+              location: ["Hồ Chí Minh"],
+              jobCount: 12,
+            },
+            {
+              name: "FPT Software",
+              logo: "https://upload.wikimedia.org/wikipedia/commons/3/3e/FPT_Software_Logo.svg",
+              skills: ["Java", "Spring Boot", "AWS"],
+              location: ["Hà Nội", "Đà Nẵng"],
+              jobCount: 25,
+            },
+            {
+              name: "Vingroup",
+              logo: "https://upload.wikimedia.org/wikipedia/vi/thumb/6/62/Vingroup_logo.svg/1200px-Vingroup_logo.svg.png",
+              skills: ["React", "Python", "AI/ML", "Kubernetes"],
+              location: ["Hà Nội", "Hồ Chí Minh"],
+              jobCount: 18,
+            },
+            {
+              name: "Tiktok Vietnam",
+              logo: "https://upload.wikimedia.org/wikipedia/en/6/69/TikTok_logo.svg",
+              skills: ["Go", "Node.js", "Microservices", "Kafka"],
+              location: ["Hồ Chí Minh"],
+              jobCount: 9,
+            },
+          ].map((company, index) => (
+            <Col xs={24} sm={12} md={8} lg={6} key={index}>
+              <TopEmployerCard
+                logo={company.logo}
+                name={company.name}
+                skills={company.skills}
+                location={company.location}
+                jobCount={company.jobCount}
+                onView={() => console.log("Xem chi tiết:", company.name)}
+              />
+            </Col>
+          ))}
+        </Row>
+      </div>
+
     </>
     
   );
