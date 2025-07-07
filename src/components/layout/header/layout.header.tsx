@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Button, message } from 'antd';
+import { Button, message, Avatar, Image } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 import { useCurrentApp } from '@/context/app.context';
 import CustomDropdown from '@/components/share/customDropdown';
 import type { MenuProps } from 'antd';
@@ -99,7 +100,7 @@ const Header = () => {
   return (
     <div style={{
       background: 'linear-gradient(to right, #000000, #a32020)',
-      padding: '10px',
+      padding: '20px',
       color: 'white',
       display: 'flex',
       justifyContent: 'space-between',
@@ -108,7 +109,7 @@ const Header = () => {
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
         <div style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
-          <h1 style={{ margin: 0 }}>🌐 User Header</h1>
+          <Image width={100} src='https://itviec.com/assets/logo-itviec-4492a2f2577a15a0a1d55444c21c0fa55810822b3b189fc689b450fb62ce0b5b.png'/>
         </div>
 
         <CustomDropdown items={items1} onClick={onClick} label="Việc làm IT" color= "#a6a6a6" />
@@ -122,33 +123,62 @@ const Header = () => {
       <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
         {!isLoginPage && (
           isAuthenticated && user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              👤 {user.name}
-              <Button danger onClick={onLogout}>Logout</Button>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <CustomDropdown
+                items={[
+                  { label: 'Thông tin tài khoản', key: 'profile' },
+                  { label: 'Đăng xuất', key: 'logout' }
+                ]}
+                onClick={({ key }) => {
+                  if (key === 'logout') onLogout();
+                }}
+                label={
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                    <Avatar
+                      src={user.avatar}
+                      size={40}
+                      style={{
+                        border: '0.5px solid white',
+                        boxSizing: 'border-box',
+                      }}
+                    />  
+                    <DownOutlined
+                      style={{
+                        position: 'absolute',
+                        bottom: -3,
+                        right: -2,
+                        fontSize: 10,
+                        color: 'black',
+                        backgroundColor: '#fff',
+                        borderRadius: '50%',
+                        padding: 2,
+                      }}
+                    />
+                  </div>
+                }
+              />
             </div>
           ) : (
-            <>
-              <a className="login-link" href='/login'>Đăng nhập/Đăng ký</a>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
-                <Button
-                  type="link"
-                  style={{ color: language === 'EN' ? '#fff' : '#a6a6a6', fontSize: 16, margin: 0, padding: 0 }}
-                  onClick={() => setLanguage('EN')}
-                >
-                  EN
-                </Button>
-                <span style={{ color: '#fff', margin: '0 5px' }}>|</span>
-                <Button
-                  type="link"
-                  style={{ color: language === 'VI' ? '#fff' : '#a6a6a6', fontSize: 16, margin: 0, padding: 0 }}
-                  onClick={() => setLanguage('VI')}
-                >
-                  VI
-                </Button>
-              </div>
-            </>
+            <a className="login-link" href='/login'>Đăng nhập/Đăng ký</a>
           )
         )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+          <Button
+            type="link"
+            style={{ color: language === 'EN' ? '#fff' : '#a6a6a6', fontSize: 16, margin: 0, padding: 0 }}
+            onClick={() => setLanguage('EN')}
+          >
+            EN
+          </Button>
+          <span style={{ color: '#fff', margin: '0 5px' }}>|</span>
+          <Button
+            type="link"
+            style={{ color: language === 'VI' ? '#fff' : '#a6a6a6', fontSize: 16, margin: 0, padding: 0 }}
+            onClick={() => setLanguage('VI')}
+          >
+            VI
+          </Button>
+        </div>
       </div>
       
     </div>

@@ -1,0 +1,43 @@
+@keyframes zoomPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+.infocard-label {
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: inline-block;
+    animation: zoomPulse 3s ease-in-out infinite;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.btn-survey {
+    background-color: transparent;
+    border: 1px solid #ed1b2f;
+    color: #ed1b2f;
+    font-size: 13px;
+    padding: 0 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+
+    &:hover,
+    &:focus {
+        background-color: #ed1b2f !important;
+        color: #fff;
+        transform: scale(1.05);
+    }
+
+    &:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+}
