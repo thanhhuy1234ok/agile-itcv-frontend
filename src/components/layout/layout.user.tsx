@@ -14,7 +14,7 @@ const UserLayout: FC = () => {
         <Outlet />
       </main>
 
-      <footer >
+      <footer style={{ paddingTop: 30 }}>
         <Footer/>
       </footer>
     </div>

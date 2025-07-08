@@ -28,6 +28,7 @@ const TopEmployerCard: React.FC<TopEmployerCardProps> = ({
             textAlign: "center",
             borderRadius: 10,
             height: "100%",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
         }}
         styles={{ body: { padding: 24 } }}
         onClick={onView}

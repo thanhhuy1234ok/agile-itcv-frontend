@@ -4,6 +4,7 @@ import { SearchOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { DebounceSelect } from "@/components/share/debouce.select"; 
 import InfoCard from "@/components/share/surveyCard";
 import TopEmployerCard from "@/components/share/topEmployerCard";
+import CardJob from "@/components/share/topCardJob";
 import "@/styles/home.style.scss";
 
 const { Title, Paragraph } = Typography;
@@ -23,6 +24,51 @@ const fetchCitiesFromAPI = async (
       value: city.name,
     }));
 };
+
+const jobs = [
+  {
+    title: "Frontend Developer",
+    company: "VNG Corporation",
+    logo: "https://res.cloudinary.com/ddhjlaqjn/image/upload/v1746519989/images/itviec.jpg",
+    position: "FE Developer",
+    location: "Hồ Chí Minh",
+    type: "Full-time",
+    salary: "25 - 35 triệu",
+    skills: ["ReactJS", "TypeScript", "Ant Design"],
+  },
+  {
+    title: "Backend Developer",
+    company: "FPT Software",
+    logo: "https://res.cloudinary.com/ddhjlaqjn/image/upload/v1746519989/images/itviec.jpg",
+    position: "BE Developer",
+    location: "Hà Nội",
+    type: "Remote",
+    salary: "20 - 30 triệu",
+    skills: ["Node.js", "Express", "MongoDB"],
+  },
+  {
+    title: "Fullstack Developer",
+    company: "Tiki Corporation",
+    logo: "https://res.cloudinary.com/ddhjlaqjn/image/upload/v1746519989/images/itviec.jpg",
+    position: "Fullstack Engineer",
+    location: "Hồ Chí Minh",
+    type: "Hybrid",
+    salary: "30 - 40 triệu",
+    skills: ["React", "Node.js", "MySQL"],
+  },
+  {
+    title: "AI Engineer",
+    company: "Vingroup",
+    logo: "https://res.cloudinary.com/ddhjlaqjn/image/upload/v1746519989/images/itviec.jpg",
+    position: "AI/ML Engineer",
+    location: "Hà Nội",
+    type: "Full-time",
+    salary: "35 - 50 triệu",
+    skills: ["Python", "TensorFlow", "Scikit-learn"],
+  },
+];
+
+
 
 const HomePage: React.FC = () => {
   const [keyword, setKeyword] = useState<string>("");
@@ -160,28 +206,28 @@ const HomePage: React.FC = () => {
           {[
             {
               name: "VNG Corporation",
-              logo: "https://upload.wikimedia.org/wikipedia/vi/thumb/3/34/VNG_logo.svg/1200px-VNG_logo.svg.png",
+              logo: "https://res.cloudinary.com/ddhjlaqjn/image/upload/v1746519989/images/itviec.jpg",
               skills: ["React", "Node.js", "Kubernetes"],
               location: ["Hồ Chí Minh"],
               jobCount: 12,
             },
             {
               name: "FPT Software",
-              logo: "https://upload.wikimedia.org/wikipedia/commons/3/3e/FPT_Software_Logo.svg",
+              logo: "https://res.cloudinary.com/ddhjlaqjn/image/upload/v1746519989/images/itviec.jpg",
               skills: ["Java", "Spring Boot", "AWS"],
               location: ["Hà Nội", "Đà Nẵng"],
               jobCount: 25,
             },
             {
               name: "Vingroup",
-              logo: "https://upload.wikimedia.org/wikipedia/vi/thumb/6/62/Vingroup_logo.svg/1200px-Vingroup_logo.svg.png",
+              logo: "https://res.cloudinary.com/ddhjlaqjn/image/upload/v1746519989/images/itviec.jpg",
               skills: ["React", "Python", "AI/ML", "Kubernetes"],
               location: ["Hà Nội", "Hồ Chí Minh"],
               jobCount: 18,
             },
             {
               name: "Tiktok Vietnam",
-              logo: "https://upload.wikimedia.org/wikipedia/en/6/69/TikTok_logo.svg",
+              logo: "https://res.cloudinary.com/ddhjlaqjn/image/upload/v1746519989/images/itviec.jpg",
               skills: ["Go", "Node.js", "Microservices", "Kafka"],
               location: ["Hồ Chí Minh"],
               jobCount: 9,
@@ -201,8 +247,35 @@ const HomePage: React.FC = () => {
         </Row>
       </div>
 
+      <div style={{ paddingTop: 30 }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <Title level={2}>Việc làm IT nổi bật</Title>
+          <Paragraph style={{ fontSize: 16 }}>
+            Cơ hội nghề nghiệp hấp dẫn từ các công ty hàng đầu
+          </Paragraph>
+        </div>
+
+        <Row gutter={[24, 24]} justify="center">
+          {jobs.map((job, index) => (
+            <Col xs={24} sm={12} md={8} lg={6} key={index}>
+              <CardJob
+                nameJob={job.title}
+                company={job.company}
+                position={job.position}
+                logo={job.logo}
+                location={job.location}
+                type={job.type}
+                salary={job.salary}
+                skills={job.skills}
+              />
+            </Col>
+          ))}
+        </Row>
+
+      </div>
+
+      
     </>
-    
   );
 };
 
