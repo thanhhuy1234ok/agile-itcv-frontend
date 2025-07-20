@@ -4,8 +4,8 @@ import {
   DollarOutlined,
   UserOutlined,
   EnvironmentOutlined,
-  ClockCircleOutlined,
 } from "@ant-design/icons";
+import dayjs from "dayjs";
 
 const { Text, Paragraph } = Typography;
 
@@ -15,9 +15,11 @@ export interface JobCardProps {
   logo: string;
   position: string;
   location: string;
-  type: string;
   salary: string;
   skills: string[];
+  startDate: string;
+  endDate: string;
+  quantity: number;
 }
 
 const CardJob: React.FC<JobCardProps> = ({
@@ -26,24 +28,35 @@ const CardJob: React.FC<JobCardProps> = ({
   logo,
   position,
   location,
-  type,
   salary,
   skills,
+  startDate,
+  endDate,
+  quantity,
 }) => {
   return (
     <Badge.Ribbon text="NEW FOR YOU" color="#fa541c" placement="end">
       <Card
-        title={nameJob}
         bordered
         style={{
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
           height: "100%",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
         }}
-        styles={{ header:{ fontSize: 20 }}}
       >
+        <Text
+          strong
+          style={{
+            fontSize: 20,
+            display: "block",
+            marginBottom: 12,
+          }}
+        >
+          {nameJob}
+        </Text>
+
         <div
           style={{
             display: "flex",
@@ -64,6 +77,24 @@ const CardJob: React.FC<JobCardProps> = ({
           </Text>
         </div>
 
+        <div style={{ marginBottom: 8 }}>
+          <Text style={{ fontSize: 14, color: "#8c8c8c", display: "block" }}>
+            <strong>Thời gian:</strong> {dayjs(startDate).format("DD/MM/YYYY")}{" "}
+            - {dayjs(endDate).format("DD/MM/YYYY")}
+          </Text>
+        </div>
+
+        <Text
+          style={{
+            fontSize: 14,
+            color: "#8c8c8c",
+            display: "block",
+            marginBottom: 8,
+          }}
+        >
+          <strong>Số lượng tuyển:</strong> {quantity}
+        </Text>
+
         <Text style={{ fontSize: 18, color: "#0ab305" }}>
           <DollarOutlined /> {salary}
         </Text>
@@ -71,17 +102,32 @@ const CardJob: React.FC<JobCardProps> = ({
         <Divider style={{ margin: "12px 0" }} />
 
         <Paragraph style={{ marginBottom: 8 }}>
-          <div style={{ marginBottom: 4 }}>
-            <UserOutlined style={{ marginRight: 8, color: "#a6a6a6" }} />
-            {position}
-          </div>
-          <div style={{ display: "flex", gap: 16 }}>
-            <span>
-              <ClockCircleOutlined style={{ marginRight: 8, color: "#a6a6a6" }} />
-              {type}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              marginBottom: 8,
+            }}
+          >
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: "#a6a6a6",
+              }}
+            >
+              <UserOutlined style={{ marginRight: 5 }} />
+              {position}
             </span>
-            <span>
-              <EnvironmentOutlined style={{ marginRight: 8, color: "#a6a6a6" }} />
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: "#a6a6a6",
+              }}
+            >
+              <EnvironmentOutlined style={{ marginRight: 5 }} />
               {location}
             </span>
           </div>
