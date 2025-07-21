@@ -1,6 +1,7 @@
+/* Style dùng chung cho cả hai */
 .custom-search-select {
-  min-height: 55px !important;
-  width: 300px !important;
+  min-height: 55px;
+
   .ant-select-selector {
     min-height: 55px !important;
     padding: 16px 24px !important;
@@ -10,7 +11,7 @@
     align-items: center;
   }
 
-  .ant-select-selection-placeholder{
+  .ant-select-selection-placeholder {
     font-size: 20px !important;
     display: flex;
     align-items: center;
@@ -24,3 +25,10 @@
   }
 }
 
+.city-select {
+  width: 300px !important;
+}
+
+.skill-select {
+  width: 500px !important;
+}

@@ -20,6 +20,10 @@ export interface ICompany {
   __v: number;
 }
 
+export interface ICompanyWithCount extends ICompany {
+  jobCount: number;
+}
+
 export interface ICompanyListResponse {
   result: {
     meta: {

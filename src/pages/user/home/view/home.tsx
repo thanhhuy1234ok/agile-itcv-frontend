@@ -1,42 +1,30 @@
-import React, { useState } from "react";
-import { Typography, Input, Button, Image, Row, Col } from "antd";
+import React from "react";
+import { Typography, Button, Image } from "antd";
 import { SearchOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { DebounceSelect } from "@/components/share/debouce.select";
-import InfoCard from "@/components/share/surveyCard";
-import TopEmployerCard from "@/components/share/topEmployerCard";
-import CardJob from "@/components/share/topCardJob";
+import { skillOptions } from "@/data/skillsData";
+
+import TopEmployersSection from "@/components/share/TopEmployersSection";
+import TopJobsSection from "@/components/share/topJobsSection";
+import InfoSection from "@/components/share/infoSection";
 import useHome from "@/pages/user/home/viewmodal/useHome";
 import "@/styles/home.style.scss";
 
 const { Title, Paragraph } = Typography;
 
-const fetchCitiesFromAPI = async (
-  search: string
-): Promise<{ label: string; value: string }[]> => {
-  const response = await fetch("https://provinces.open-api.vn/api/?depth=1");
-  const data = await response.json();
-
-  return data
-    .filter((city: any) =>
-      city.name.toLowerCase().includes(search.toLowerCase())
-    )
-    .map((city: any) => ({
-      label: city.name,
-      value: city.name,
-    }));
-};
-
 const HomePage: React.FC = () => {
-  const { jobs, companies, loading } = useHome();
-
-  const [keyword, setKeyword] = useState<string>("");
-  const [selectedCity, setSelectedCity] = useState<string>("");
-
-  const handleSearch = (): void => {
-    console.log("🔍 Tìm kiếm:");
-    console.log("Thành phố:", selectedCity || "(chưa chọn)");
-    console.log("Từ khóa:", keyword || "(chưa nhập)");
-  };
+  const {
+    jobs,
+    companies,
+    loading,
+    selectedCity,
+    keyword,
+    fetchCitiesFromAPI,
+    fetchSkills,
+    setSelectedCity,
+    setKeyword,
+    handleSearch,
+  } = useHome();
 
   return (
     <>
@@ -59,7 +47,7 @@ const HomePage: React.FC = () => {
 
           <div style={{ display: "flex", gap: 10 }}>
             <DebounceSelect
-              className="custom-search-select"
+              className="custom-search-select city-select"
               showSearch
               placeholder="Chọn thành phố"
               fetchOptions={fetchCitiesFromAPI}
@@ -74,11 +62,26 @@ const HomePage: React.FC = () => {
                   : null
               }
             />
-            <Input
-              style={{ height: 55, fontSize: 20, width: 500 }}
-              placeholder="Nhập từ khóa theo kỹ năng"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
+            <DebounceSelect
+              className="custom-search-select skill-select"
+              showSearch
+              placeholder="Nhập kỹ năng"
+              fetchOptions={fetchSkills}
+              onChange={(newValue) => {
+                if (!Array.isArray(newValue) && newValue?.value) {
+                  setKeyword(String(newValue.value));
+                }
+              }}
+              value={
+                keyword
+                  ? {
+                      label:
+                        skillOptions.find((s) => s.value === keyword)?.label ||
+                        keyword,
+                      value: keyword,
+                    }
+                  : null
+              }
             />
 
             <Button
@@ -134,100 +137,11 @@ const HomePage: React.FC = () => {
             </span>
           </Paragraph>
         </div>
-
-        <div style={{ paddingTop: 30 }}>
-          <Row gutter={32} justify="center">
-            <Col xs={24} sm={8}>
-              <InfoCard
-                image="https://cdn-icons-png.flaticon.com/512/1055/1055687.png"
-                title="Passive Job Search"
-                description="Khám phá xu hướng công nghệ và thị trường việc làm."
-                label="HOT"
-                labelStyle={{ backgroundColor: "#ff4d4f", color: "white" }}
-                buttonText="Xem thêm"
-                onButtonClick={() => console.log("Click: Xem thêm xu hướng")}
-              />
-            </Col>
-            <Col xs={24} sm={8}>
-              <InfoCard
-                image="https://cdn-icons-png.flaticon.com/512/1098/1098925.png"
-                title="CV Template"
-                description="Những thay đổi mà AI mang lại cho lập trình viên."
-                label="NEW"
-                labelStyle={{ backgroundColor: "#52c41a", color: "white" }}
-                buttonText="Xem mẫu"
-                onButtonClick={() => console.log("Click: Xem mẫu")}
-              />
-            </Col>
-            <Col xs={24} sm={8}>
-              <InfoCard
-                image="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
-                title="Blog"
-                description="Số liệu được tổng hợp từ cộng đồng IT tại Việt Nam."
-                buttonText="Khám phá"
-                onButtonClick={() => console.log("Click: khám phá")}
-              />
-            </Col>
-          </Row>
-        </div>
+        <InfoSection />
       </div>
 
-      <div style={{ paddingTop: 30 }}>
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <Title level={2}>Nhà tuyển dụng hàng đầu</Title>
-          <Paragraph style={{ fontSize: 16 }}>
-            Khám phá những công ty công nghệ hàng đầu đang tuyển dụng tại Việt
-            Nam
-          </Paragraph>
-        </div>
-
-        <Row gutter={[24, 24]} justify="center">
-          {companies.map((company) => (
-            <Col xs={24} sm={12} md={8} lg={6} key={company._id}>
-              <TopEmployerCard
-                logo={company.logo}
-                name={company.name}
-                description={company.description}
-                location={[company.address]}
-                jobCount={company.jobCount}
-                onView={() => console.log("Xem chi tiết:", company.name)}
-              />
-            </Col>
-          ))}
-        </Row>
-      </div>
-
-      <div style={{ paddingTop: 30 }}>
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <Title level={2}>Việc làm IT nổi bật</Title>
-          <Paragraph style={{ fontSize: 16 }}>
-            Cơ hội nghề nghiệp hấp dẫn từ các công ty hàng đầu
-          </Paragraph>
-        </div>
-
-        {loading ? (
-          <div style={{ textAlign: "center" }}>Đang tải dữ liệu...</div>
-        ) : (
-          <Row gutter={[24, 24]} justify="center">
-            {jobs.map((job) => (
-              <Col xs={24} sm={12} md={8} lg={12} xl={6} key={job._id}>
-                <CardJob
-                  nameJob={job.name}
-                  company={job.companyId.name}
-                  position={job.level}
-                  logo={job.companyId.avatar}
-                  location={job.location}
-                  salary={`${(job.salary / 1_000_000).toFixed(0)} triệu`}
-                  skills={job.skill}
-                  quantity={job.quantity}
-                  startDate={job.startDate}
-                  endDate={job.endDate}
-                />
-              </Col>
-            ))}
-          </Row>
-        )}
-      </div>
+      <TopEmployersSection companies={companies} loading={loading} />
+      <TopJobsSection jobs={jobs} loading={loading} />
     </>
   );
 };
