@@ -47,6 +47,7 @@ const TopEmployerCard: React.FC<TopEmployerCardProps> = ({
         style={{
           fontSize: 14,
           color: "#595959",
+          height: 72,
           marginBottom: 40,
         }}
         ellipsis={{ rows: 3 }}

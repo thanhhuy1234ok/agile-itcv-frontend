@@ -46,16 +46,18 @@ const CardJob: React.FC<JobCardProps> = ({
           justifyContent: "space-between",
         }}
       >
-        <Text
+        <Paragraph
           strong
           style={{
             fontSize: 20,
-            display: "block",
             marginBottom: 12,
+            height: 56,
+            overflow: "hidden",
           }}
+          ellipsis={{ rows: 2 }}
         >
           {nameJob}
-        </Text>
+        </Paragraph>
 
         <div
           style={{
