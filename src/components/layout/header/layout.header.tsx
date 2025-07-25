@@ -114,6 +114,7 @@ const Header = () => {
           <Image
             width={100}
             src="https://itviec.com/assets/logo-itviec-4492a2f2577a15a0a1d55444c21c0fa55810822b3b189fc689b450fb62ce0b5b.png"
+            preview={false}
           />
         </div>
 

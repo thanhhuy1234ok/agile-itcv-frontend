@@ -1,31 +1,20 @@
 import React from "react";
-import {
-  Typography,
-  Spin,
-  Pagination,
-  Row,
-  Col,
-  Card,
-  Avatar,
-  Button,
-} from "antd";
+import { Typography, Spin, Pagination, Row, Col } from "antd";
 import JobSearchBanner from "@/components/share/JobSearchBanner";
 import JobCard from "../component/jobCard";
-import { DollarOutlined } from "@ant-design/icons";
+import JobDetailCard from "../component/jobDetailCard";
 import { useSearchParams } from "react-router-dom";
 import { useFind } from "@/pages/user/find/viewmodal/useFind";
 import dayjs from "dayjs";
-import { useNavigate } from "react-router-dom";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useCurrentApp } from "@/context/app.context";
 import "dayjs/locale/vi";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 dayjs.extend(relativeTime);
 dayjs.locale("vi");
 
 const FindPage = () => {
-  const navigate = useNavigate();
   const { isAuthenticated } = useCurrentApp();
   const [searchParams] = useSearchParams();
   const skill = searchParams.get("skill") || "";
@@ -69,80 +58,10 @@ const FindPage = () => {
 
                 <Col span={14}>
                   {selectedJob && (
-                    <Card
-                      style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)" }}
-                      title={<Title level={3}>Chi tiết công việc</Title>}
-                      bordered
-                    >
-                      <div style={{ marginBottom: 12 }}>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            marginBottom: 8,
-                          }}
-                        >
-                          <div>
-                            <Avatar
-                              style={{
-                                border: "1px solid black",
-                                borderRadius: 4,
-                              }}
-                              size={80}
-                              src={selectedJob.companyId.avatar}
-                            />
-                          </div>
-
-                          <div style={{ paddingLeft: 15, fontSize: 16 }}>
-                            <div>
-                              <Text style={{ fontSize: 16 }}>
-                                {selectedJob.name}
-                              </Text>
-                            </div>
-                            <div>
-                              <Text style={{ fontSize: 16 }}>
-                                {selectedJob.companyId.name}
-                              </Text>
-                            </div>
-                            <div>
-                              {isAuthenticated ? (
-                                <span style={{ color: "#0ab305" }}>
-                                  <DollarOutlined style={{ marginRight: 4 }} />
-                                  {(selectedJob.salary / 1_000_000).toFixed(
-                                    0
-                                  )}{" "}
-                                  triệu
-                                </span>
-                              ) : (
-                                <span
-                                  style={{
-                                    cursor: "pointer",
-                                    textDecoration: "underline",
-                                    color: "black",
-                                  }}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    navigate("/login");
-                                  }}
-                                >
-                                  Vui lòng đăng nhập để xem lương
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <Button
-                          style={{
-                            width: "100%",
-                            backgroundColor: "red",
-                            color: "white",
-                            fontSize: 16,
-                          }}
-                        >
-                          ỨNG TUYỂN NGAY
-                        </Button>
-                      </div>
-                    </Card>
+                    <JobDetailCard
+                      selectedJob={selectedJob}
+                      isAuthenticated={isAuthenticated}
+                    />
                   )}
                 </Col>
               </Row>
