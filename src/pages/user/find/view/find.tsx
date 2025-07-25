@@ -1,18 +1,32 @@
 import React from "react";
-import { Typography, Spin, Pagination, Row, Col, Card } from "antd";
+import {
+  Typography,
+  Spin,
+  Pagination,
+  Row,
+  Col,
+  Card,
+  Avatar,
+  Button,
+} from "antd";
 import JobSearchBanner from "@/components/share/JobSearchBanner";
-import JobCard from "../component/JobCard";
+import JobCard from "../component/jobCard";
+import { DollarOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
 import { useFind } from "@/pages/user/find/viewmodal/useFind";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useCurrentApp } from "@/context/app.context";
 import "dayjs/locale/vi";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 dayjs.extend(relativeTime);
 dayjs.locale("vi");
 
 const FindPage = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useCurrentApp();
   const [searchParams] = useSearchParams();
   const skill = searchParams.get("skill") || "";
   const location = searchParams.get("location") || "";
@@ -27,7 +41,7 @@ const FindPage = () => {
   } = useFind({ skill, location });
 
   return (
-    <div>
+    <div className="find-contaniner">
       <JobSearchBanner />
       <div className="wrapper">
         <div className="content">
@@ -57,21 +71,77 @@ const FindPage = () => {
                   {selectedJob && (
                     <Card
                       style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)" }}
-                      title="Chi tiết công việc"
+                      title={<Title level={3}>Chi tiết công việc</Title>}
                       bordered
                     >
-                      <p>
-                        <strong>Công việc:</strong> {selectedJob.name}
-                      </p>
-                      <p>
-                        <strong>Công ty:</strong> {selectedJob.companyId.name}
-                      </p>
-                      <p>
-                        <strong>Địa điểm:</strong> {selectedJob.location}
-                      </p>
-                      <p>
-                        <strong>Mô tả:</strong> {selectedJob.description}
-                      </p>
+                      <div style={{ marginBottom: 12 }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            marginBottom: 8,
+                          }}
+                        >
+                          <div>
+                            <Avatar
+                              style={{
+                                border: "1px solid black",
+                                borderRadius: 4,
+                              }}
+                              size={80}
+                              src={selectedJob.companyId.avatar}
+                            />
+                          </div>
+
+                          <div style={{ paddingLeft: 15, fontSize: 16 }}>
+                            <div>
+                              <Text style={{ fontSize: 16 }}>
+                                {selectedJob.name}
+                              </Text>
+                            </div>
+                            <div>
+                              <Text style={{ fontSize: 16 }}>
+                                {selectedJob.companyId.name}
+                              </Text>
+                            </div>
+                            <div>
+                              {isAuthenticated ? (
+                                <span style={{ color: "#0ab305" }}>
+                                  <DollarOutlined style={{ marginRight: 4 }} />
+                                  {(selectedJob.salary / 1_000_000).toFixed(
+                                    0
+                                  )}{" "}
+                                  triệu
+                                </span>
+                              ) : (
+                                <span
+                                  style={{
+                                    cursor: "pointer",
+                                    textDecoration: "underline",
+                                    color: "black",
+                                  }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate("/login");
+                                  }}
+                                >
+                                  Vui lòng đăng nhập để xem lương
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <Button
+                          style={{
+                            width: "100%",
+                            backgroundColor: "red",
+                            color: "white",
+                            fontSize: 16,
+                          }}
+                        >
+                          ỨNG TUYỂN NGAY
+                        </Button>
+                      </div>
                     </Card>
                   )}
                 </Col>
