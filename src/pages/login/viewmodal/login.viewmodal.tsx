@@ -1,12 +1,12 @@
-import { message } from 'antd';
-import { useCurrentApp } from '@/context/app.context'
-import { useNavigate } from 'react-router-dom';
-import { login } from '@/services/api';
-import type { LoginFormValues } from '@/types/form';
+import { message } from "antd";
+import { useCurrentApp } from "@/context/app.context";
+import { useNavigate } from "react-router-dom";
+import { login } from "@/services/api";
+import type { LoginFormValues } from "@/types/form";
 
 export const LoginModal = () => {
   const navigate = useNavigate();
-  const { onLogin } = useCurrentApp()
+  const { onLogin } = useCurrentApp();
   const handleLogin = async (values: LoginFormValues) => {
     try {
       const res = await login({
@@ -15,19 +15,20 @@ export const LoginModal = () => {
       });
       if (res.data.code === 1) {
         message.success(res.data.message);
-        console.log("user", res.data.data.user)
-        onLogin(res.data.data.user)
-        if (res.data.data.user.role.name === 'Admin') {
-          navigate('/admin');
+        const accessToken = res.data.data.access_Token;
+        const user = res.data.data.user;
+        onLogin(user, accessToken);
+        if (res.data.data.user.role.name === "Admin") {
+          navigate("/admin");
         } else {
-          navigate('/');
+          navigate("/");
         }
       } else {
         message.error(res.data.message);
       }
     } catch (err: any) {
-      console.error('Login failed:', err.response?.data?.message);
-      message.error(err.response?.data?.message || 'Đăng nhập thất bại');
+      console.error("Login failed:", err.response?.data?.message);
+      message.error(err.response?.data?.message || "Đăng nhập thất bại");
     }
   };
 

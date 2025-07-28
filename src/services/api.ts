@@ -29,3 +29,18 @@ export const getCompany = (params?: Record<string, any>) => {
   const urlBackend = "/api/v1/companies";
   return axios.get<IBackendRes<ICompanyListResponse>>(urlBackend, { params });
 };
+
+export const applyJob = (companyId: string, file: File) => {
+  const urlBackend = "/api/v1/files/upload";
+
+  const formData = new FormData();
+  formData.append("companyId", companyId);
+  formData.append("file", file);
+
+  return axios.post<IBackendRes<any>>(urlBackend, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "x-file-type": "pdf",
+    },
+  });
+};
