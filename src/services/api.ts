@@ -6,7 +6,10 @@ import type {
   IRegisterResponseData,
 } from "@/types/auth";
 import type { IJobListResponse } from "@/types/job";
-import type { ICompanyListResponse } from "@/types/company";
+import type {
+  ICompanyListResponse,
+  ICompanyDetailResponse,
+} from "@/types/company";
 
 const axios = createInstanceAxios(import.meta.env.VITE_BACKEND_URL);
 
@@ -28,6 +31,11 @@ export const getJobs = (params?: Record<string, any>) => {
 export const getCompany = (params?: Record<string, any>) => {
   const urlBackend = "/api/v1/companies";
   return axios.get<IBackendRes<ICompanyListResponse>>(urlBackend, { params });
+};
+
+export const getCompanyById = (id: string) => {
+  const urlBackend = `/api/v1/companies/${id}`;
+  return axios.get<IBackendRes<ICompanyDetailResponse>>(urlBackend);
 };
 
 export const applyJob = (companyId: string, file: File) => {

@@ -142,3 +142,13 @@
     }
   }
 }
+
+.jobdetail-card {
+  .job-title {
+    transition: color 0.3s;
+  }
+
+  .job-title:hover {
+    color: red;
+  }
+}

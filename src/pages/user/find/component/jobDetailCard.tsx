@@ -13,7 +13,7 @@ import {
 import ApplyModal from "./applyModal";
 import { applyJob } from "@/services/api";
 import ReactMarkdown from "react-markdown";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import type { IJob } from "@/types/job";
 import type { UploadFile } from "antd/es/upload/interface";
@@ -30,6 +30,8 @@ const JobDetailCard: React.FC<JobDetailCardProps> = ({
   isAuthenticated,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isDetailPage = location.pathname === "/jobdetail";
   const [liked, setLiked] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalKey, setModalKey] = useState(0);
@@ -77,27 +79,59 @@ const JobDetailCard: React.FC<JobDetailCardProps> = ({
   return (
     <>
       <Card
+        className="jobdetail-card"
         style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)" }}
-        title={<Title level={3}>Chi tiết công việc</Title>}
+        title={!isDetailPage && <Title level={3}>Chi tiết công việc</Title>}
         bordered
         styles={{ body: { padding: 0 } }}
       >
         <div style={{ padding: 24 }}>
           <div
-            style={{ display: "flex", flexDirection: "row", marginBottom: 8 }}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginBottom: 8,
+              alignItems: "center",
+            }}
           >
-            <div>
-              <Avatar
-                style={{ border: "1px solid black", borderRadius: 4 }}
-                size={80}
-                src={selectedJob.companyId.avatar}
-              />
-            </div>
-
-            <div style={{ paddingLeft: 15, fontSize: 16 }}>
+            {!isDetailPage && (
               <div>
-                <Text style={{ fontSize: 16 }}>{selectedJob.name}</Text>
+                <Avatar
+                  style={{ border: "1px solid black", borderRadius: 4 }}
+                  size={80}
+                  src={selectedJob.companyId.avatar}
+                />
               </div>
+            )}
+
+            <div style={{ paddingLeft: isDetailPage ? 0 : 15, fontSize: 16 }}>
+              <div>
+                {isDetailPage ? (
+                  <Title
+                    level={3}
+                    style={{
+                      margin: 0,
+                    }}
+                  >
+                    {selectedJob.name}
+                  </Title>
+                ) : (
+                  <Title
+                    className="job-title"
+                    level={3}
+                    style={{
+                      margin: 0,
+                      cursor: "pointer",
+                    }}
+                    onClick={() =>
+                      navigate("/jobdetail", { state: { job: selectedJob } })
+                    }
+                  >
+                    {selectedJob.name}
+                  </Title>
+                )}
+              </div>
+
               <div>
                 <Text style={{ fontSize: 16 }}>
                   {selectedJob.companyId.name}
