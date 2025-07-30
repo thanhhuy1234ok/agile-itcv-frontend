@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import type { IJob } from "@/types/job";
-import type { ICompany } from "@/types/company";
 import JobDetailCard from "../../find/component/jobDetailCard";
-import { getCompanyById } from "@/services/api";
 import { useCurrentApp } from "@/context/app.context";
 import { Avatar, Card, Col, Divider, Row, Typography } from "antd";
+import type { IJob } from "@/types/job";
+import { useJobDetail } from "../viewmodal/useDetail";
 
 const { Text, Title } = Typography;
 
@@ -15,22 +14,7 @@ const JobDetailPage = () => {
   const navigate = useNavigate();
   const selectedJob: IJob | undefined = location.state?.job;
 
-  const [company, setCompany] = useState<ICompany | null>(null);
-
-  const fetchCompanyById = async (id: string) => {
-    try {
-      const res = await getCompanyById(id);
-      setCompany(res.data.data.result);
-    } catch (error) {
-      console.error("Lỗi khi lấy thông tin công ty:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (selectedJob?.companyId._id) {
-      fetchCompanyById(selectedJob.companyId._id);
-    }
-  }, []);
+  const { company } = useJobDetail(selectedJob);
 
   if (!selectedJob) {
     return (
@@ -77,7 +61,7 @@ const JobDetailPage = () => {
                     src={company?.logo}
                     size={100}
                     style={{
-                      border: "2px solid #1890ff",
+                      border: "2px solid black",
                       borderRadius: 8,
                     }}
                   />

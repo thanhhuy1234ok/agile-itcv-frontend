@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col, Skeleton } from "antd";
-import SectionLayout from "@/components/share/SectionLayout";
+import SectionLayout from "@/components/share/sectionLayout";
 import TopEmployerCard from "@/components/share/topEmployerCard";
 import type { ICompanyWithCount } from "@/types/company";
 

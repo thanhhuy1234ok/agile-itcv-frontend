@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Image, Typography } from "antd";
+import { Card, Image, Typography, Row, Col } from "antd";
 import { RightOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
 const { Title, Text, Paragraph } = Typography;
@@ -56,21 +56,17 @@ const TopEmployerCard: React.FC<TopEmployerCardProps> = ({
       </Paragraph>
 
       <div style={{ borderTop: "1px solid #f0f0f0", paddingTop: 16 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Text strong>{location.join(" - ")}</Text>
-          <span>
+        <Row gutter={10}>
+          <Col span={16}>
+            <Text strong>{location.join(" - ")}</Text>
+          </Col>
+          <Col span={8}>
             <CheckCircleOutlined style={{ color: "green", marginRight: 8 }} />
             <Text strong>
               {jobCount} việc làm <RightOutlined />
             </Text>
-          </span>
-        </div>
+          </Col>
+        </Row>
       </div>
     </Card>
   );

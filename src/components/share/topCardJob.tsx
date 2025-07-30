@@ -6,37 +6,22 @@ import {
   EnvironmentOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
+import type { IJob } from "@/types/job";
 
-const { Text, Paragraph } = Typography;
+const { Text, Paragraph, Title } = Typography;
 
-export interface JobCardProps {
-  nameJob: string;
-  company: string;
-  logo: string;
-  position: string;
-  location: string;
-  salary: string;
-  skills: string[];
-  startDate: string;
-  endDate: string;
-  quantity: number;
+interface JobCardProps {
+  job: IJob;
 }
 
-const CardJob: React.FC<JobCardProps> = ({
-  nameJob,
-  company,
-  logo,
-  position,
-  location,
-  salary,
-  skills,
-  startDate,
-  endDate,
-  quantity,
-}) => {
+const CardJob: React.FC<JobCardProps> = ({ job }) => {
+  const navigate = useNavigate();
+
   return (
     <Badge.Ribbon text="NEW FOR YOU" color="#fa541c" placement="end">
       <Card
+        className="jobdetail-card"
         bordered
         style={{
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
@@ -46,18 +31,22 @@ const CardJob: React.FC<JobCardProps> = ({
           justifyContent: "space-between",
         }}
       >
-        <Paragraph
-          strong
+        <Title
+          className="job-title"
+          level={3}
           style={{
             fontSize: 20,
+            marginTop: 12,
             marginBottom: 12,
             height: 56,
             overflow: "hidden",
+            cursor: "pointer",
           }}
           ellipsis={{ rows: 2 }}
+          onClick={() => navigate("/jobdetail", { state: { job: job } })}
         >
-          {nameJob}
-        </Paragraph>
+          {job.name}
+        </Title>
 
         <div
           style={{
@@ -68,21 +57,22 @@ const CardJob: React.FC<JobCardProps> = ({
           }}
         >
           <Image
-            src={logo}
+            src={job.companyId.avatar}
             width={50}
             preview={false}
             style={{ objectFit: "contain", borderRadius: 4 }}
-            alt={`${company} logo`}
+            alt={`${job.companyId.avatar} logo`}
           />
           <Text style={{ margin: 0, fontWeight: "bold", fontSize: 18 }}>
-            {company}
+            {job.companyId.name}
           </Text>
         </div>
 
         <div style={{ marginBottom: 8 }}>
           <Text style={{ fontSize: 14, color: "#8c8c8c", display: "block" }}>
-            <strong>Thời gian:</strong> {dayjs(startDate).format("DD/MM/YYYY")}{" "}
-            - {dayjs(endDate).format("DD/MM/YYYY")}
+            <strong>Thời gian:</strong>{" "}
+            {dayjs(job.startDate).format("DD/MM/YYYY")} -{" "}
+            {dayjs(job.endDate).format("DD/MM/YYYY")}
           </Text>
         </div>
 
@@ -94,11 +84,11 @@ const CardJob: React.FC<JobCardProps> = ({
             marginBottom: 8,
           }}
         >
-          <strong>Số lượng tuyển:</strong> {quantity}
+          <strong>Số lượng tuyển:</strong> {job.quantity}
         </Text>
 
         <Text style={{ fontSize: 18, color: "#0ab305" }}>
-          <DollarOutlined /> {salary}
+          <DollarOutlined /> {`${(job.salary / 1_000_000).toFixed(0)} triệu`}
         </Text>
 
         <Divider style={{ margin: "12px 0" }} />
@@ -120,7 +110,7 @@ const CardJob: React.FC<JobCardProps> = ({
               }}
             >
               <UserOutlined style={{ marginRight: 5 }} />
-              {position}
+              {job.level}
             </span>
             <span
               style={{
@@ -130,13 +120,13 @@ const CardJob: React.FC<JobCardProps> = ({
               }}
             >
               <EnvironmentOutlined style={{ marginRight: 5 }} />
-              {location}
+              {job.location}
             </span>
           </div>
         </Paragraph>
 
         <div style={{ marginTop: 12 }}>
-          {skills.map((skill, idx) => (
+          {job.skill.map((skill, idx) => (
             <Tag key={idx} style={{ marginBottom: 4 }} color="default">
               {skill}
             </Tag>

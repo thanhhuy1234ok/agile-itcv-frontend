@@ -97,6 +97,11 @@ const Header = () => {
     { label: "Kỹ thuật lập trình", key: "/blog/code" },
   ];
 
+  const dropdownItems = [
+    { label: "Thông tin tài khoản", key: "profile" },
+    { label: "Đăng xuất", key: "logout" },
+  ];
+
   return (
     <div
       style={{
@@ -146,12 +151,10 @@ const Header = () => {
           (isAuthenticated && user ? (
             <div style={{ display: "flex", alignItems: "center" }}>
               <CustomDropdown
-                items={[
-                  { label: "Thông tin tài khoản", key: "profile" },
-                  { label: "Đăng xuất", key: "logout" },
-                ]}
+                items={dropdownItems}
                 onClick={({ key }) => {
                   if (key === "logout") onLogout();
+                  else if (key === "profile") navigate("/profile");
                 }}
                 label={
                   <div

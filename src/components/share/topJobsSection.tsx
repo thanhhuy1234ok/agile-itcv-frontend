@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col, Skeleton } from "antd";
-import SectionLayout from "@/components/share/SectionLayout";
+import SectionLayout from "@/components/share/sectionLayout";
 import CardJob from "@/components/share/topCardJob";
 import type { IJob } from "@/types/job";
 
@@ -24,18 +24,7 @@ const TopJobsSection: React.FC<Props> = ({ jobs, loading }) => {
             ))
           : jobs.map((job) => (
               <Col xs={24} sm={12} md={8} lg={6} key={job._id}>
-                <CardJob
-                  nameJob={job.name}
-                  company={job.companyId.name}
-                  position={job.level}
-                  logo={job.companyId.avatar}
-                  location={job.location}
-                  salary={`${(job.salary / 1_000_000).toFixed(0)} triệu`}
-                  skills={job.skill}
-                  quantity={job.quantity}
-                  startDate={job.startDate}
-                  endDate={job.endDate}
-                />
+                <CardJob job={job} />
               </Col>
             ))}
       </Row>
