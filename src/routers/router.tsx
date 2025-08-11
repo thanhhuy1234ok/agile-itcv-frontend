@@ -3,6 +3,7 @@ import UserLayout from "@/components/layout/layout.user";
 import AdminLayout from "@/components/layout/layout.admin";
 import HomePage from "@/pages/user/home/view/home";
 import LoginPage from "@/pages/login/view/login";
+import ProfilePage from "@/pages/profile/view/profile";
 import RegisterPage from "@/pages/register/view/register";
 import FindPage from "@/pages/user/find/view/find";
 import JobDetailPage from "@/pages/user/detail/view/detail";
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "login", element: <LoginPage /> },
+      { path: "profile", element: <ProfilePage /> },
       { path: "register", element: <RegisterPage /> },
       { path: "find", element: <FindPage /> },
       { path: "jobdetail", element: <JobDetailPage /> },
