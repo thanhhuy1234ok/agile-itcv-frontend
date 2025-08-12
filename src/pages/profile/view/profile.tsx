@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import { Row, Col, Menu, Typography, Drawer, Button, Grid } from "antd";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Menu, Typography, Card } from "antd";
 import {
   UserOutlined,
   HeartOutlined,
   SettingOutlined,
-  MenuOutlined,
+  SmileOutlined,
 } from "@ant-design/icons";
-import ProfileInfo from "../modal/ProfileInfo";
-import FavoriteList from "../modal/FavoriteList";
-import AccountSettings from "../modal/AccountSettings";
+import ProfileInfo from "../component/Info";
+import { useNavigate } from "react-router-dom";
+import FavoriteList from "../component/Favorites";
+import AccountSettings from "../component/Settings";
+import { useCurrentApp } from "@/context/app.context";
 import "@/styles/profile.style.scss";
 
 const { Title } = Typography;
-const { useBreakpoint } = Grid;
 
 const tabComponents: Record<string, JSX.Element> = {
   info: <ProfileInfo />,
@@ -21,14 +22,18 @@ const tabComponents: Record<string, JSX.Element> = {
 };
 
 const ProfilePage: React.FC = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated, user } = useCurrentApp();
   const [selectedKey, setSelectedKey] = useState<string>("info");
-  const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
-  const screens = useBreakpoint();
-  const isMobile = !screens.md;
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleMenuClick = ({ key }: { key: string }) => {
     setSelectedKey(key);
-    if (isMobile) setDrawerVisible(false);
   };
 
   const menuItems = [
@@ -38,50 +43,32 @@ const ProfilePage: React.FC = () => {
   ];
 
   return (
-    <div className="profile-page">
-      <Title level={2}>Trang cá nhân</Title>
-      {isMobile && (
-        <Button
-          icon={<MenuOutlined />}
-          onClick={() => setDrawerVisible(true)}
-          type="primary"
-          style={{ marginBottom: 16 }}
-        >
-          Menu
-        </Button>
-      )}
+    <div className="wrapper">
+      <div className="content">
+        <Title level={2}>Trang cá nhân</Title>
 
-      <Row gutter={24}>
-        {!isMobile && (
+        <Row gutter={24}>
           <Col md={4}>
-            <Menu
-              className="custom-profile-menu"
-              mode="inline"
-              selectedKeys={[selectedKey]}
-              onClick={handleMenuClick}
-              items={menuItems}
-            />
+            <Card>
+              <Title level={4} style={{ marginTop: 0 }}>
+                <SmileOutlined style={{ color: "red", fontSize: 24 }} /> Xin
+                chào {user?.name || "Khách"}!
+              </Title>
+              <Menu
+                className="custom-profile-menu"
+                mode="inline"
+                selectedKeys={[selectedKey]}
+                onClick={handleMenuClick}
+                items={menuItems}
+              />
+            </Card>
           </Col>
-        )}
 
-        <Col xs={24} md={20} className="content-profile">
-          {tabComponents[selectedKey]}
-        </Col>
-      </Row>
-
-      <Drawer
-        title="Menu"
-        placement="left"
-        onClose={() => setDrawerVisible(false)}
-        open={drawerVisible}
-      >
-        <Menu
-          mode="inline"
-          selectedKeys={[selectedKey]}
-          onClick={handleMenuClick}
-          items={menuItems}
-        />
-      </Drawer>
+          <Col xs={24} md={20}>
+            {tabComponents[selectedKey]}
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };
