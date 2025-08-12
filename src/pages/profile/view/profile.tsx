@@ -15,12 +15,6 @@ import "@/styles/profile.style.scss";
 
 const { Title } = Typography;
 
-const tabComponents: Record<string, JSX.Element> = {
-  info: <ProfileInfo />,
-  favorites: <FavoriteList />,
-  settings: <AccountSettings />,
-};
-
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useCurrentApp();
@@ -34,6 +28,12 @@ const ProfilePage: React.FC = () => {
 
   const handleMenuClick = ({ key }: { key: string }) => {
     setSelectedKey(key);
+  };
+
+  const tabComponents: Record<string, JSX.Element> = {
+    info: <ProfileInfo user={user} />,
+    favorites: <FavoriteList />,
+    settings: <AccountSettings />,
   };
 
   const menuItems = [
