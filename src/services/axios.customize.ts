@@ -1,7 +1,6 @@
 import axios, { AxiosError } from "axios";
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 
-
 const createInstanceAxios = (baseURL: string): AxiosInstance => {
   const instance = axios.create({
     baseURL,
@@ -19,15 +18,13 @@ const createInstanceAxios = (baseURL: string): AxiosInstance => {
     (error) => Promise.reject(error)
   );
 
-  
   instance.interceptors.response.use(
-    (response) => {
-      return response;
-    },
+    (response) => response,
     async (error: AxiosError) => {
-      const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
+      const originalRequest = error.config as AxiosRequestConfig & {
+        _retry?: boolean;
+      };
 
-      
       if (
         error.response?.status === 401 &&
         !originalRequest._retry &&
@@ -36,17 +33,15 @@ const createInstanceAxios = (baseURL: string): AxiosInstance => {
         originalRequest._retry = true;
 
         try {
-          const refreshToken = localStorage.getItem("refresh_token");
-          if (!refreshToken) throw new Error("Missing refresh token");
-
-          const res = await axios.post("http://localhost:8081/api/v1/auth/refresh-token", {
-            refreshToken,
-          });
+          // Chỉ cần 2 tham số thôi
+          const res = await axios.get(
+            "http://localhost:8081/api/v1/auth/refresh-token",
+            { withCredentials: true }
+          );
 
           const newAccessToken = res.data.data.access_Token;
           localStorage.setItem("access_token", newAccessToken);
 
-          
           originalRequest.headers = {
             ...originalRequest.headers,
             Authorization: `Bearer ${newAccessToken}`,
@@ -54,15 +49,12 @@ const createInstanceAxios = (baseURL: string): AxiosInstance => {
 
           return instance(originalRequest);
         } catch (err) {
-          
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("refresh_token");
-          window.location.href = "/login";
+          // localStorage.removeItem("access_token");
+          // window.location.href = "/login";
           return Promise.reject(err);
         }
       }
 
-      // Nếu lỗi khác hoặc đã retry → reject
       return Promise.reject(error);
     }
   );

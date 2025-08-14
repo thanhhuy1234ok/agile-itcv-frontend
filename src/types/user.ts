@@ -1,19 +1,18 @@
 export interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  img_url: string;
+  role: {
     _id: string;
     name: string;
-    email: string;
-    avatar: string;
-    role: {
-        _id: string;
-        name: string;
-    };
-    createdAt: string;
-    updatedAt: string;
+  };
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IUserWithExtraFields extends IUser {
   phone: string;
-  img_url: string;
   refresh_Token: string | null;
   isDeleted: boolean;
   deletedAt: string | null;

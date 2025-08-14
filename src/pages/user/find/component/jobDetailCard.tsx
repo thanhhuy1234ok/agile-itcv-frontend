@@ -11,7 +11,7 @@ import {
   ToolOutlined,
 } from "@ant-design/icons";
 import ApplyModal from "./applyModal";
-import { applyJob } from "@/services/api";
+import { upload } from "@/services/api";
 import ReactMarkdown from "react-markdown";
 import { useNavigate, useLocation } from "react-router-dom";
 import dayjs from "dayjs";
@@ -47,10 +47,7 @@ const JobDetailCard: React.FC<JobDetailCardProps> = ({
     if (file && file.originFileObj) {
       setConfirmLoading(true);
       try {
-        const res = await applyJob(
-          selectedJob.companyId._id,
-          file.originFileObj
-        );
+        const res = await upload(selectedJob.companyId._id, file.originFileObj);
 
         if (res.data.code === 1) {
           message.success("Ứng tuyển thành công!");

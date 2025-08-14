@@ -166,7 +166,7 @@ const Header = () => {
                     }}
                   >
                     <Avatar
-                      src={user.avatar}
+                      src={user.img_url}
                       size={40}
                       style={{
                         border: "0.5px solid white",

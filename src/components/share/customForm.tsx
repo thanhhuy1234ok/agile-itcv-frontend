@@ -1,12 +1,12 @@
-import { useEffect, useRef } from 'react';
-import { Form, Input, Button, Typography, Checkbox } from 'antd';
-import type { FormProps } from 'antd';
-import type { InputRef } from 'antd';
-import '@/styles/style.scss'
+import { useEffect, useRef } from "react";
+import { Form, Input, Button, Typography, Checkbox } from "antd";
+import type { FormProps } from "antd";
+import type { InputRef } from "antd";
+import "@/styles/style.scss";
 
 const { Title } = Typography;
 
-type InputType = 'text' | 'password' | 'email' | 'checkbox';
+type InputType = "text" | "password" | "email" | "checkbox";
 
 export interface FieldConfig {
   name: string;
@@ -46,13 +46,13 @@ function CustomForm<T>({
           <Form.Item
             key={field.name}
             name={field.name as any}
-            label={field.type === 'checkbox' ? undefined : field.label}
-            valuePropName={field.type === 'checkbox' ? 'checked' : undefined}
+            label={field.type === "checkbox" ? undefined : field.label}
+            valuePropName={field.type === "checkbox" ? "checked" : undefined}
             rules={field.rules}
           >
-            {field.type === 'password' ? (
+            {field.type === "password" ? (
               <Input.Password />
-            ) : field.type === 'checkbox' ? (
+            ) : field.type === "checkbox" ? (
               <Checkbox>{field.label}</Checkbox>
             ) : (
               <Input ref={index === 0 ? inputRef : undefined} />
@@ -60,13 +60,9 @@ function CustomForm<T>({
           </Form.Item>
         ))}
         <Form.Item>
-          <Button
-            htmlType="submit"
-            block
-            className="custom-button"
-          >
-          {submitText}
-        </Button>
+          <Button htmlType="submit" block className="custom-button">
+            {submitText}
+          </Button>
         </Form.Item>
       </Form>
     </>

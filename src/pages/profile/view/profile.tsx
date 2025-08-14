@@ -52,7 +52,9 @@ const ProfilePage: React.FC = () => {
             <Card>
               <Title level={4} style={{ marginTop: 0 }}>
                 <SmileOutlined style={{ color: "red", fontSize: 24 }} /> Xin
-                chào {user?.name || "Khách"}!
+                chào
+                <br />
+                {user?.name || "Khách"}!
               </Title>
               <Menu
                 className="custom-profile-menu"

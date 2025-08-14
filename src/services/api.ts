@@ -38,17 +38,25 @@ export const getCompanyById = (id: string) => {
   return axios.get<IBackendRes<ICompanyDetailResponse>>(urlBackend);
 };
 
-export const applyJob = (companyId: string, file: File) => {
+export const upload = (companyId: string | null, file: File) => {
   const urlBackend = "/api/v1/files/upload";
-
   const formData = new FormData();
-  formData.append("companyId", companyId);
+
+  const isPdf = file.type === "application/pdf";
+
+  if (isPdf) {
+    if (!companyId) {
+      throw new Error("companyId is required for PDF files");
+    }
+    formData.append("companyId", companyId);
+  }
+
   formData.append("file", file);
 
   return axios.post<IBackendRes<any>>(urlBackend, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
-      "x-file-type": "pdf",
+      "x-file-type": isPdf ? "pdf" : "image",
     },
   });
 };
