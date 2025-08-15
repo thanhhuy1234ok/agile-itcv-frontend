@@ -1,4 +1,4 @@
-import type { IUser, IUserWithExtraFields } from '@/types/user';
+import type { IUser } from "@/types/user";
 
 export interface ILoginRequest {
   email: string;
@@ -19,5 +19,5 @@ export interface IRegisterRequest {
 }
 
 export interface IRegisterResponseData {
-  user: IUserWithExtraFields;
+  user: IUser;
 }

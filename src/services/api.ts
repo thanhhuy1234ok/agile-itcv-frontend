@@ -6,6 +6,7 @@ import type {
   IRegisterResponseData,
 } from "@/types/auth";
 import type { IJobListResponse } from "@/types/job";
+import type { IUploadResponse } from "@/types/upload";
 import type {
   ICompanyListResponse,
   ICompanyDetailResponse,
@@ -53,7 +54,7 @@ export const upload = (companyId: string | null, file: File) => {
 
   formData.append("file", file);
 
-  return axios.post<IBackendRes<any>>(urlBackend, formData, {
+  return axios.post<IBackendRes<IUploadResponse>>(urlBackend, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
       "x-file-type": isPdf ? "pdf" : "image",

@@ -45,9 +45,7 @@ const ProfilePage: React.FC = () => {
   return (
     <div className="wrapper">
       <div className="content">
-        <Title level={2}>Trang cá nhân</Title>
-
-        <Row gutter={24}>
+        <Row gutter={24} style={{ marginTop: 50 }}>
           <Col md={4}>
             <Card>
               <Title level={4} style={{ marginTop: 0 }}>

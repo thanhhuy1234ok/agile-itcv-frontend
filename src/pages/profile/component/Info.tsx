@@ -15,13 +15,11 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const handleChange = async ({ fileList }: { fileList: UploadFile[] }) => {
-    // chỉ giữ 1 file
     const latestList = fileList.slice(-1);
     setFileList(latestList);
 
-    // lấy file thật từ AntD UploadFile
     const rawFile = latestList[0]?.originFileObj as File;
-    console.log(rawFile);
+
     if (!rawFile) return;
 
     if (!rawFile.type.startsWith("image/")) {
@@ -50,10 +48,10 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
         <div style={{ marginTop: 10 }}>
           <Upload
             fileList={fileList}
-            beforeUpload={() => false} // Không upload tự động
+            beforeUpload={() => false}
             onChange={handleChange}
-            showUploadList={false} // Ẩn danh sách file
-            accept="image/*" // chỉ chọn ảnh
+            showUploadList={false}
+            accept="image/*"
           >
             <Button icon={<UploadOutlined />}>Tải ảnh lên</Button>
           </Upload>

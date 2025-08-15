@@ -50,20 +50,28 @@ const JobDetailCard: React.FC<JobDetailCardProps> = ({
         const res = await upload(selectedJob.companyId._id, file.originFileObj);
 
         if (res.data.code === 1) {
-          message.success("Ứng tuyển thành công!");
+          const updateduser = res.data.data.user;
+          localStorage.setItem("user", JSON.stringify(updateduser));
+          (window as any).messageApi?.success("Ứng tuyển thành công!");
           setIsModalVisible(false);
           setModalKey((prev) => prev + 1);
         } else {
-          message.error("Ứng tuyển thất bại. Vui lòng thử lại.");
+          (window as any).messageApi?.error(
+            "Ứng tuyển thất bại. Vui lòng thử lại."
+          );
         }
       } catch (error) {
         console.error("Lỗi upload:", error);
-        message.error("Ứng tuyển thất bại. Vui lòng thử lại.");
+        (window as any).messageApi?.error(
+          "Ứng tuyển thất bại. Vui lòng thử lại."
+        );
       } finally {
         setConfirmLoading(false);
       }
     } else {
-      message.warning("Vui lòng tải lên một tệp trước khi xác nhận.");
+      (window as any).messageApi?.warning(
+        "Vui lòng tải lên một tệp trước khi xác nhận."
+      );
     }
   };
 

@@ -14,8 +14,6 @@ export const LoginModal = () => {
         password: values.password,
       });
 
-      console.log(res);
-
       if (res?.data?.code === 1) {
         (window as any).messageApi?.success(res.data.message);
         const { access_Token, user } = res.data.data;
