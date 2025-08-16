@@ -59,11 +59,14 @@ function CustomForm<T>({
             )}
           </Form.Item>
         ))}
-        <Form.Item>
-          <Button htmlType="submit" block className="custom-button">
-            {submitText}
-          </Button>
-        </Form.Item>
+
+        {submitText && (
+          <Form.Item>
+            <Button htmlType="submit" block className="custom-button">
+              {submitText}
+            </Button>
+          </Form.Item>
+        )}
       </Form>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Card, Avatar, Button, Divider, Tag, message } from "antd";
+import { Typography, Card, Avatar, Button, Divider, Tag } from "antd";
 import {
   DollarOutlined,
   LikeOutlined,

@@ -31,7 +31,7 @@ const ProfilePage: React.FC = () => {
   };
 
   const tabComponents: Record<string, JSX.Element> = {
-    info: <ProfileInfo user={user} />,
+    info: <ProfileInfo />,
     favorites: <FavoriteList />,
     settings: <AccountSettings />,
   };

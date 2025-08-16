@@ -20,3 +20,7 @@ export interface IUser {
   updatedAt: string;
   __v?: number;
 }
+
+export interface IUpdateUserResponse {
+  updatedUser: IUser;
+}

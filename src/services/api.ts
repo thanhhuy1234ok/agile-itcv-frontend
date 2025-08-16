@@ -5,6 +5,7 @@ import type {
   IRegisterRequest,
   IRegisterResponseData,
 } from "@/types/auth";
+import type { IUpdateUserResponse, IUser } from "@/types/user";
 import type { IJobListResponse } from "@/types/job";
 import type { IUploadResponse } from "@/types/upload";
 import type {
@@ -37,6 +38,11 @@ export const getCompany = (params?: Record<string, any>) => {
 export const getCompanyById = (id: string) => {
   const urlBackend = `/api/v1/companies/${id}`;
   return axios.get<IBackendRes<ICompanyDetailResponse>>(urlBackend);
+};
+
+export const updateUser = (data: Partial<IUser>) => {
+  const urlBackend = "/api/v1/users/updateUser";
+  return axios.put<IBackendRes<IUpdateUserResponse>>(urlBackend, data);
 };
 
 export const upload = (companyId: string | null, file: File) => {
